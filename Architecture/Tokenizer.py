@@ -1,30 +1,41 @@
 class Tokenizer():
-    def __init__(self, vocabulary = None):
+    def __init__(self, vocabulary = None, vocabulary_size = -1):
         if vocabulary == None:
             self.vocabulary = []
             self.vocabulary.append("<PAD>")
             self.vocabulary.append("<UNK>")
         else:
-            self.vocabulary = vocabulary
-        self.punctuation = [".", "!", "?", ","]
-        self.mode = "train"
-    def toggle_mode(self, mode):
-        mode = mode.lower()
-        assert(mode == "train" or mode == "test")
-        self.mode = mode
+            self.vocabulary = list(vocabulary)
+            if "<PAD>" not in self.vocabulary:
+                self.vocabulary.append("<PAD>")
+            if "<UNK>" not in self.vocabulary:
+                self.vocabulary.append("<UNK>")
+        self.punctuation = [".", "!", "?", ",", ";"]
+        self.sentence_end = [".", "!", "?"]
+        self.vocabulary_size = vocabulary_size
+        self.frozen_vocabulary = False
+    def freeze_vocabulary(self, reverse = False):
+        if not reverse:
+            self.frozen_vocabulary = True
+        else:
+            self.frozen_vocabulary = False
         return
     def obtain_token(self, input):
         if input not in self.vocabulary:
-            if self.mode == "train":
-                self.vocabulary.append(input)
+            if not self.frozen_vocabulary:
+                if self.vocabulary_size > 0 and len(self.vocabulary) >= self.vocabulary_size:
+                    self.freeze_vocabulary()
+                    input = "<UNK>"
+                else:
+                    self.vocabulary.append(input)
             else:
                 input = "<UNK>"
         return self.vocabulary.index(input)
     def obtain_word(self, input):
-        if input > len(self.vocabulary) - 1:
-            return "<UNK>"
-        else:
+        if 0 <= input < len(self.vocabulary):
             return self.vocabulary[input]
+        else:
+            return "<UNK>"
     def encode(self, tokens):
         token_ids = []
         for token in tokens:
@@ -40,7 +51,7 @@ class Tokenizer():
         lowercase = input.lower()
         space_padded = lowercase
         for char in self.punctuation:
-            space_padded = space_padded.replace(char, " " + char)
+            space_padded = space_padded.replace(char, " " + char + " ")
         tokens = space_padded.split()
         return tokens
     def construct_output(self, tokens):
@@ -51,8 +62,9 @@ class Tokenizer():
                 token = token.capitalize()
                 sentence_start = False
             if token in self.punctuation:
+                output = output.rstrip(" ")
+            if token in self.sentence_end:
                 sentence_start = True
-                output = output.rstrip(' ')
             output += token
             output += ' '
         return output
