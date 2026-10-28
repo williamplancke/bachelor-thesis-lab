@@ -1,3 +1,5 @@
+import json
+
 class Tokenizer():
     def __init__(self, vocabulary = None, vocabulary_size = -1):
         if vocabulary == None:
@@ -14,6 +16,26 @@ class Tokenizer():
         self.sentence_end = [".", "!", "?"]
         self.vocabulary_size = vocabulary_size
         self.frozen_vocabulary = False
+    def save(self, path):
+        data = {
+            "vocabulary": self.vocabulary,
+            "vocabulary_size": self.vocabulary_size,
+        }
+
+        with open(path, "w", encoding="utf-8") as file:
+            json.dump(data, file, ensure_ascii=False, indent=2)
+
+    @classmethod
+    def load(cls, path):
+        with open(path, "r", encoding="utf-8") as file:
+            data = json.load(file)
+
+        tokenizer = cls(
+            vocabulary=data["vocabulary"],
+            vocabulary_size=data["vocabulary_size"],
+        )
+        tokenizer.freeze_vocabulary()
+        return tokenizer
     def freeze_vocabulary(self, reverse = False):
         if not reverse:
             self.frozen_vocabulary = True
