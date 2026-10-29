@@ -1,0 +1,12 @@
+{
+  "vocabulary": [
+    "<PAD>",
+    "<UNK>",
+    "my",
+    "card",
+    "is",
+    "missing",
+    "where"
+  ],
+  "vocabulary_size": -1
+}
