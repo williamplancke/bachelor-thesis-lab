@@ -1,7 +1,7 @@
 import json
 
 class Tokenizer():
-    def __init__(self, vocabulary = None, vocabulary_size = -1):
+    def __init__(self, vocabulary = None, vocabulary_limit = -1):
         if vocabulary == None:
             self.vocabulary = []
             self.vocabulary.append("<PAD>")
@@ -14,12 +14,12 @@ class Tokenizer():
                 self.vocabulary.append("<UNK>")
         self.punctuation = [".", "!", "?", ",", ";"]
         self.sentence_end = [".", "!", "?"]
-        self.vocabulary_size = vocabulary_size
+        self.vocabulary_limit = vocabulary_limit
         self.frozen_vocabulary = False
     def save(self, path):
         data = {
             "vocabulary": self.vocabulary,
-            "vocabulary_size": self.vocabulary_size,
+            "vocabulary_limit": self.vocabulary_limit,
         }
 
         with open(path, "w", encoding="utf-8") as file:
@@ -32,7 +32,7 @@ class Tokenizer():
 
         tokenizer = cls(
             vocabulary=data["vocabulary"],
-            vocabulary_size=data["vocabulary_size"],
+            vocabulary_limit=data["vocabulary_limit"],
         )
         tokenizer.freeze_vocabulary()
         return tokenizer
@@ -45,7 +45,7 @@ class Tokenizer():
     def obtain_token(self, input):
         if input not in self.vocabulary:
             if not self.frozen_vocabulary:
-                if self.vocabulary_size > 0 and len(self.vocabulary) >= self.vocabulary_size:
+                if self.vocabulary_limit > 0 and len(self.vocabulary) >= self.vocabulary_limit:
                     self.freeze_vocabulary()
                     input = "<UNK>"
                 else:

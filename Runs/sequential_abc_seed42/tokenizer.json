@@ -8,5 +8,5 @@
     "missing",
     "where"
   ],
-  "vocabulary_size": -1
+  "vocabulary_limit": -1
 }
