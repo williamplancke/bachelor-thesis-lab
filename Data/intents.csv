@@ -1,0 +1,7 @@
+text,label
+my card is missing,card_missing
+i lost my bank card,card_missing
+my card was stolen,card_missing
+when will my new card arrive,card_arrival
+has my new card been shipped,card_arrival
+i am waiting for my replacement card,card_arrival

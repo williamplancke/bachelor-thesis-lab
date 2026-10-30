@@ -28,8 +28,8 @@ def main():
     pad_id = tokenizer.obtain_token("<PAD>")
 
     embedding = nn.Embedding(
-        num_embeddings=len(tokenizer.vocabulary),
-        embedding_dim=256,
+        num_embeddings=len(tokenizer.vocabulary), # Keep the same so the whole vocab is in it
+        embedding_dim=256, # Real hyperparameter for latent representation
         padding_idx=pad_id,
     )
 
@@ -42,7 +42,7 @@ def main():
     vectors = embedding(token_ids)
     print(token_ids.shape)  # torch.Size([1, 4])
     print(vectors.shape)    # torch.Size([1, 4, 256])
-
+    print(vectors)
 
 
     project_root = Path(__file__).resolve().parent.parent
