@@ -1,0 +1,16 @@
+{
+  "seed": 42,
+  "sequence_length": 20,
+  "embedding_dim": 64,
+  "learning_rate": 0.01,
+  "vocabulary_size": 22,
+  "number_of_classes": 2,
+  "padding_id": 0,
+  "label_to_id": {
+    "card_arrival": 0,
+    "card_missing": 1
+  },
+  "optimizer": "SGD",
+  "epochs": 1,
+  "training_examples": 6
+}

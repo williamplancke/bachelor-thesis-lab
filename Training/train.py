@@ -1,3 +1,5 @@
+import json
+from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
@@ -7,22 +9,28 @@ from Architecture.Classifier import IntentClassifier
 from Architecture.Tokenizer import Tokenizer
 
 
-def main():
-    # A fixed seed makes the initial weights reproducible.
-    torch.manual_seed(42)
-    sequence_length = 20
-    embedding_dim = 64
-    learning_rate = 0.01
+def main(df, params, run_dir=None):
+    """Train once on df (text/label columns), save the run, and return its path."""
+    if df.empty:
+        raise ValueError("The training dataset must not be empty.")
 
-    # 1. Read the labeled sentences.
-    project_root = Path(__file__).resolve().parent.parent
-    data_path = project_root / "Data" / "intents.csv"
-    df = pd.read_csv(data_path)
+    # Use the hyperparameters supplied by the caller.
+    torch.manual_seed(params["seed"])
+    sequence_length = params["sequence_length"]
+    embedding_dim = params["embedding_dim"]
+    learning_rate = params["learning_rate"]
 
-    label_to_id = {
-        "card_missing": 0,
-        "card_arrival": 1,
-    }
+    # Derive class IDs from this dataset rather than hard-coding its labels.
+    labels = sorted(df["label"].unique())
+    label_to_id = {label: index for index, label in enumerate(labels)}
+
+    # Reserve a new folder so existing runs are not overwritten.
+    if run_dir is None:
+        project_root = Path(__file__).resolve().parent.parent
+        run_name = datetime.now().strftime("intent_%Y%m%d_%H%M%S_%f")
+        run_dir = project_root / "Runs" / run_name
+    run_dir = Path(run_dir)
+    run_dir.mkdir(parents=True, exist_ok=False)
 
     # 2. Build the vocabulary before creating the embedding layer.
     tokenizer = Tokenizer()
@@ -70,6 +78,34 @@ def main():
 
         print(f"{row['text']} | loss: {loss.item():.4f}")
 
+    # 5. Save everything needed to recreate the trained classifier.
+    torch.save(classifier.state_dict(), run_dir / "model.pt")
+    tokenizer.save(run_dir / "tokenizer.json")
+    config = {
+        **params,
+        "vocabulary_size": len(tokenizer.vocabulary),
+        "number_of_classes": len(label_to_id),
+        "padding_id": padding_id,
+        "label_to_id": label_to_id,
+        "optimizer": "SGD",
+        "epochs": 1,
+        "training_examples": len(df),
+    }
+    with (run_dir / "config.json").open("w", encoding="utf-8") as file:
+        json.dump(config, file, ensure_ascii=False, indent=2)
+
+    print(f"Saved run to {run_dir}")
+    return run_dir
+
 
 if __name__ == "__main__":
-    main()
+    project_root = Path(__file__).resolve().parent.parent
+    df = pd.read_csv(project_root / "Data" / "intents.csv")
+    params = {
+        "seed": 42,
+        "sequence_length": 20,
+        "embedding_dim": 64,
+        "learning_rate": 0.01,
+    }
+    main(df, params)
+
