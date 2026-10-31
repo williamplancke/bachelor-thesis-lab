@@ -9,9 +9,9 @@ from Architecture.Classifier import IntentClassifier
 from Architecture.Tokenizer import Tokenizer
 
 
-def main(df, params, run_dir=None):
+def main(df_train, df_val, params, run_dir=None):
     """Train once on df (text/label columns), save the run, and return its path."""
-    if df.empty:
+    if df_train.empty:
         raise ValueError("The training dataset must not be empty.")
 
     # Use the hyperparameters supplied by the caller.
@@ -21,7 +21,7 @@ def main(df, params, run_dir=None):
     learning_rate = params["learning_rate"]
 
     # Derive class IDs from this dataset rather than hard-coding its labels.
-    labels = sorted(df["label"].unique())
+    labels = sorted(df_train["label"].unique())
     label_to_id = {label: index for index, label in enumerate(labels)}
     id_to_label = {class_id: label for label, class_id in label_to_id.items()}
 
@@ -35,7 +35,7 @@ def main(df, params, run_dir=None):
 
     # 2. Build the vocabulary before creating the embedding layer.
     tokenizer = Tokenizer()
-    for text in df["text"]:
+    for text in df_train["text"]:
         tokens = tokenizer.prepare_input(text)
         tokenizer.encode(tokens)
     tokenizer.freeze_vocabulary()
@@ -55,7 +55,7 @@ def main(df, params, run_dir=None):
     classifier.train() # Enable training mode
     for epoch in range(params["epochs"]):
         total_loss = 0.0
-        for _, row in df.iterrows():
+        for _, row in df_train.iterrows():
             tokens = tokenizer.prepare_input(row["text"])
             input_ids = tokenizer.encode(tokens)
             if len(input_ids) > sequence_length:
@@ -79,12 +79,12 @@ def main(df, params, run_dir=None):
             loss.backward()       # Calculate gradients; weights are unchanged yet.
             optimizer.step()      # Update the embedding and classifier weights.
             total_loss += loss.item() # Extract tensor content as 1 scaler value
-        average_loss = total_loss / len(df)
+        average_loss = total_loss / len(df_train)
         print(f"Epoch {epoch + 1}: loss = {average_loss:.4f}")
     classifier.eval()
 
     with torch.no_grad():
-        for _, row in df.iterrows():
+        for _, row in df_val.iterrows():
             tokens = tokenizer.prepare_input(row["text"])
             input_ids = tokenizer.encode(tokens)
             if len(input_ids) > sequence_length:
@@ -117,7 +117,7 @@ def main(df, params, run_dir=None):
         "padding_id": padding_id,
         "label_to_id": label_to_id,
         "optimizer": "SGD",
-        "training_examples": len(df),
+        "training_examples": len(df_train),
     }
     with (run_dir / "config.json").open("w", encoding="utf-8") as file:
         json.dump(config, file, ensure_ascii=False, indent=2)
@@ -128,7 +128,8 @@ def main(df, params, run_dir=None):
 
 if __name__ == "__main__":
     project_root = Path(__file__).resolve().parent.parent
-    df = pd.read_csv(project_root / "Data" / "intents.csv")
+    df_train = pd.read_csv(project_root / "Data" / "train_intents.csv")
+    df_val = pd.read_csv(project_root / "Data" / "val_intents.csv")
     params = {
         "seed": 42,
         "sequence_length": 20,
@@ -136,5 +137,5 @@ if __name__ == "__main__":
         "learning_rate": 0.01,
         "epochs": 20,
     }
-    main(df, params)
+    main(df_train, df_val, params)
 

@@ -1,0 +1,5 @@
+text,label
+i don't have my card anymore,card_missing
+i forgot my card at home,card_missing
+i ordered a new card but it hasn't arrived yet,card_arrival
+my new card gets here tomorrow,card_arrival
