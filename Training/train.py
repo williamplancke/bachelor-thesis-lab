@@ -22,7 +22,7 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     learning_rate = params["learning_rate"]
 
     # Derive class IDs from this dataset rather than hard-coding its labels.
-    labels = sorted(df_train[label_col_name].unique())
+    labels = sorted(df_train[label_col_name].unique().tolist()) # .tolist() is necessary because json.dump() can't deal with numpy dtypes
     label_to_id = {label: index for index, label in enumerate(labels)}
     id_to_label = {class_id: label for label, class_id in label_to_id.items()}
 
@@ -56,6 +56,10 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     classifier.train() # Enable training mode
     for epoch in range(params["epochs"]):
         total_loss = 0.0
+        shuffled_train = df_train.sample(
+            frac=1,
+            random_state=params["seed"] + epoch
+        )
         for _, row in df_train.iterrows():
             tokens = tokenizer.prepare_input(row["text"])
             input_ids = tokenizer.encode(tokens)
