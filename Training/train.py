@@ -52,31 +52,34 @@ def main(df, params, run_dir=None):
 
     # 4. Make one training pass, updating the model after each sentence.
     classifier.train() # Enable training mode
-    for _, row in df.iterrows():
-        tokens = tokenizer.prepare_input(row["text"])
-        input_ids = tokenizer.encode(tokens)
-        if len(input_ids) > sequence_length:
-            raise ValueError("Input exceeds sequence length!")
+    for epoch in range(params["epochs"]):
+        total_loss = 0.0
+        for _, row in df.iterrows():
+            tokens = tokenizer.prepare_input(row["text"])
+            input_ids = tokenizer.encode(tokens)
+            if len(input_ids) > sequence_length:
+                raise ValueError("Input exceeds sequence length!")
 
-        # Real tokens have mask value 1; padding positions have value 0.
-        attention_mask = [1] * len(input_ids)
-        padding_length = sequence_length - len(input_ids)
-        input_ids += [padding_id] * padding_length
-        attention_mask += [0] * padding_length
+            # Real tokens have mask value 1; padding positions have value 0.
+            attention_mask = [1] * len(input_ids)
+            padding_length = sequence_length - len(input_ids)
+            input_ids += [padding_id] * padding_length
+            attention_mask += [0] * padding_length
 
-        # The outer list adds a batch dimension: [1, sequence_length].
-        input_tensor = torch.tensor([input_ids], dtype=torch.long)
-        mask_tensor = torch.tensor([attention_mask], dtype=torch.long)
-        label_id = label_to_id[row["label"]]
-        target = torch.tensor([label_id], dtype=torch.long)
+            # The outer list adds a batch dimension: [1, sequence_length].
+            input_tensor = torch.tensor([input_ids], dtype=torch.long)
+            mask_tensor = torch.tensor([attention_mask], dtype=torch.long)
+            label_id = label_to_id[row["label"]]
+            target = torch.tensor([label_id], dtype=torch.long)
 
-        optimizer.zero_grad()  # Clear gradients from the previous sentence.
-        logits = classifier(input_tensor, mask_tensor)
-        loss = loss_function(logits, target)
-        loss.backward()       # Calculate gradients; weights are unchanged yet.
-        optimizer.step()      # Update the embedding and classifier weights.
-
-        print(f"{row['text']} | loss: {loss.item():.4f}")
+            optimizer.zero_grad()  # Clear gradients from the previous sentence.
+            logits = classifier(input_tensor, mask_tensor)
+            loss = loss_function(logits, target)
+            loss.backward()       # Calculate gradients; weights are unchanged yet.
+            optimizer.step()      # Update the embedding and classifier weights.
+            total_loss += loss.item() # Extract tensor content as 1 scaler value
+        average_loss = total_loss / len(df)
+        print(f"Epoch {epoch + 1}: loss = {average_loss:.4f}")
 
     # 5. Save everything needed to recreate the trained classifier.
     torch.save(classifier.state_dict(), run_dir / "model.pt")
