@@ -1,0 +1,27 @@
+{
+  "vocabulary": [
+    "<PAD>",
+    "<UNK>",
+    "my",
+    "card",
+    "is",
+    "missing",
+    "i",
+    "lost",
+    "bank",
+    "was",
+    "stolen",
+    "when",
+    "will",
+    "new",
+    "arrive",
+    "has",
+    "been",
+    "shipped",
+    "am",
+    "waiting",
+    "for",
+    "replacement"
+  ],
+  "vocabulary_limit": -1
+}

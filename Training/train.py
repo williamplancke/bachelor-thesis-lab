@@ -23,6 +23,7 @@ def main(df, params, run_dir=None):
     # Derive class IDs from this dataset rather than hard-coding its labels.
     labels = sorted(df["label"].unique())
     label_to_id = {label: index for index, label in enumerate(labels)}
+    id_to_label = {class_id: label for label, class_id in label_to_id.items()}
 
     # Reserve a new folder so existing runs are not overwritten.
     if run_dir is None:
@@ -80,7 +81,32 @@ def main(df, params, run_dir=None):
             total_loss += loss.item() # Extract tensor content as 1 scaler value
         average_loss = total_loss / len(df)
         print(f"Epoch {epoch + 1}: loss = {average_loss:.4f}")
+    classifier.eval()
 
+    with torch.no_grad():
+        for _, row in df.iterrows():
+            tokens = tokenizer.prepare_input(row["text"])
+            input_ids = tokenizer.encode(tokens)
+            if len(input_ids) > sequence_length:
+                raise ValueError("Input exceeds sequence length!")
+
+            # Real tokens have mask value 1; padding positions have value 0.
+            attention_mask = [1] * len(input_ids)
+            padding_length = sequence_length - len(input_ids)
+            input_ids += [padding_id] * padding_length
+            attention_mask += [0] * padding_length
+
+            # The outer list adds a batch dimension: [1, sequence_length].
+            input_tensor = torch.tensor([input_ids], dtype=torch.long)
+            mask_tensor = torch.tensor([attention_mask], dtype=torch.long)
+            label_id = label_to_id[row["label"]]
+            target = torch.tensor([label_id], dtype=torch.long)
+            logits = classifier(input_tensor, mask_tensor)
+            predicted_id = logits.argmax(dim=1).item()
+            predicted_label = id_to_label[predicted_id]
+            print(f"Sentence: {row["text"]}")
+            print(f"Expected label: {row["label"]}")
+            print(f"Predicted label: {predicted_label}")
     # 5. Save everything needed to recreate the trained classifier.
     torch.save(classifier.state_dict(), run_dir / "model.pt")
     tokenizer.save(run_dir / "tokenizer.json")
@@ -91,7 +117,6 @@ def main(df, params, run_dir=None):
         "padding_id": padding_id,
         "label_to_id": label_to_id,
         "optimizer": "SGD",
-        "epochs": 1,
         "training_examples": len(df),
     }
     with (run_dir / "config.json").open("w", encoding="utf-8") as file:
@@ -109,6 +134,7 @@ if __name__ == "__main__":
         "sequence_length": 20,
         "embedding_dim": 64,
         "learning_rate": 0.01,
+        "epochs": 20,
     }
     main(df, params)
 
