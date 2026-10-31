@@ -7,9 +7,10 @@ import torch
 
 from Architecture.Classifier import IntentClassifier
 from Architecture.Tokenizer import Tokenizer
+from Training.metrics import classification_metrics, confusion_matrix
 
 
-def main(df_train, df_val, params, run_dir=None):
+def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     """Train once on df (text/label columns), save the run, and return its path."""
     if df_train.empty:
         raise ValueError("The training dataset must not be empty.")
@@ -21,7 +22,7 @@ def main(df_train, df_val, params, run_dir=None):
     learning_rate = params["learning_rate"]
 
     # Derive class IDs from this dataset rather than hard-coding its labels.
-    labels = sorted(df_train["label"].unique())
+    labels = sorted(df_train[label_col_name].unique())
     label_to_id = {label: index for index, label in enumerate(labels)}
     id_to_label = {class_id: label for label, class_id in label_to_id.items()}
 
@@ -70,7 +71,7 @@ def main(df_train, df_val, params, run_dir=None):
             # The outer list adds a batch dimension: [1, sequence_length].
             input_tensor = torch.tensor([input_ids], dtype=torch.long)
             mask_tensor = torch.tensor([attention_mask], dtype=torch.long)
-            label_id = label_to_id[row["label"]]
+            label_id = label_to_id[row[label_col_name]]
             target = torch.tensor([label_id], dtype=torch.long)
 
             optimizer.zero_grad()  # Clear gradients from the previous sentence.
@@ -82,6 +83,8 @@ def main(df_train, df_val, params, run_dir=None):
         average_loss = total_loss / len(df_train)
         print(f"Epoch {epoch + 1}: loss = {average_loss:.4f}")
     classifier.eval()
+    targets = []
+    predictions = []
 
     with torch.no_grad():
         for _, row in df_val.iterrows():
@@ -99,14 +102,37 @@ def main(df_train, df_val, params, run_dir=None):
             # The outer list adds a batch dimension: [1, sequence_length].
             input_tensor = torch.tensor([input_ids], dtype=torch.long)
             mask_tensor = torch.tensor([attention_mask], dtype=torch.long)
-            label_id = label_to_id[row["label"]]
+            label_id = label_to_id[row[label_col_name]]
             target = torch.tensor([label_id], dtype=torch.long)
             logits = classifier(input_tensor, mask_tensor)
             predicted_id = logits.argmax(dim=1).item()
+            targets.append(label_id)
+            predictions.append(predicted_id)
             predicted_label = id_to_label[predicted_id]
-            print(f"Sentence: {row["text"]}")
-            print(f"Expected label: {row["label"]}")
-            print(f"Predicted label: {predicted_label}")
+    # Summarize validation predictions. Class order matches label_to_id.
+    matrix = confusion_matrix(targets, predictions, len(labels))
+    metrics = classification_metrics(matrix)
+    print("Confusion matrix (rows = actual, columns = predicted):")
+    print(pd.DataFrame(matrix, index=labels, columns=labels))
+    print(f"Validation accuracy: {metrics['accuracy']:.3f}")
+    print(f"Validation macro F1: {metrics['macro_f1']:.3f}")
+    per_class = {
+        label: metrics['per_class'][class_id]
+        for label, class_id in label_to_id.items()
+    }
+    print(pd.DataFrame.from_dict(per_class, orient="index"))
+
+    # Store the label order alongside the matrix so it remains interpretable.
+    validation_metrics = {
+        "labels": labels,
+        "confusion_matrix": matrix.tolist(),
+        "accuracy": metrics["accuracy"],
+        "macro_f1": metrics["macro_f1"],
+        "per_class": per_class,
+    }
+    with (run_dir / "metrics.json").open("w", encoding="utf-8") as file:
+        json.dump(validation_metrics, file, ensure_ascii=False, indent=2)
+
     # 5. Save everything needed to recreate the trained classifier.
     torch.save(classifier.state_dict(), run_dir / "model.pt")
     tokenizer.save(run_dir / "tokenizer.json")
