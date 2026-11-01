@@ -9,3 +9,6 @@ Handmade word tokenization, goes from string of text to a list of token ids, in 
 ### Embedding
 Built-in: torch.nn.Embedding. Assigns each token-id to a latent representation of the meaning of the word.
 ### Classifier
+
+### Synthetic data generation
+Currently Qwen2.5:3b is used to generate synthetic data to be compared to the real world counterpart. Ollama gets used for local inference.

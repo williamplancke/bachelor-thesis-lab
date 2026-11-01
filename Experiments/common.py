@@ -5,7 +5,7 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "Data" / "CLINC150"
-SYNTHETIC_PATH = DATA_DIR / "synthetic_train.csv"
+SYNTHETIC_PATH = DATA_DIR / "synthetic_train.parquet"
 
 # Use the same settings for both conditions. Repeat with other seeds later.
 PARAMS = {
@@ -27,7 +27,7 @@ def load_training_data():
 def validate_synthetic_data(synthetic, real_train):
     """Require usable, unique text and exactly matching per-class counts."""
     if not {"text", "intent"}.issubset(synthetic.columns):
-        raise ValueError("Synthetic CSV needs text and intent columns (numeric IDs).")
+        raise ValueError("Synthetic data needs text and intent columns (numeric IDs).")
     if synthetic[["text", "intent"]].isna().any().any():
         raise ValueError("Synthetic data contains missing text or labels.")
     if not synthetic["text"].map(lambda text: isinstance(text, str) and bool(text.strip())).all():
