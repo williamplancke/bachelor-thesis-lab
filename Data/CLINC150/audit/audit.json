@@ -1,0 +1,41 @@
+{
+  "splits": {
+    "train": {
+      "examples": 15250,
+      "missing_text": 0,
+      "missing_labels": 0,
+      "blank_text": 0,
+      "duplicate_text_rows": 0,
+      "missing_class_ids": [],
+      "unknown_class_ids": []
+    },
+    "validation": {
+      "examples": 3100,
+      "missing_text": 0,
+      "missing_labels": 0,
+      "blank_text": 0,
+      "duplicate_text_rows": 0,
+      "missing_class_ids": [],
+      "unknown_class_ids": []
+    },
+    "test": {
+      "examples": 5500,
+      "missing_text": 0,
+      "missing_labels": 0,
+      "blank_text": 0,
+      "duplicate_text_rows": 0,
+      "missing_class_ids": [],
+      "unknown_class_ids": []
+    }
+  },
+  "cross_split_overlap": {
+    "train/validation": 3,
+    "train/test": 2,
+    "validation/test": 0
+  },
+  "oos": {
+    "included": true,
+    "intent_id": 42,
+    "note": "Treat as one supervised class for this baseline; generate separately from ordinary intents."
+  }
+}

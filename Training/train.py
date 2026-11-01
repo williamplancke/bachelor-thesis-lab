@@ -60,7 +60,7 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
             frac=1,
             random_state=params["seed"] + epoch
         )
-        for _, row in df_train.iterrows():
+        for _, row in shuffled_train.iterrows():
             tokens = tokenizer.prepare_input(row["text"])
             input_ids = tokenizer.encode(tokens)
             if len(input_ids) > sequence_length:
