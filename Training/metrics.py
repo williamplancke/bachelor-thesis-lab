@@ -1,5 +1,6 @@
 import numpy as np
-
+from pathlib import Path
+import json
 
 def confusion_matrix(targets, predictions, number_of_classes):
     """Count examples by actual class (rows) and predicted class (columns).
@@ -26,6 +27,8 @@ def classification_metrics(matrix):
     Undefined precision/recall/F1 values are reported as 0. Macro F1 is
     the unweighted average over all classes, including absent classes.
     """
+    if type(matrix) == list:
+        matrix = np.array(matrix)
     total = int(matrix.sum())
     if total == 0:
         raise ValueError("Metrics require at least one evaluated example.")
@@ -54,3 +57,10 @@ def classification_metrics(matrix):
         "macro_f1": sum(item["f1"] for item in per_class) / len(per_class),
         "per_class": per_class,
     }
+def load_metrics(run_path):
+    root_dir = Path(__file__).parent.parent
+    metrics_file_path = root_dir / "Runs" / run_path / "metrics.json"
+    with open(metrics_file_path, "r") as file:
+        metrics_obj = json.load(file)
+    matrix = metrics_obj["confusion_matrix"]
+    return classification_metrics(matrix)
