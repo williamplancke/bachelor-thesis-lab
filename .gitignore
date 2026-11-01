@@ -2,3 +2,4 @@
 .vscode
 *__pycache__
 manual_testing.py
+*/models
