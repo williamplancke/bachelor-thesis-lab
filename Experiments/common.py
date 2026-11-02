@@ -5,12 +5,12 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "Data" / "CLINC150"
-SYNTHETIC_PATH = DATA_DIR / "synthetic_train.parquet"
+SYNTHETIC_PATH = DATA_DIR / "synthetic_train_length_enforced.parquet"
 
 # Use the same settings for both conditions. Repeat with other seeds later.
 PARAMS = {
     "seed": 42,
-    "sequence_length": 100,
+    "sequence_length": 500,
     "embedding_dim": 64,
     "learning_rate": 0.01,
     "epochs": 20,

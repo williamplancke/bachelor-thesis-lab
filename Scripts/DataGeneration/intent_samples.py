@@ -20,7 +20,8 @@ def save_batch(content, intent_id, example_num, output_path, append=False):
         raise ValueError(f"Expected {example_num} examples, received {len(texts)}.")
     if any(not isinstance(text, str) or not text.strip() for text in texts):
         raise ValueError("Every example must be a non-empty string.")
-
+    if any(len(text.strip()) > 800 for text in texts):
+        raise ValueError("Every example must be at most 800 characters.")
     df = pd.DataFrame({
         "text": [text.strip() for text in texts],
         "intent": intent_id,
@@ -90,6 +91,7 @@ def main(params: dict, output_dir=None, output_path=None, max_retries=5):
 
     Requirements:
     - Write realistic user messages, not assistant responses.
+    - Write messages of at most 800 characters.
     - Vary sentence structure, vocabulary, and length.
     - Include both direct requests and indirect statements.
     - Avoid near-duplicates.
@@ -107,7 +109,7 @@ def main(params: dict, output_dir=None, output_path=None, max_retries=5):
         "properties": {
             "examples": {
                 "type": "array",
-                "items": {"type": "string", "minLength": 1},
+                "items": {"type": "string", "minLength": 1, "maxLength": 800},
                 "minItems": params["example_num"],
                 "maxItems": params["example_num"],
                 "uniqueItems": True,
@@ -186,6 +188,9 @@ def main(params: dict, output_dir=None, output_path=None, max_retries=5):
             invalid = 0
             for text in generated["examples"]:
                 if not isinstance(text, str) or not text.strip():
+                    invalid += 1
+                    continue
+                if len(text.strip()) > 800:
                     invalid += 1
                     continue
                 key = normalize(text)
@@ -292,6 +297,8 @@ def resume_generation(path, desired_counts):
         raise ValueError("Existing dataset must contain 'text' and 'intent' columns.")
     if any(not isinstance(text, str) or not text.strip() for text in df["text"]):
         raise ValueError("Existing dataset contains invalid or empty text.")
+    if any(len(text.strip()) > 800 for text in df["text"]):
+        raise ValueError("Every example must be at most 800 characters.")
     if not df["intent"].isin(desired_counts.index).all():
         raise ValueError("Existing dataset contains missing or unknown intent IDs.")
     normalized = df["text"].str.lower().str.split().str.join(" ")
@@ -312,7 +319,7 @@ if __name__ == "__main__":
     generate_dataset(
         params,
         batch_size=batch_size,
-        output_path=DATA_DIR / "synthetic_train.parquet",
+        output_path=DATA_DIR / "synthetic_train_length_enforced.parquet",
         max_retries=200,
         resume=True,
     )
