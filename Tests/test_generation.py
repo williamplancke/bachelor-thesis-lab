@@ -54,7 +54,7 @@ class GenerationTests(unittest.TestCase):
             {"examples": ["Same message", " SAME   MESSAGE "]},
         ]
         with TemporaryDirectory() as temp:
-            path = Path(temp) / "batch.parquet"
+            path = Path(temp) / "batch"
             for value in invalid:
                 with self.subTest(value=value), self.assertRaises(ValueError):
                     generator.save_batch(json.dumps(value), 9, 2, path)
@@ -67,21 +67,21 @@ class GenerationTests(unittest.TestCase):
             for text in ("Do you accept bookings?", "What time is it?")
         ]
         with TemporaryDirectory() as temp, patch.object(generator.ollama, "chat", side_effect=responses):
-            path = Path(temp) / "combined.parquet"
+            path = Path(temp) / "combined"
             generator.main(params, output_path=path)
             generator.main({**params, "intent_label": "time", "intent_definition": "Asking for the current time."}, output_path=path)
-            df = pd.read_parquet(path)
+            df = pd.read_parquet(generator.data_path(path))
             self.assertEqual(df["intent"].tolist(), [9, 4])
-            self.assertEqual(len(list(Path(temp).glob("*.parquet"))), 1)
+            self.assertEqual(list(path.iterdir()), [generator.data_path(path)])
 
     def test_duplicate_batch_leaves_saved_data_unchanged(self):
         with TemporaryDirectory() as temp:
-            path = Path(temp) / "combined.parquet"
+            path = Path(temp) / "combined"
             content = json.dumps({"examples": ["A request"]})
             generator.save_batch(content, 9, 1, path, append=True)
             with self.assertRaises(ValueError):
                 generator.save_batch(content, 4, 1, path, append=True)
-            self.assertEqual(pd.read_parquet(path)["intent"].tolist(), [9])
+            self.assertEqual(pd.read_parquet(generator.data_path(path))["intent"].tolist(), [9])
 
     def test_full_dataset_matches_counts_including_oos(self):
         call_index = 0
@@ -98,10 +98,18 @@ class GenerationTests(unittest.TestCase):
             real_path = Path(temp) / "real.parquet"
             real = pd.DataFrame({"text": ["unused"] * 6, "intent": [0, 0, 0, 9, 9, 42]})
             real.to_parquet(real_path, index=False)
-            path = Path(temp) / "synthetic.parquet"
+            path = Path(temp) / "synthetic"
             generator.generate_dataset({"temperature": 0.8, "seed": 42}, path, batch_size=2, training_path=real_path)
-            synthetic = pd.read_parquet(path)
+            synthetic = pd.read_parquet(generator.data_path(path))
+            config = json.loads((path / "config.json").read_text(encoding="utf-8"))
             self.assertEqual(synthetic["intent"].value_counts().to_dict(), {0: 3, 9: 2, 42: 1})
+            self.assertEqual(config["status"], "completed")
+            self.assertEqual(config["model"], generator.MODEL_NAME)
+            self.assertEqual(config["generation_parameters"], {"temperature": 0.8, "seed": 42})
+            self.assertEqual(config["batch_size"], 2)
+            self.assertEqual(config["max_retries"], 5)
+            self.assertEqual(config["examples"], 6)
+            self.assertEqual(config["classes"], 3)
             self.assertEqual(chat.call_count, 4)
             self.assertEqual([call.kwargs["options"]["seed"] for call in chat.call_args_list], [42, 43, 44, 45])
             self.assertIn("fit NONE", chat.call_args_list[-1].kwargs["messages"][0]["content"])
@@ -140,10 +148,10 @@ class GenerationTests(unittest.TestCase):
         responses = [SimpleNamespace(message=SimpleNamespace(content=json.dumps({"examples": batch})))
                      for batch in batches]
         with TemporaryDirectory() as temp, patch.object(generator.ollama, "chat", side_effect=responses) as chat:
-            path = Path(temp) / "combined.parquet"
+            path = Path(temp) / "combined"
             generator.save_batch(json.dumps({"examples": ["My account is blocked"]}), 2, 1, path, append=True)
             generator.main(params, output_path=path, max_retries=1)
-            self.assertEqual(len(pd.read_parquet(path)), 4)
+            self.assertEqual(len(pd.read_parquet(generator.data_path(path))), 4)
             self.assertEqual(chat.call_args.kwargs["format"]["properties"]["examples"]["minItems"], 3)
             self.assertEqual(chat.call_args.kwargs["options"]["num_predict"], 256)
             prompt = chat.call_args.kwargs["messages"][0]["content"]
@@ -161,11 +169,11 @@ class GenerationTests(unittest.TestCase):
                      for batch in batches]
         log = StringIO()
         with TemporaryDirectory() as temp, patch.object(generator.ollama, "chat", side_effect=responses):
-            path = Path(temp) / "combined.parquet"
+            path = Path(temp) / "combined"
             generator.save_batch(json.dumps({"examples": ["saved"]}), 2, 1, path, append=True)
             with redirect_stdout(log):
                 generator.main(params, output_path=path, max_retries=2)
-            self.assertEqual(len(pd.read_parquet(path)), 4)
+            self.assertEqual(len(pd.read_parquet(generator.data_path(path))), 4)
         output = log.getvalue()
         self.assertIn("sending 1 exclusions (1 saved examples checked globally), seed=42", output)
         self.assertIn("saved=1, within_attempt=1, earlier_retries=0", output)
@@ -176,10 +184,11 @@ class GenerationTests(unittest.TestCase):
         with TemporaryDirectory() as temp, patch.object(generator, "main") as generate:
             real_path = Path(temp) / "real.parquet"
             pd.DataFrame({"text": ["unused"] * 10, "intent": [0] * 5 + [9] * 3 + [42] * 2}).to_parquet(real_path)
-            path = Path(temp) / "synthetic.parquet"
+            path = Path(temp) / "synthetic"
             # Non-contiguous labels, out-of-order rows, and counts not aligned to batch size.
             original = pd.DataFrame({"text": ["saved booking", "saved review"], "intent": [9, 0]})
-            original.to_parquet(path, index=False)
+            path.mkdir()
+            original.to_parquet(generator.data_path(path), index=False)
 
             def save_fake(params, output_path, max_retries):
                 texts = [f"{params['intent_label']} seed {params['seed']} row {i}"
@@ -191,25 +200,25 @@ class GenerationTests(unittest.TestCase):
             generate.side_effect = save_fake
             generator.generate_dataset({"temperature": 0.8, "seed": 42}, path, batch_size=3,
                                        training_path=real_path, resume=True)
-            result = pd.read_parquet(path)
+            result = pd.read_parquet(generator.data_path(path))
             pd.testing.assert_frame_equal(result.iloc[:2], original)
             self.assertEqual(result["intent"].value_counts().to_dict(), {0: 5, 9: 3, 42: 2})
             self.assertEqual([call.args[0]["example_num"] for call in generate.call_args_list], [3, 1, 2, 2])
             generate.reset_mock()
-            before = path.read_bytes()
+            before = generator.data_path(path).read_bytes()
             generator.generate_dataset({"temperature": 0.8, "seed": 42}, path, training_path=real_path, resume=True)
             generate.assert_not_called()
-            self.assertEqual(path.read_bytes(), before)
+            self.assertEqual(generator.data_path(path).read_bytes(), before)
 
     def test_resume_missing_file_starts_new_dataset(self):
         response = SimpleNamespace(message=SimpleNamespace(content=json.dumps({"examples": ["new example"]})))
         with TemporaryDirectory() as temp, patch.object(generator.ollama, "chat", return_value=response):
             real_path = Path(temp) / "real.parquet"
             pd.DataFrame({"text": ["unused"], "intent": [0]}).to_parquet(real_path)
-            path = Path(temp) / "synthetic.parquet"
+            path = Path(temp) / "synthetic"
             generator.generate_dataset({"temperature": 0.8, "seed": 42}, path,
                                        training_path=real_path, resume=True)
-            self.assertEqual(len(pd.read_parquet(path)), 1)
+            self.assertEqual(len(pd.read_parquet(generator.data_path(path))), 1)
 
     def test_resume_rejects_invalid_saved_data_without_generation(self):
         invalid = [
@@ -223,14 +232,15 @@ class GenerationTests(unittest.TestCase):
         with TemporaryDirectory() as temp, patch.object(generator.ollama, "chat") as chat:
             real_path = Path(temp) / "real.parquet"
             pd.DataFrame({"text": ["unused"] * 2, "intent": [0, 0]}).to_parquet(real_path)
-            path = Path(temp) / "synthetic.parquet"
+            path = Path(temp) / "synthetic"
+            path.mkdir()
             for data in invalid:
-                data.to_parquet(path, index=False)
-                before = path.read_bytes()
+                data.to_parquet(generator.data_path(path), index=False)
+                before = generator.data_path(path).read_bytes()
                 with self.subTest(data=data), self.assertRaises(ValueError):
                     generator.generate_dataset({"temperature": 0.8, "seed": 42}, path,
                                                training_path=real_path, resume=True)
-                self.assertEqual(path.read_bytes(), before)
+                self.assertEqual(generator.data_path(path).read_bytes(), before)
             chat.assert_not_called()
 
     def test_main_rejects_missing_or_invalid_definition_before_calling_model(self):
@@ -254,7 +264,7 @@ class GenerationTests(unittest.TestCase):
         with TemporaryDirectory() as temp, patch.object(generator.ollama, "chat") as chat:
             real_path = Path(temp) / "real.parquet"
             pd.DataFrame({"text": ["unused"], "intent": [0]}).to_parquet(real_path)
-            path = Path(temp) / "synthetic.parquet"
+            path = Path(temp) / "synthetic"
             for data in invalid:
                 data.to_parquet(self.definitions_path, index=False)
                 with self.subTest(data=data), self.assertRaises(ValueError):
@@ -264,7 +274,7 @@ class GenerationTests(unittest.TestCase):
 
     def test_existing_batch_is_not_overwritten(self):
         with TemporaryDirectory() as temp:
-            path = Path(temp) / "batch.parquet"
+            path = Path(temp) / "batch"
             content = json.dumps({"examples": ["A request"]})
             generator.save_batch(content, 9, 1, path)
             with self.assertRaises(FileExistsError):
