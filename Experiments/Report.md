@@ -1,0 +1,5 @@
+### Real data
+The results are as expected for a normal intent classification with regular circuimstances. An accuracy of 70% is achieved with other classification metrics being in that range as well. Using a different tokenizer and tweaking the hyperparameters would probably improve the performance, but this is good enough as a baseline.
+### Synthetic data (label)
+Qwen2.5:3b is used to the entire dataset (~15k rows of equal class distribution), being identical to the real training set. The prompt is carefully written to prevent duplicate and invalid output samples and these are checked afterwards as well. When the model is trained on this data the performance on the validation set is very bad (23% accuracy). This is probably because the generator doesn't receive a definition and has to infer the meaning from the label itself only. It also tends to add quite a bit of noise as I caught it generate texts of around 800 tokens (way too long).
+### Synthetic data (label + synthetic definition)
