@@ -6,7 +6,7 @@ import pandas as pd
 import torch
 
 from Architecture.Classifier import IntentClassifier
-from Architecture.Tokenizer import Tokenizer
+from Architecture.Tokenizers.WordTokenizer import Tokenizer
 from Training.metrics import classification_metrics, confusion_matrix
 
 
