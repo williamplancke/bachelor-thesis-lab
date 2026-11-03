@@ -8,7 +8,7 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_ROOT / "Data" / "CLINC150"
-
+MODEL_NAME = "qwen2.5:3b"
 
 def save_batch(content, intent_id, example_num, output_path, append=False):
     """Validate a batch, optionally combining it with an existing dataset."""
@@ -56,6 +56,10 @@ def main(params: dict, output_dir=None, output_path=None, max_retries=5):
         raise KeyError("'example_num' must be passed in input params")
     if "intent_label" not in params.keys():
         raise KeyError("'intent_label' must be passed in input params")
+    if "intent_definition" not in params:
+        raise KeyError("'intent_definition' must be passed in input params")
+    if not isinstance(params["intent_definition"], str) or not params["intent_definition"].strip():
+        raise ValueError("intent_definition must be a non-empty string.")
     if "temperature" not in params.keys():
         raise KeyError("'temperature' must be passed in input params")
     if "seed" not in params.keys():
@@ -85,7 +89,7 @@ def main(params: dict, output_dir=None, output_path=None, max_retries=5):
     prompt = f"""Generate {params["example_num"]} synthetic training examples for an English intent classifier.
 
     Intent: {params["intent_label"].replace("_", " ")}
-
+    Definition: {params["intent_definition"]}
     Scope:
     {scope}
 
@@ -168,7 +172,7 @@ def main(params: dict, output_dir=None, output_path=None, max_retries=5):
             flush=True,
         )
         response = ollama.chat(
-            model="qwen2.5:3b",
+            model=MODEL_NAME,
             messages=[{"role": "user", "content": request}],
             format=schema,
             options={
@@ -258,8 +262,22 @@ def generate_dataset(params, output_path=None, batch_size=10, training_path=None
     if training_path is None:
         training_path = DATA_DIR / "train-00000-of-00001.parquet"
     real_train = pd.read_parquet(training_path)
+    df_definitions = pd.read_parquet(DATA_DIR / "audit" / "label_definitions.parquet")
     counts = real_train["intent"].value_counts().sort_index()
     intent_names = json.loads((DATA_DIR / "audit" / "intent_names.json").read_text(encoding="utf-8"))
+    if not {"label", "definition"}.issubset(df_definitions.columns):
+        raise ValueError("Definitions must contain 'label' and 'definition' columns.")
+    # Validate every required definition before generating or writing any batches.
+    definitions = {}
+    for intent_id in counts.index:
+        intent_label = intent_names[int(intent_id)]
+        matches = df_definitions.loc[df_definitions["label"] == intent_label, "definition"]
+        if len(matches) != 1:
+            raise ValueError(f"Expected exactly one definition for {intent_label}")
+        definition = matches.iloc[0]
+        if not isinstance(definition, str) or not definition.strip():
+            raise ValueError(f"Definition for {intent_label} must be a non-empty string.")
+        definitions[intent_label] = definition.strip()
 
     progress = pd.Series(0, index=counts.index, dtype="int64")
     if resume and output_path.exists():
@@ -270,10 +288,12 @@ def generate_dataset(params, output_path=None, batch_size=10, training_path=None
     batch_index = int(((progress + batch_size - 1) // batch_size).sum())
     for intent_id, count in counts.items():
         intent_label = intent_names[int(intent_id)]
+        intent_definition = definitions[intent_label]
         for start in range(int(progress.loc[intent_id]), int(count), batch_size):
             batch_params = {
                 **params,
                 "intent_label": intent_label,
+                "intent_definition": intent_definition,
                 "example_num": min(batch_size, int(count) - start),
                 "seed": params["seed"] + batch_index,
             }
@@ -319,7 +339,7 @@ if __name__ == "__main__":
     generate_dataset(
         params,
         batch_size=batch_size,
-        output_path=DATA_DIR / "synthetic_train_length_enforced.parquet",
+        output_path=DATA_DIR / "synthetic_train_with_definition.parquet",
         max_retries=200,
         resume=True,
     )

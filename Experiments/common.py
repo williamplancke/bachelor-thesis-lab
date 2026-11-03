@@ -6,7 +6,7 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "Data" / "CLINC150"
 SYNTHETIC_PATH = DATA_DIR / "synthetic_train_length_enforced.parquet"
-
+SYNTHETIC_WITH_DEFINITION_PATH = DATA_DIR / "synthetic_train_with_definition.parquet"
 # Use the same settings for both conditions. Repeat with other seeds later.
 PARAMS = {
     "seed": 42,

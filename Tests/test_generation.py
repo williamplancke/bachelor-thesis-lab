@@ -14,12 +14,31 @@ from Scripts.DataGeneration import intent_samples as generator
 
 
 class GenerationTests(unittest.TestCase):
+    def setUp(self):
+        temp = TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        data_dir = Path(temp.name)
+        audit = data_dir / "audit"
+        audit.mkdir()
+        names = json.loads((generator.DATA_DIR / "audit" / "intent_names.json").read_text())
+        (audit / "intent_names.json").write_text(json.dumps(names))
+        self.definitions_path = audit / "label_definitions.parquet"
+        pd.DataFrame({"label": names, "definition": [f"Requests concerning {name}." for name in names]}).to_parquet(
+            self.definitions_path, index=False
+        )
+        patcher = patch.object(generator, "DATA_DIR", data_dir)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
     def test_main_saves_original_intent_id(self):
-        params = {"example_num": 2, "intent_label": "accept_reservations", "temperature": 0.8, "seed": 42}
+        params = {"example_num": 2, "intent_label": "accept_reservations", "intent_definition": "Asking whether a restaurant accepts reservations, including advance bookings for larger groups.", "temperature": 0.8, "seed": 42}
         content = json.dumps({"examples": [" Do you take reservations? ", "Is booking ahead possible?"]})
         response = SimpleNamespace(message=SimpleNamespace(content=content))
-        with TemporaryDirectory() as temp, patch.object(generator.ollama, "chat", return_value=response):
+        with TemporaryDirectory() as temp, patch.object(generator.ollama, "chat", return_value=response) as chat:
             path = generator.main(params, output_dir=temp)
+            prompt = chat.call_args.kwargs["messages"][0]["content"]
+            self.assertIn(f"Definition: {params['intent_definition']}", prompt)
+            self.assertNotIn("dtype:", prompt)
             df = pd.read_parquet(path)
             self.assertEqual(list(df.columns), ["text", "intent"])
             self.assertEqual(df["intent"].tolist(), [9, 9])
@@ -42,7 +61,7 @@ class GenerationTests(unittest.TestCase):
                 self.assertFalse(path.exists())
 
     def test_main_accumulates_intents_in_one_file(self):
-        params = {"example_num": 1, "intent_label": "accept_reservations", "temperature": 0.8, "seed": 42}
+        params = {"example_num": 1, "intent_label": "accept_reservations", "intent_definition": "Asking whether a restaurant accepts reservations.", "temperature": 0.8, "seed": 42}
         responses = [
             SimpleNamespace(message=SimpleNamespace(content=json.dumps({"examples": [text]})))
             for text in ("Do you accept bookings?", "What time is it?")
@@ -50,7 +69,7 @@ class GenerationTests(unittest.TestCase):
         with TemporaryDirectory() as temp, patch.object(generator.ollama, "chat", side_effect=responses):
             path = Path(temp) / "combined.parquet"
             generator.main(params, output_path=path)
-            generator.main({**params, "intent_label": "time"}, output_path=path)
+            generator.main({**params, "intent_label": "time", "intent_definition": "Asking for the current time."}, output_path=path)
             df = pd.read_parquet(path)
             self.assertEqual(df["intent"].tolist(), [9, 4])
             self.assertEqual(len(list(Path(temp).glob("*.parquet"))), 1)
@@ -86,11 +105,12 @@ class GenerationTests(unittest.TestCase):
             self.assertEqual(chat.call_count, 4)
             self.assertEqual([call.kwargs["options"]["seed"] for call in chat.call_args_list], [42, 43, 44, 45])
             self.assertIn("fit NONE", chat.call_args_list[-1].kwargs["messages"][0]["content"])
+            self.assertIn("Definition: Requests concerning oos.", chat.call_args_list[-1].kwargs["messages"][0]["content"])
             with self.assertRaises(FileExistsError):
                 generator.generate_dataset({"temperature": 0.8, "seed": 42}, path, training_path=real_path)
 
     def test_invalid_batch_is_retried_with_new_seed(self):
-        params = {"example_num": 2, "intent_label": "accept_reservations", "temperature": 0.8, "seed": 42}
+        params = {"example_num": 2, "intent_label": "accept_reservations", "intent_definition": "Asking whether reservations are accepted.", "temperature": 0.8, "seed": 42}
         responses = [
             SimpleNamespace(message=SimpleNamespace(content=json.dumps({"examples": ["Only one"]}))),
             SimpleNamespace(message=SimpleNamespace(content=json.dumps({"examples": ["First", "Second"]}))),
@@ -103,7 +123,7 @@ class GenerationTests(unittest.TestCase):
             self.assertIn("batch was invalid", chat.call_args.kwargs["messages"][-1]["content"])
 
     def test_invalid_batch_exhausts_retries_without_writing(self):
-        params = {"example_num": 2, "intent_label": "accept_reservations", "temperature": 0.8, "seed": 42}
+        params = {"example_num": 2, "intent_label": "accept_reservations", "intent_definition": "Asking whether reservations are accepted.", "temperature": 0.8, "seed": 42}
         response = SimpleNamespace(message=SimpleNamespace(content=json.dumps({"examples": ["Only one"]})))
         with TemporaryDirectory() as temp, patch.object(generator.ollama, "chat", return_value=response) as chat:
             with self.assertRaisesRegex(ValueError, "after 2 attempts"):
@@ -112,7 +132,7 @@ class GenerationTests(unittest.TestCase):
             self.assertEqual(list(Path(temp).glob("*.parquet")), [])
 
     def test_duplicate_candidates_are_filtered_and_only_missing_are_requested(self):
-        params = {"example_num": 3, "intent_label": "account_blocked", "temperature": 0.8, "seed": 42}
+        params = {"example_num": 3, "intent_label": "account_blocked", "intent_definition": "Asking about a blocked account.", "temperature": 0.8, "seed": 42}
         batches = [
             [" MY   ACCOUNT IS BLOCKED ", "I cannot access my account", " I CANNOT access my account "],
             ["Please help unlock my account", "My login has been suspended"],
@@ -131,7 +151,7 @@ class GenerationTests(unittest.TestCase):
             self.assertIn("I cannot access my account", prompt)
 
     def test_logs_exclusion_counts_and_duplicate_sources(self):
-        params = {"example_num": 3, "intent_label": "account_blocked", "temperature": 0.8, "seed": 42}
+        params = {"example_num": 3, "intent_label": "account_blocked", "intent_definition": "Asking about a blocked account.", "temperature": 0.8, "seed": 42}
         batches = [
             [" SAVED ", "new one", " NEW ONE "],
             ["new one", "new two"],
@@ -211,6 +231,35 @@ class GenerationTests(unittest.TestCase):
                     generator.generate_dataset({"temperature": 0.8, "seed": 42}, path,
                                                training_path=real_path, resume=True)
                 self.assertEqual(path.read_bytes(), before)
+            chat.assert_not_called()
+
+    def test_main_rejects_missing_or_invalid_definition_before_calling_model(self):
+        params = {"example_num": 1, "intent_label": "time", "temperature": 0.8, "seed": 42}
+        with patch.object(generator.ollama, "chat") as chat:
+            with self.assertRaisesRegex(KeyError, "intent_definition"):
+                generator.main(params)
+            for value in (None, "", "   ", 123, pd.Series(["A definition"])):
+                with self.subTest(value=value), self.assertRaisesRegex(ValueError, "non-empty string"):
+                    generator.main({**params, "intent_definition": value})
+            chat.assert_not_called()
+
+    def test_dataset_rejects_bad_definitions_before_writing(self):
+        invalid = [
+            pd.DataFrame({"label": ["time"], "definition": ["Wrong label"]}),
+            pd.DataFrame({"label": ["restaurant_reviews"] * 2, "definition": ["First", "Second"]}),
+            pd.DataFrame({"label": ["restaurant_reviews"], "definition": [None]}),
+            pd.DataFrame({"label": ["restaurant_reviews"], "definition": [" "]}),
+            pd.DataFrame({"label": ["restaurant_reviews"], "other": ["Missing column"]}),
+        ]
+        with TemporaryDirectory() as temp, patch.object(generator.ollama, "chat") as chat:
+            real_path = Path(temp) / "real.parquet"
+            pd.DataFrame({"text": ["unused"], "intent": [0]}).to_parquet(real_path)
+            path = Path(temp) / "synthetic.parquet"
+            for data in invalid:
+                data.to_parquet(self.definitions_path, index=False)
+                with self.subTest(data=data), self.assertRaises(ValueError):
+                    generator.generate_dataset({"temperature": 0.8, "seed": 42}, path, training_path=real_path)
+                self.assertFalse(path.exists())
             chat.assert_not_called()
 
     def test_existing_batch_is_not_overwritten(self):
