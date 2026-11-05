@@ -63,6 +63,13 @@ class SubwordBPETokenizer:
         highest_keys = [key for key, value in self.pair_frequency_table.items() if value == highest_value]
         sorted_highest_keys = sorted(highest_keys)
         return sorted_highest_keys[0]
+    def obtain_token(self, token):
+        return self.token_to_id[token]
+    def prepare_input(self, text):
+        words = self.sentences_to_words(text)
+        return self.words_to_characters(words)
+    def freeze_vocabulary(self):
+        return
     @staticmethod
     def merge_symbols(symbols, selected_pair):
         """Apply one merge left to right without overlapping replacements."""

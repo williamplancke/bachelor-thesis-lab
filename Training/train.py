@@ -6,7 +6,8 @@ import pandas as pd
 import torch
 
 from Architecture.Classifier import IntentClassifier
-from Architecture.Tokenizers.WordTokenizer import Tokenizer
+from Architecture.Tokenizers.WordTokenizer import Tokenizer as WordTokenizer
+from Architecture.Tokenizers.BytePairTokenizer import SubwordBPETokenizer
 from Training.metrics import classification_metrics, confusion_matrix
 
 
@@ -35,11 +36,15 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     run_dir.mkdir(parents=True, exist_ok=False)
 
     # 2. Build the vocabulary before creating the embedding layer.
-    tokenizer = Tokenizer()
+    tokenizer = get_tokenizer(params["tokenizer_instance"], params["tokenizer_params"])
     for text in df_train["text"]:
         tokens = tokenizer.prepare_input(text)
-        tokenizer.encode(tokens)
+        try:
+            tokenizer.encode(tokens)
+        except:
+            assert(type(tokenizer) == SubwordBPETokenizer)
     tokenizer.freeze_vocabulary()
+    tokenizer.fit()
     padding_id = tokenizer.obtain_token("<PAD>")
 
     # 3. Create the model, loss function, and optimizer.
@@ -64,7 +69,7 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
             tokens = tokenizer.prepare_input(row["text"])
             input_ids = tokenizer.encode(tokens)
             if len(input_ids) > sequence_length:
-                raise ValueError("Input exceeds sequence length!")
+                raise ValueError(f"Input ({len(input_ids)}) exceeds sequence length!")
 
             # Real tokens have mask value 1; padding positions have value 0.
             attention_mask = [1] * len(input_ids)
@@ -155,7 +160,19 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     print(f"Saved run to {run_dir}")
     return run_dir
 
+def get_tokenizer(variation, params: dict = {}):
+    if type(variation) == str:
+        cleaned_variation = variation.strip().lower()
+        if cleaned_variation == "word":
+            return WordTokenizer(**params)
+        if cleaned_variation == "subword-bpe":
+            return SubwordBPETokenizer(**params)
+    elif type(variation) == WordTokenizer or type(variation) == SubwordBPETokenizer:
+        return variation(**params)
+    else:
+        raise ValueError("Tokenizer was passed in an unsupported format, supported formats are literal strings or the class itself.")
 
+    return
 if __name__ == "__main__":
     project_root = Path(__file__).resolve().parent.parent
     df_train = pd.read_csv(project_root / "Data" / "train_intents.csv")
