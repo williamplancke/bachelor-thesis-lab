@@ -7,6 +7,10 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "Data" / "CLINC150"
 SYNTHETIC_PATH = DATA_DIR / "synthetic_train_length_enforced.parquet"
 SYNTHETIC_WITH_DEFINITION_PATH = DATA_DIR / "synthetic_train_with_definition" / "data.parquet"
+# Prefer the new directory layout, but preserve access to earlier generated data.
+_legacy_definition_path = DATA_DIR / "synthetic_train_with_definition.parquet"
+if not SYNTHETIC_WITH_DEFINITION_PATH.exists() and _legacy_definition_path.is_file():
+    SYNTHETIC_WITH_DEFINITION_PATH = _legacy_definition_path
 # Use the same settings for both conditions. Repeat with other seeds later.
 PARAMS = {
     "seed": 42,

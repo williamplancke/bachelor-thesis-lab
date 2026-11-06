@@ -36,19 +36,18 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     run_dir.mkdir(parents=True, exist_ok=False)
 
     # 2. Build the vocabulary before creating the embedding layer.
-    tokenizer = get_tokenizer(params["tokenizer_instance"], params["tokenizer_params"])
+    tokenizer_params = params.get("tokenizer_params", {})
+    tokenizer = get_tokenizer(params.get("tokenizer_instance", "word"), tokenizer_params)
     for text in df_train["text"]:
         words = tokenizer.prepare_input(text)
-        try:
+        if isinstance(tokenizer, SubwordBPETokenizer):
+            # BPE needs corpus-wide pair counts before it can encode text.
             tokenizer.words_to_characters(words)
-        except:
-            assert(type(tokenizer) == WordTokenizer)
-        try:
-            tokenizer.encode(tokens)
-        except:
-            assert(type(tokenizer) == SubwordBPETokenizer)
-    tokenizer.freeze_vocabulary()
+        else:
+            # The word tokenizer builds its vocabulary while encoding.
+            tokenizer.encode(words)
     tokenizer.fit()
+    tokenizer.freeze_vocabulary()
     padding_id = tokenizer.obtain_token("<PAD>")
 
     # 3. Create the model, loss function, and optimizer.
@@ -151,6 +150,8 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     tokenizer.save(run_dir / "tokenizer.json")
     config = {
         **params,
+        "tokenizer_instance": "subword-bpe" if isinstance(tokenizer, SubwordBPETokenizer) else "word",
+        "tokenizer_params": tokenizer_params,
         "vocabulary_size": len(tokenizer.vocabulary),
         "number_of_classes": len(label_to_id),
         "padding_id": padding_id,
@@ -164,21 +165,18 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     print(f"Saved run to {run_dir}")
     return run_dir
 
-def get_tokenizer(variation, params: dict = {}):
-    if type(variation) == str:
-        cleaned_variation = variation.strip().lower()
-        if cleaned_variation == "word":
-            return WordTokenizer(**params)
-        if cleaned_variation == "subword-bpe":
-            return SubwordBPETokenizer(**params)
-        else:
-            raise ValueError("Unknown tokenizer literal was passed")
-    elif type(variation) == WordTokenizer or type(variation) == SubwordBPETokenizer:
+def get_tokenizer(variation, params=None):
+    """Create a fresh supported tokenizer from its name or class."""
+    params = {} if params is None else params
+    tokenizers = {"word": WordTokenizer, "subword-bpe": SubwordBPETokenizer}
+    if isinstance(variation, str):
+        name = variation.strip().lower()
+        if name not in tokenizers:
+            raise ValueError(f"Unknown tokenizer: {variation!r}. Choose 'word' or 'subword-bpe'.")
+        return tokenizers[name](**params)
+    if variation is WordTokenizer or variation is SubwordBPETokenizer:
         return variation(**params)
-    else:
-        raise ValueError("Tokenizer was passed in an unsupported format, supported formats are literal strings or the class itself.")
-
-    return
+    raise ValueError("Pass a supported tokenizer name or class, not an instance.")
 if __name__ == "__main__":
     project_root = Path(__file__).resolve().parent.parent
     df_train = pd.read_csv(project_root / "Data" / "train_intents.csv")
