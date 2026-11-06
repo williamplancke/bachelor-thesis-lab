@@ -1,5 +1,4 @@
 import json
-from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
@@ -9,6 +8,7 @@ from Architecture.Classifier import IntentClassifier
 from Architecture.Tokenizers.WordTokenizer import Tokenizer as WordTokenizer
 from Architecture.Tokenizers.BytePairTokenizer import SubwordBPETokenizer
 from Training.metrics import classification_metrics, confusion_matrix
+from Training.runs import run_name, staged_run
 
 
 def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
@@ -27,13 +27,11 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     label_to_id = {label: index for index, label in enumerate(labels)}
     id_to_label = {class_id: label for label, class_id in label_to_id.items()}
 
-    # Reserve a new folder so existing runs are not overwritten.
-    if run_dir is None:
-        project_root = Path(__file__).resolve().parent.parent
-        run_name = datetime.now().strftime("intent_%Y%m%d_%H%M%S_%f")
-        run_dir = project_root / "Runs" / run_name
-    run_dir = Path(run_dir)
-    run_dir.mkdir(parents=True, exist_ok=False)
+    # Reject existing destinations now, but don't create a folder until saving.
+    if run_dir is not None:
+        run_dir = Path(run_dir)
+        if run_dir.exists():
+            raise FileExistsError(f"Run already exists: {run_dir}")
 
     # 2. Build the vocabulary before creating the embedding layer.
     tokenizer_params = params.get("tokenizer_params", {})
@@ -142,12 +140,7 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
         "macro_f1": metrics["macro_f1"],
         "per_class": per_class,
     }
-    with (run_dir / "metrics.json").open("w", encoding="utf-8") as file:
-        json.dump(validation_metrics, file, ensure_ascii=False, indent=2)
-
     # 5. Save everything needed to recreate the trained classifier.
-    torch.save(classifier.state_dict(), run_dir / "model.pt")
-    tokenizer.save(run_dir / "tokenizer.json")
     config = {
         **params,
         "tokenizer_instance": "subword-bpe" if isinstance(tokenizer, SubwordBPETokenizer) else "word",
@@ -159,8 +152,17 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
         "optimizer": "SGD",
         "training_examples": len(df_train),
     }
-    with (run_dir / "config.json").open("w", encoding="utf-8") as file:
-        json.dump(config, file, ensure_ascii=False, indent=2)
+    if run_dir is None:
+        project_root = Path(__file__).resolve().parent.parent
+        run_dir = project_root / "Runs" / run_name(config)
+    # A failed/interrupted save never exposes a partially written run.
+    with staged_run(run_dir) as staging_dir:
+        with (staging_dir / "metrics.json").open("w", encoding="utf-8") as file:
+            json.dump(validation_metrics, file, ensure_ascii=False, indent=2)
+        torch.save(classifier.state_dict(), staging_dir / "model.pt")
+        tokenizer.save(staging_dir / "tokenizer.json")
+        with (staging_dir / "config.json").open("w", encoding="utf-8") as file:
+            json.dump(config, file, ensure_ascii=False, indent=2)
 
     print(f"Saved run to {run_dir}")
     return run_dir
