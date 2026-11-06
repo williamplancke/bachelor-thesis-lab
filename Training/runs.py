@@ -14,8 +14,9 @@ def run_name(config, timestamp=None):
     timestamp = timestamp or datetime.now().strftime("%Y%m%d_%H%M%S_%f")
     experiment = slug(config.get("experiment", "intent"))
     tokenizer = slug(config.get("tokenizer_instance", "word"))
+    architecture = slug(config.get("architecture", "mean-pooling"))
     return (
-        f"{experiment}__{tokenizer}-v{config['vocabulary_size']}"
+        f"{experiment}__{architecture}__{tokenizer}-v{config['vocabulary_size']}"
         f"__emb{config['embedding_dim']}__seed{config['seed']}__{timestamp}"
     )
 

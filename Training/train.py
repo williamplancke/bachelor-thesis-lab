@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 import torch
 
-from Architecture.Classifier import IntentClassifier
+from Architecture.Classifier import architecture_config, build_model
 from Architecture.Tokenizers.WordTokenizer import Tokenizer as WordTokenizer
 from Architecture.Tokenizers.BytePairTokenizer import SubwordBPETokenizer
 from Training.metrics import classification_metrics, confusion_matrix
@@ -20,7 +20,7 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     # Use the hyperparameters supplied by the caller.
     torch.manual_seed(params["seed"])
     sequence_length = params["sequence_length"]
-    embedding_dim = params["embedding_dim"]
+    architecture, model_params = architecture_config(params)
     learning_rate = params["learning_rate"]
 
     # Derive class IDs from this dataset rather than hard-coding its labels.
@@ -58,11 +58,12 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     )
 
     # 3. Create the model, loss function, and optimizer.
-    classifier = IntentClassifier(
+    classifier = build_model(
+        architecture,
         vocabulary_size=len(tokenizer.vocabulary),
-        embedding_dim=embedding_dim,
         number_of_classes=len(label_to_id),
         padding_id=padding_id,
+        architecture_params=model_params,
     )
     loss_function = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(classifier.parameters(), lr=learning_rate)
@@ -121,6 +122,15 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     # 5. Save everything needed to recreate the trained classifier.
     config = {
         **params,
+        "run_format_version": 1,
+        "architecture": architecture,
+        "architecture_params": model_params,
+        "embedding_dim": model_params["embedding_dim"],
+        "total_parameters": sum(parameter.numel() for parameter in classifier.parameters()),
+        "trainable_parameters": sum(
+            parameter.numel() for parameter in classifier.parameters() if parameter.requires_grad
+        ),
+        "labels": labels,
         "tokenizer_instance": "subword-bpe" if isinstance(tokenizer, SubwordBPETokenizer) else "word",
         "tokenizer_params": tokenizer_params,
         "vocabulary_size": len(tokenizer.vocabulary),
