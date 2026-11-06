@@ -114,7 +114,7 @@ class CachedTrainingTests(unittest.TestCase):
             pd.DataFrame({"text": ["hello " * 65], "label": [0]}),
         ):
             with self.subTest(validation=validation), TemporaryDirectory() as directory:
-                with patch.object(training, "IntentClassifier") as model, self.assertRaises(ValueError):
+                with patch("Architecture.Classifier.IntentClassifier") as model, self.assertRaises(ValueError):
                     training.main(self.frame, validation, self.params, run_dir=Path(directory) / "run")
                 model.assert_not_called()
                 self.assertEqual(list(Path(directory).iterdir()), [])
@@ -132,7 +132,7 @@ class CachedTrainingTests(unittest.TestCase):
                     return model
 
                 with patch.object(training, "get_tokenizer", return_value=tokenizer), \
-                     patch.object(training, "IntentClassifier", side_effect=create_model), \
+                     patch("Architecture.Classifier.IntentClassifier", side_effect=create_model), \
                      redirect_stdout(StringIO()):
                     training.main(
                         self.frame, self.validation, self.params,

@@ -2,6 +2,32 @@ import torch
 from torch import nn
 
 
+def architecture_config(params):
+    """Resolve explicit architecture settings, accepting older flat configs too."""
+    architecture = params.get("architecture", "mean-pooling")
+    if not isinstance(architecture, str) or architecture.strip().lower() != "mean-pooling":
+        raise ValueError(f"Unknown architecture: {architecture!r}. Supported: 'mean-pooling'.")
+    model_params = dict(params.get("architecture_params", {}))
+    if "embedding_dim" in model_params and "embedding_dim" in params:
+        if model_params["embedding_dim"] != params["embedding_dim"]:
+            raise ValueError("Conflicting embedding_dim in architecture_params and top-level settings.")
+    model_params.setdefault("embedding_dim", params.get("embedding_dim", 64))
+    return "mean-pooling", model_params
+
+
+def build_model(architecture, *, vocabulary_size, number_of_classes, padding_id, architecture_params):
+    """Construct a supported architecture without changing the baseline class."""
+    models = {"mean-pooling": IntentClassifier}
+    if architecture not in models:
+        raise ValueError(f"Unknown architecture: {architecture!r}.")
+    return models[architecture](
+        vocabulary_size=vocabulary_size,
+        number_of_classes=number_of_classes,
+        padding_id=padding_id,
+        **architecture_params,
+    )
+
+
 class IntentClassifier(nn.Module):
     """Embedding -> masked mean pooling -> linear intent classifier."""
 

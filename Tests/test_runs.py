@@ -20,7 +20,7 @@ class RunStorageTests(unittest.TestCase):
         }
         self.assertEqual(
             run_name(config, timestamp="20261106_120000_123456"),
-            "synthetic-data-raw__subword-bpe-v500__emb64__seed42__20261106_120000_123456",
+            "synthetic-data-raw__mean-pooling__subword-bpe-v500__emb64__seed42__20261106_120000_123456",
         )
         config["experiment"] = "../Experiment: invalid/name"
         name = run_name(config)
@@ -87,7 +87,7 @@ class TrainingRunStorageTests(unittest.TestCase):
             config = json.loads((run / "config.json").read_text(encoding="utf-8"))
             self.assertEqual(run.parent, root / "Runs")
             self.assertTrue(run.name.startswith(
-                f"tiny-baseline__word-v{config['vocabulary_size']}__emb4__seed42__"
+                f"tiny-baseline__mean-pooling__word-v{config['vocabulary_size']}__emb4__seed42__"
             ))
             self.assertEqual(
                 {path.name for path in run.iterdir()},
@@ -99,7 +99,7 @@ class TrainingRunStorageTests(unittest.TestCase):
         for error in (RuntimeError, KeyboardInterrupt):
             with self.subTest(error=error), TemporaryDirectory() as directory:
                 run = Path(directory) / "run"
-                with patch.object(training.IntentClassifier, "forward", side_effect=error("interrupted")), \
+                with patch("Architecture.Classifier.IntentClassifier.forward", side_effect=error("interrupted")), \
                      redirect_stdout(StringIO()), self.assertRaises(error):
                     training.main(self.data, self.data, self.params, run_dir=run)
                 self.assertFalse(run.exists())

@@ -19,6 +19,7 @@ from Experiments.common import PARAMS
 from Training import train as training
 from Training.metrics import classification_metrics, confusion_matrix
 from Training.data import prepare_input
+from Training.load import load_run
 
 
 class TokenizerIntegrationTests(unittest.TestCase):
@@ -102,7 +103,7 @@ class TokenizerIntegrationTests(unittest.TestCase):
                     # Keep the trained objects solely to compare them with fresh instances.
                     # Optimizer, training, and all file writes remain real.
                     with patch.object(training, "get_tokenizer", return_value=tokenizer), \
-                         patch.object(training, "IntentClassifier", side_effect=create_model), \
+                         patch("Architecture.Classifier.IntentClassifier", side_effect=create_model), \
                          redirect_stdout(StringIO()):
                         run = training.main(
                             train, validation, params,
@@ -118,22 +119,18 @@ class TokenizerIntegrationTests(unittest.TestCase):
                     # Reconstruct from artifacts only, not from params or training data.
                     config = json.loads((run / "config.json").read_text(encoding="utf-8"))
                     saved_metrics = json.loads((run / "metrics.json").read_text(encoding="utf-8"))
-                    if config["tokenizer_instance"] == "word":
-                        loaded_tokenizer = WordTokenizer.load(run / "tokenizer.json")
-                    else:
-                        loaded_tokenizer = SubwordBPETokenizer()
-                        loaded_tokenizer.load(run / "tokenizer.json")
+                    loaded = load_run(run)
+                    loaded_tokenizer = loaded.tokenizer
+                    loaded_model = loaded.model
+                    self.assertFalse(loaded_model.training)
+                    self.assertEqual(loaded.labels, sorted(labels))
+                    self.assertEqual(config["architecture"], "mean-pooling")
+                    self.assertEqual(config["architecture_params"], {"embedding_dim": 4})
+                    parameter_count = sum(value.numel() for value in loaded_model.parameters())
+                    self.assertEqual(config["total_parameters"], parameter_count)
+                    self.assertEqual(config["trainable_parameters"], parameter_count)
+                    if name == "subword-bpe":
                         self.assertEqual(loaded_tokenizer.word_symbols, {})
-                    loaded_model = IntentClassifier(
-                        vocabulary_size=config["vocabulary_size"],
-                        embedding_dim=config["embedding_dim"],
-                        number_of_classes=config["number_of_classes"],
-                        padding_id=config["padding_id"],
-                    )
-                    loaded_model.load_state_dict(torch.load(
-                        run / "model.pt", map_location="cpu", weights_only=True,
-                    ))
-                    loaded_model.eval()
                     for key, value in original_model.state_dict().items():
                         self.assertTrue(torch.equal(value, loaded_model.state_dict()[key]))
 
@@ -157,6 +154,11 @@ class TokenizerIntegrationTests(unittest.TestCase):
                     self.assertEqual(
                         actual_logits.argmax(dim=1).tolist(), expected_logits.argmax(dim=1).tolist(),
                     )
+                    for index, text in enumerate(texts):
+                        torch.testing.assert_close(loaded.logits(text), actual_logits[index:index + 1])
+                        prediction = loaded.predict(text)
+                        self.assertEqual(prediction, loaded.labels[actual_logits[index].argmax().item()])
+                        self.assertIsInstance(prediction, type(labels[0]))
 
                     # JSON object keys become strings even for integer class labels.
                     label_to_id = config["label_to_id"]
