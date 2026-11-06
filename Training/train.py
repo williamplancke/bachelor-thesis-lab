@@ -8,6 +8,7 @@ from Architecture.Classifier import IntentClassifier
 from Architecture.Tokenizers.WordTokenizer import Tokenizer as WordTokenizer
 from Architecture.Tokenizers.BytePairTokenizer import SubwordBPETokenizer
 from Training.metrics import classification_metrics, confusion_matrix
+from Training.data import encode_dataset
 from Training.runs import run_name, staged_run
 
 
@@ -25,7 +26,6 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     # Derive class IDs from this dataset rather than hard-coding its labels.
     labels = sorted(df_train[label_col_name].unique().tolist()) # .tolist() is necessary because json.dump() can't deal with numpy dtypes
     label_to_id = {label: index for index, label in enumerate(labels)}
-    id_to_label = {class_id: label for label, class_id in label_to_id.items()}
 
     # Reject existing destinations now, but don't create a folder until saving.
     if run_dir is not None:
@@ -48,6 +48,15 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     tokenizer.freeze_vocabulary()
     padding_id = tokenizer.obtain_token("<PAD>")
 
+    # Encode both splits once, before model creation or any optimization steps.
+    # Validation uses the frozen training vocabulary and training label mapping.
+    train_dataset = encode_dataset(
+        df_train, tokenizer, label_to_id, sequence_length, padding_id, label_col_name,
+    )
+    validation_dataset = encode_dataset(
+        df_val, tokenizer, label_to_id, sequence_length, padding_id, label_col_name,
+    )
+
     # 3. Create the model, loss function, and optimizer.
     classifier = IntentClassifier(
         vocabulary_size=len(tokenizer.vocabulary),
@@ -62,31 +71,17 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     classifier.train() # Enable training mode
     for epoch in range(params["epochs"]):
         total_loss = 0.0
-        shuffled_train = df_train.sample(
+        # Sample row positions with the same pandas shuffle as the old pipeline.
+        shuffled_indices = pd.Series(range(len(train_dataset))).sample(
             frac=1,
-            random_state=params["seed"] + epoch
+            random_state=params["seed"] + epoch,
         )
-        for _, row in shuffled_train.iterrows():
-            tokens = tokenizer.prepare_input(row["text"])
-            input_ids = tokenizer.encode(tokens)
-            if len(input_ids) > sequence_length:
-                raise ValueError(f"Input ({len(input_ids)}) exceeds sequence length!")
-
-            # Real tokens have mask value 1; padding positions have value 0.
-            attention_mask = [1] * len(input_ids)
-            padding_length = sequence_length - len(input_ids)
-            input_ids += [padding_id] * padding_length
-            attention_mask += [0] * padding_length
-
-            # The outer list adds a batch dimension: [1, sequence_length].
-            input_tensor = torch.tensor([input_ids], dtype=torch.long)
-            mask_tensor = torch.tensor([attention_mask], dtype=torch.long)
-            label_id = label_to_id[row[label_col_name]]
-            target = torch.tensor([label_id], dtype=torch.long)
-
+        for index in shuffled_indices:
+            input_ids, attention_mask, target = train_dataset[index]
+            # Add the batch dimension: [1, sequence_length] and [1].
             optimizer.zero_grad()  # Clear gradients from the previous sentence.
-            logits = classifier(input_tensor, mask_tensor)
-            loss = loss_function(logits, target)
+            logits = classifier(input_ids.unsqueeze(0), attention_mask.unsqueeze(0))
+            loss = loss_function(logits, target.unsqueeze(0))
             loss.backward()       # Calculate gradients; weights are unchanged yet.
             optimizer.step()      # Update the embedding and classifier weights.
             total_loss += loss.item() # Extract tensor content as 1 scaler value
@@ -97,28 +92,11 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     predictions = []
 
     with torch.no_grad():
-        for _, row in df_val.iterrows():
-            tokens = tokenizer.prepare_input(row["text"])
-            input_ids = tokenizer.encode(tokens)
-            if len(input_ids) > sequence_length:
-                raise ValueError("Input exceeds sequence length!")
-
-            # Real tokens have mask value 1; padding positions have value 0.
-            attention_mask = [1] * len(input_ids)
-            padding_length = sequence_length - len(input_ids)
-            input_ids += [padding_id] * padding_length
-            attention_mask += [0] * padding_length
-
-            # The outer list adds a batch dimension: [1, sequence_length].
-            input_tensor = torch.tensor([input_ids], dtype=torch.long)
-            mask_tensor = torch.tensor([attention_mask], dtype=torch.long)
-            label_id = label_to_id[row[label_col_name]]
-            target = torch.tensor([label_id], dtype=torch.long)
-            logits = classifier(input_tensor, mask_tensor)
+        for input_ids, attention_mask, target in validation_dataset:
+            logits = classifier(input_ids.unsqueeze(0), attention_mask.unsqueeze(0))
             predicted_id = logits.argmax(dim=1).item()
-            targets.append(label_id)
+            targets.append(target.item())
             predictions.append(predicted_id)
-            predicted_label = id_to_label[predicted_id]
     # Summarize validation predictions. Class order matches label_to_id.
     matrix = confusion_matrix(targets, predictions, len(labels))
     metrics = classification_metrics(matrix)

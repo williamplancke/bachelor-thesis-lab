@@ -18,6 +18,7 @@ from Experiments import Real_data, Synthetic_data_raw, Synthetic_data_with_defin
 from Experiments.common import PARAMS
 from Training import train as training
 from Training.metrics import classification_metrics, confusion_matrix
+from Training.data import prepare_input
 
 
 class TokenizerIntegrationTests(unittest.TestCase):
@@ -71,16 +72,11 @@ class TokenizerIntegrationTests(unittest.TestCase):
     @staticmethod
     def prediction_inputs(tokenizer, texts, config):
         """Prepare a small padded batch using the saved run's settings."""
-        input_ids = []
-        attention_masks = []
-        for text in texts:
-            ids = tokenizer.encode(tokenizer.prepare_input(text))
-            padding_length = config["sequence_length"] - len(ids)
-            if padding_length < 0:
-                raise ValueError("Test input exceeds the saved sequence length.")
-            attention_masks.append([1] * len(ids) + [0] * padding_length)
-            input_ids.append(ids + [config["padding_id"]] * padding_length)
-        return torch.tensor(input_ids, dtype=torch.long), torch.tensor(attention_masks, dtype=torch.long)
+        examples = [
+            prepare_input(tokenizer, text, config["sequence_length"], config["padding_id"])
+            for text in texts
+        ]
+        return torch.stack([ids for ids, _ in examples]), torch.stack([mask for _, mask in examples])
 
     def test_saved_run_reproduces_logits_predictions_and_metrics(self):
         for name in ("word", "subword-bpe"):
