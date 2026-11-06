@@ -13,7 +13,7 @@ def main():
         )
     synthetic = pd.read_parquet(SYNTHETIC_PATH)
     validate_synthetic_data(synthetic, real_train)
-    params = {**PARAMS, "experiment": "synthetic_data_raw", "training_data": str(SYNTHETIC_PATH), "tokenizer_instance": "subword-bpe", "tokenizer_params": {"vocabulary_limit": 500}, "sequence_length": 1200}
+    params = {**PARAMS, "experiment": "synthetic_data_raw", "training_data": str(SYNTHETIC_PATH)}
     return train(synthetic, df_val, params, label_col_name="intent")
 
 

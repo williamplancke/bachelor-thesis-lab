@@ -66,8 +66,7 @@ class SubwordBPETokenizer:
     def obtain_token(self, token):
         return self.token_to_id[token]
     def prepare_input(self, text):
-        words = self.sentences_to_words(text)
-        return self.words_to_characters(words)
+        return self.sentences_to_words(text)
     def freeze_vocabulary(self):
         return
     @staticmethod

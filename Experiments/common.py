@@ -10,10 +10,12 @@ SYNTHETIC_WITH_DEFINITION_PATH = DATA_DIR / "synthetic_train_with_definition" / 
 # Use the same settings for both conditions. Repeat with other seeds later.
 PARAMS = {
     "seed": 42,
-    "sequence_length": 500,
+    "sequence_length": 1200,
     "embedding_dim": 64,
     "learning_rate": 0.01,
     "epochs": 20,
+    "tokenizer_instance": "subword-bpe",
+    "tokenizer_params": {"vocabulary_limit": 500}
 }
 
 

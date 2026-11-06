@@ -76,6 +76,8 @@ class Tokenizer():
             space_padded = space_padded.replace(char, " " + char + " ")
         tokens = space_padded.split()
         return tokens
+    def fit(self):
+        return
     def construct_output(self, tokens):
         sentence_start = True
         output = ''

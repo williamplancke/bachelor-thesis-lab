@@ -38,7 +38,11 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     # 2. Build the vocabulary before creating the embedding layer.
     tokenizer = get_tokenizer(params["tokenizer_instance"], params["tokenizer_params"])
     for text in df_train["text"]:
-        tokens = tokenizer.prepare_input(text)
+        words = tokenizer.prepare_input(text)
+        try:
+            tokenizer.words_to_characters(words)
+        except:
+            assert(type(tokenizer) == WordTokenizer)
         try:
             tokenizer.encode(tokens)
         except:
@@ -167,6 +171,8 @@ def get_tokenizer(variation, params: dict = {}):
             return WordTokenizer(**params)
         if cleaned_variation == "subword-bpe":
             return SubwordBPETokenizer(**params)
+        else:
+            raise ValueError("Unknown tokenizer literal was passed")
     elif type(variation) == WordTokenizer or type(variation) == SubwordBPETokenizer:
         return variation(**params)
     else:
