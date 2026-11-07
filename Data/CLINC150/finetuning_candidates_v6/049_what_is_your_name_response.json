@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:07:49.7528521Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4245383100,
+  "load_duration": 8262000,
+  "prompt_eval_count": 961,
+  "prompt_eval_duration": 114284000,
+  "eval_count": 174,
+  "eval_duration": 4101170000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"I need to know your name for the record.\",\n      \"action\": \"ask the assistant's name\",\n      \"referent\": \"assistant's name\"\n    },\n    {\n      \"text\": \"How should I refer to you in the meeting?\",\n      \"action\": \"ask what to call the assistant\",\n      \"referent\": \"assistant's name\"\n    },\n    {\n      \"text\": \"Can you say your name for clarity?\",\n      \"action\": \"ask assistant to introduce itself by name\",\n      \"referent\": \"assistant's name\"\n    },\n    {\n      \"text\": \"Could you tell me the name you prefer to be called?\",\n      \"action\": \"ask what name the assistant prefers\",\n      \"referent\": \"assistant's name\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

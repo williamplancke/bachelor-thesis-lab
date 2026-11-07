@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:07:54.2151474Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4450559600,
+  "load_duration": 8078200,
+  "prompt_eval_count": 937,
+  "prompt_eval_duration": 250010000,
+  "eval_count": 170,
+  "eval_duration": 4093081000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Call me Mia.\",\n      \"action\": \"establishes a name for the assistant to use\",\n      \"referent\": \"the user's name\"\n    },\n    {\n      \"text\": \"You keep calling me James, but my name is Jordan.\",\n      \"action\": \"corrects a mistaken name\",\n      \"referent\": \"the user's name\"\n    },\n    {\n      \"text\": \"My name is Sarah.\",\n      \"action\": \"introduces the user's name\",\n      \"referent\": \"the user's name\"\n    },\n    {\n      \"text\": \"Use Lena instead of Laura.\",\n      \"action\": \"requests a nickname over a full name\",\n      \"referent\": \"the user's nickname\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

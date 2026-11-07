@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:05:38.9169681Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4329749800,
+  "load_duration": 9835400,
+  "prompt_eval_count": 923,
+  "prompt_eval_duration": 115017000,
+  "eval_count": 176,
+  "eval_duration": 4184698999,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"How does missing a payment impact my credit?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"Can I establish credit without taking out loans?\",\n      \"action\": \"Ask how to build credit\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"What steps should I take to keep my credit safe when closing a card?\",\n      \"action\": \"Ask how to protect a credit score\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"Does applying for a new loan affect my credit score?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"credit\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:05:57.2577404Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4655265800,
+  "load_duration": 9678200,
+  "prompt_eval_count": 905,
+  "prompt_eval_duration": 126966000,
+  "eval_count": 192,
+  "eval_duration": 4498172000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Store card credit limit?\",\n      \"action\": \"Ask to FIND the existing approved CREDIT or CARD limit\",\n      \"referent\": \"current approved credit limit on a store card\"\n    },\n    {\n      \"text\": \"What's my account's credit limit?\",\n      \"action\": \"Ask to FIND the existing approved CREDIT or CARD limit\",\n      \"referent\": \"current approved credit limit listed on the account\"\n    },\n    {\n      \"text\": \"Visa limit, mate?\",\n      \"action\": \"Ask to FIND the existing approved CREDIT or CARD limit\",\n      \"referent\": \"approved Visa spending limit\"\n    },\n    {\n      \"text\": \"Check my credit line max.\",\n      \"action\": \"Ask to FIND the existing approved CREDIT or CARD limit\",\n      \"referent\": \"retrieve current credit line maximum\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

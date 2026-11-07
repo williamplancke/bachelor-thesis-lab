@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:07:45.4998783Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4060032500,
+  "load_duration": 9743500,
+  "prompt_eval_count": 928,
+  "prompt_eval_duration": 113993000,
+  "eval_count": 162,
+  "eval_duration": 3913928000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What's your full name?\",\n      \"action\": \"Ask the assistant's full name\",\n      \"referent\": \"Assistant's name\"\n    },\n    {\n      \"text\": \"What do folks call you?\",\n      \"action\": \"Ask what other people call the assistant\",\n      \"referent\": \"Assistant's name\"\n    },\n    {\n      \"text\": \"Name you go by?\",\n      \"action\": \"Ask the name the assistant goes by, fragment\",\n      \"referent\": \"Assistant's name\"\n    },\n    {\n      \"text\": \"Forgot your name?\",\n      \"action\": \"Ask assistant's name because speaker forgot it\",\n      \"referent\": \"Assistant's name\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

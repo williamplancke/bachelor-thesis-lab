@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:08:12.1399908Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4212718900,
+  "load_duration": 6550800,
+  "prompt_eval_count": 1110,
+  "prompt_eval_duration": 144376000,
+  "eval_count": 175,
+  "eval_duration": 4047061000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"I’d prefer you refer to me as Kyle from now on.\",\n      \"action\": \"establish a new name\",\n      \"referent\": \"USER\"\n    },\n    {\n      \"text\": \"You’ve been using the wrong name—call me Marcus instead.\",\n      \"action\": \"correct a mistaken name\",\n      \"referent\": \"USER\"\n    },\n    {\n      \"text\": \"My name is actually Lila, so please use that moving forward.\",\n      \"action\": \"introduce a specific name\",\n      \"referent\": \"USER\"\n    },\n    {\n      \"text\": \"Could you use my nickname, 'Jax,' instead of my full name?\",\n      \"action\": \"request a nickname\",\n      \"referent\": \"USER\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

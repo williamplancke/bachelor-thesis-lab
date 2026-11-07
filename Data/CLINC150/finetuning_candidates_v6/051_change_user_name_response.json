@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:07:58.3794308Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4154478900,
+  "load_duration": 8100000,
+  "prompt_eval_count": 971,
+  "prompt_eval_duration": 148319000,
+  "eval_count": 167,
+  "eval_duration": 3978809000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"From now on, address me as Taylor.\",\n      \"action\": \"establish new name for assistant to use\",\n      \"referent\": \"USER\"\n    },\n    {\n      \"text\": \"In the future, please call me Jamie.\",\n      \"action\": \"request specific preferred first name\",\n      \"referent\": \"USER\"\n    },\n    {\n      \"text\": \"My name is now Casey, so use that going forward.\",\n      \"action\": \"state name change for assistant to use\",\n      \"referent\": \"USER\"\n    },\n    {\n      \"text\": \"Stop using Alex and call me Jordan instead.\",\n      \"action\": \"ask assistant to stop using old name\",\n      \"referent\": \"USER\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

@@ -102,6 +102,55 @@ class FinetuningPipelineTests(unittest.TestCase):
             self.assertEqual(config["status"], "awaiting_semantic_review")
             self.assertFalse(list(output.glob("*.parquet")))
 
+    def test_full_mode_exports_filtered_parquet_and_keeps_raw_candidates(self):
+        content = json.dumps({"examples": [
+            {"text": "An overlapping request", "action": "lookup", "referent": "payment"},
+            {"text": "A fresh minimum payment request", "action": "lookup", "referent": "payment"},
+        ]})
+        response = SimpleNamespace(message=SimpleNamespace(content=content), model_dump_json=lambda **_: content)
+        with TemporaryDirectory() as temp, patch.object(pipeline.ollama, "chat", return_value=response), \
+                patch.object(pipeline, "overlap_sources", return_value={"train": {"an overlapping request"}}):
+            output = Path(temp) / "full"
+            pipeline.run(pipeline.DEFAULT_SPEC, "full", examples=2, output=output, labels=["min_payment"])
+            frame = pipeline.pd.read_parquet(output / "data.parquet")
+            self.assertEqual(frame.columns.tolist(), ["text", "intent"])
+            self.assertEqual(frame["text"].tolist(), ["A fresh minimum payment request"])
+            self.assertEqual(frame["intent"].tolist(), [143])
+            self.assertEqual(str(frame["intent"].dtype), "int64")
+            self.assertEqual(len(json.loads((output / "candidates.json").read_text())), 2)
+            config = json.loads((output / "config.json").read_text())
+            self.assertEqual(config["status"], "completed_unreviewed")
+            self.assertEqual(config["exported_examples"], 1)
+            self.assertEqual(config["excluded_examples"], 1)
+            self.assertEqual(config["exported_per_class"], {"143": 1})
+            self.assertFalse(config["training_approved"])
+            self.assertFalse(config["semantic_review_performed"])
+
+    def test_export_excludes_all_duplicate_members_and_empty_canonical_text(self):
+        rows = [{"text": "Same request!", "intent": 1},
+                {"text": "same request", "intent": 2},
+                {"text": "???", "intent": 1},
+                {"text": "Unique request", "intent": 3}]
+        pipeline.flag_candidates(rows, {})
+        with TemporaryDirectory() as temp:
+            summary = pipeline.export_parquet(rows, temp)
+            frame = pipeline.pd.read_parquet(Path(temp) / "data.parquet")
+            self.assertEqual(frame.to_dict("records"), [{"text": "Unique request", "intent": 3}])
+            self.assertEqual(summary["excluded_examples"], 3)
+            before = (Path(temp) / "data.parquet").read_bytes()
+            with self.assertRaises(FileExistsError):
+                pipeline.export_parquet(rows, temp)
+            self.assertEqual((Path(temp) / "data.parquet").read_bytes(), before)
+
+    def test_export_rejects_empty_selection_and_invalid_ids(self):
+        with TemporaryDirectory() as temp:
+            with self.assertRaisesRegex(ValueError, "No candidates"):
+                pipeline.export_parquet([], temp)
+            for intent in (True, -1, "143", 1.5):
+                with self.subTest(intent=intent), self.assertRaisesRegex(ValueError, "integers"):
+                    pipeline.export_parquet([{"text": "A request", "intent": intent, "mechanical_flags": []}], temp)
+            self.assertFalse((Path(temp) / "data.parquet").exists())
+
     def test_failure_records_status_and_raw_response(self):
         response = SimpleNamespace(message=SimpleNamespace(content='{"examples": []}'),
                                    model_dump_json=lambda **_: '{"examples": []}')

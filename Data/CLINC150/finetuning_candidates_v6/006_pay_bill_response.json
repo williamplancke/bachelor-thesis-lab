@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:04:47.2977582Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 3792030200,
+  "load_duration": 5440500,
+  "prompt_eval_count": 741,
+  "prompt_eval_duration": 103391000,
+  "eval_count": 161,
+  "eval_duration": 3671355000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"I need to pay my rent invoice today.\",\n      \"action\": \"pay\",\n      \"referent\": \"rent invoice\"\n    },\n    {\n      \"text\": \"Can you help me pay the internet bill from my checking account?\",\n      \"action\": \"pay\",\n      \"referent\": \"internet bill\"\n    },\n    {\n      \"text\": \"Could you assist with arranging the car insurance payment?\",\n      \"action\": \"arranging\",\n      \"referent\": \"car insurance payment\"\n    },\n    {\n      \"text\": \"I need to make a payment on the hospital bill that's overdue.\",\n      \"action\": \"make a payment\",\n      \"referent\": \"hospital bill\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

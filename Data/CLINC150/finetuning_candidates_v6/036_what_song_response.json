@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:06:52.6934917Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4296976600,
+  "load_duration": 7665300,
+  "prompt_eval_count": 757,
+  "prompt_eval_duration": 115897000,
+  "eval_count": 180,
+  "eval_duration": 4161095999,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What artist is playing in the background?\",\n      \"action\": \"identify artist of song playing in background\",\n      \"referent\": \"song playing in background\"\n    },\n    {\n      \"text\": \"Could you tell me the title of the track currently playing?\",\n      \"action\": \"identify currently playing track title, polite question\",\n      \"referent\": \"track currently playing\"\n    },\n    {\n      \"text\": \"Which band is performing this song?\",\n      \"action\": \"ask band's name for current song\",\n      \"referent\": \"song\"\n    },\n    {\n      \"text\": \"I recognize this music—what's the name of the song?\",\n      \"action\": \"recognize familiar music currently playing, informal request\",\n      \"referent\": \"music currently playing\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:05:43.2749104Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4351218500,
+  "load_duration": 7688800,
+  "prompt_eval_count": 758,
+  "prompt_eval_duration": 205855000,
+  "eval_count": 173,
+  "eval_duration": 4034990000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What's my Mastercard credit limit?\",\n      \"action\": \"Ask to find the existing approved credit limit\",\n      \"referent\": \"credit account (Mastercard)\"\n    },\n    {\n      \"text\": \"Check my approved credit ceiling.\",\n      \"action\": \"Ask to find the existing approved credit limit\",\n      \"referent\": \"credit account\"\n    },\n    {\n      \"text\": \"Look up my bank card's limit.\",\n      \"action\": \"Ask to find the existing approved credit limit\",\n      \"referent\": \"bank card\"\n    },\n    {\n      \"text\": \"Verify my Amex credit limit.\",\n      \"action\": \"Ask to find the existing approved credit limit\",\n      \"referent\": \"credit account (Amex)\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

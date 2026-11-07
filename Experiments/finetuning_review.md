@@ -93,9 +93,9 @@ This previews **220 raw candidates: 20 per class across eleven classes**. It doe
 python -m Scripts.DataGeneration.finetuning_pipeline --mode full --examples 20 --seed 20544 --output Data/CLINC150/finetuning_candidates_v6
 ```
 
-This writes `candidates.json`, `config.json`, prompts, and responses to a new directory. Existing paths are refused, including empty directories. There are no automatic semantic retries or silent relabeling. Mechanical flags identify existing-data overlap and within-run duplicates; all raw candidates are retained for audit.
+This writes `data.parquet`, `candidates.json`, `config.json`, prompts, and responses to a new directory. Existing paths are refused, including empty directories. There are no automatic semantic retries or silent relabeling. The Parquet includes only unflagged, canonically nonempty candidates, with exactly `text` and numeric `intent` columns. All members of a duplicate group are excluded, including conflicting labels. Existing-training overlaps and copied demonstrations are excluded. All raw candidates remain in JSON for later inspection.
 
-The tool intentionally does **not** write a training Parquet or automatically approve candidates. After reviewing the actual full output, construct training rows from only approved `text` and numeric `intent` fields. Exclude review metadata, flagged overlaps, conflicting labels, and poor-quality examples. Review per-class counts and the replay mixture before training. If generation fails, partial candidates and failure metadata are saved; choose a new output directory for another attempt rather than treating the partial run as complete.
+At the operator's request, full mode now automatically writes the mechanically filtered training Parquet without requiring per-example semantic review. Generator-assigned labels can still be wrong: this is not automatic semantic approval. `config.json` records exported and excluded counts, exported counts per class, and `semantic_review_performed: false`; completion status is `completed_unreviewed`. Filtering may reduce or unbalance class counts, and no missing rows are automatically regenerated. If every row is excluded, generation fails without creating a Parquet. Trial mode continues to save JSON only. Review the actual exported class counts and replay mixture before fine-tuning. If generation fails, partial candidates and failure metadata are saved; choose a new output directory for another attempt rather than treating the partial run as complete.
 
 ## Proposed experiment after data approval
 
@@ -109,6 +109,6 @@ The tool intentionally does **not** write a training Parquet or automatically ap
 
 - New pipeline tests cover default no-inference planning, explicit full-mode output, refusal to overwrite, trial caps, response validation, overlap/duplicate flags, coverage advancement, review-field separation, numeric label IDs, incremental saving, and failure status.
 - The existing full test suite was run before the last two new safety tests were added: 88 tests, with 2 failure reports and 8 error reports, all in existing CPU/CUDA device handling. New pipeline tests passed in that run. Existing training and architecture code was not changed to resolve unrelated failures.
-- Final focused run: **all 11 pipeline tests passed**, using `python -m unittest Tests.test_finetuning_pipeline -q`.
+- After adding automatic Parquet export, the focused suite has 14 tests, including export schema, integer label IDs, filtering of overlaps and conflicting duplicates, empty-output failure, preservation of raw candidates, and overwrite protection. Run with `python -m unittest Tests.test_finetuning_pipeline -q`.
 
 Local final model metadata recorded at handoff: `qwen3:8b`, Q4_K_M, 8.2B parameters, digest `500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41`. Model tags can change; retain this digest and the saved prompts when comparing later runs.

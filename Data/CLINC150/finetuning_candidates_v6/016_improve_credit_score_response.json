@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:05:25.4467407Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4242916300,
+  "load_duration": 5821500,
+  "prompt_eval_count": 785,
+  "prompt_eval_duration": 112977000,
+  "eval_count": 176,
+  "eval_duration": 4113519000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"How can I rebuild my credit after bankruptcy?\",\n      \"action\": \"Ask how to improve or protect a credit score\",\n      \"referent\": \"Credit\"\n    },\n    {\n      \"text\": \"Does paying off my debt improve my credit score?\",\n      \"action\": \"Ask how an action affects a credit score\",\n      \"referent\": \"Credit\"\n    },\n    {\n      \"text\": \"What happens to my credit when I check my own report?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"Credit\"\n    },\n    {\n      \"text\": \"What habits help me maintain good credit over time?\",\n      \"action\": \"Ask how to protect a credit score\",\n      \"referent\": \"Credit\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

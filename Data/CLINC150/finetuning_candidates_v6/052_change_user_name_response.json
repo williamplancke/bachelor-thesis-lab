@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:08:03.4079501Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 5019875500,
+  "load_duration": 8264100,
+  "prompt_eval_count": 1016,
+  "prompt_eval_duration": 150855000,
+  "eval_count": 200,
+  "eval_duration": 4840868000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Could you refer to me as Sam from now on?\",\n      \"action\": \"establish a new name for the assistant to use\",\n      \"referent\": \"the user's name\"\n    },\n    {\n      \"text\": \"I think you've been using the wrong name for me—could you switch to Callie?\",\n      \"action\": \"correct a mistaken name with a specific alternative\",\n      \"referent\": \"the user's name\"\n    },\n    {\n      \"text\": \"My name is actually Morgan, so please use that moving forward.\",\n      \"action\": \"introduce a specific human name\",\n      \"referent\": \"the user's name\"\n    },\n    {\n      \"text\": \"Instead of using my full name, could you call me Dee?\",\n      \"action\": \"request use of a specific nickname\",\n      \"referent\": \"the user's name\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

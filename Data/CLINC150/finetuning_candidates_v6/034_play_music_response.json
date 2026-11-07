@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:06:44.2067429Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4332820200,
+  "load_duration": 7157100,
+  "prompt_eval_count": 886,
+  "prompt_eval_duration": 116235000,
+  "eval_count": 179,
+  "eval_duration": 4189774999,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"I need some instrumental piano to focus, can you play it?\",\n      \"action\": \"Start music playback\",\n      \"referent\": \"instrumental piano\"\n    },\n    {\n      \"text\": \"Play some Billie Eilish music, I love her vibe.\",\n      \"action\": \"Start music playback\",\n      \"referent\": \"Billie Eilish\"\n    },\n    {\n      \"text\": \"Let's start the gym playlist, I'm ready to move.\",\n      \"action\": \"Start music playback\",\n      \"referent\": \"gym playlist\"\n    },\n    {\n      \"text\": \"Put on some reggae tunes, I'm in the mood for the rhythm.\",\n      \"action\": \"Start music playback\",\n      \"referent\": \"reggae\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

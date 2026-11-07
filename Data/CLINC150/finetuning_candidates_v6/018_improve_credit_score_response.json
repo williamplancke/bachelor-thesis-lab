@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:05:34.5770906Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4619160400,
+  "load_duration": 7173400,
+  "prompt_eval_count": 882,
+  "prompt_eval_duration": 126807000,
+  "eval_count": 188,
+  "eval_duration": 4464815000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"How to rebuild credit after bankruptcy?\",\n      \"action\": \"Ask for advice to rebuild credit\",\n      \"referent\": \"Credit score recovery post-bankruptcy\"\n    },\n    {\n      \"text\": \"Does paying down debt boost my credit?\",\n      \"action\": \"Ask about the credit-score consequences of paying down debt\",\n      \"referent\": \"Credit score impact from debt reduction\"\n    },\n    {\n      \"text\": \"Checking my report, does that hurt credit?\",\n      \"action\": \"Ask about the credit-score consequences of checking one's own report\",\n      \"referent\": \"Credit score effect from self-report checks\"\n    },\n    {\n      \"text\": \"What habits keep my credit strong?\",\n      \"action\": \"Ask for advice to maintain good credit\",\n      \"referent\": \"Credit maintenance through habits\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

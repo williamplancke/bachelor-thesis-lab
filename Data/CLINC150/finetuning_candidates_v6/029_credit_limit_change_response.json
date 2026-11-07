@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:06:24.7856514Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4729217900,
+  "load_duration": 8820000,
+  "prompt_eval_count": 933,
+  "prompt_eval_duration": 117204000,
+  "eval_count": 193,
+  "eval_duration": 4582824000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"I need more spending power on my Mastercard, can I get the limit raised?\",\n      \"action\": \"Ask to increase a credit account's limit\",\n      \"referent\": \"Mastercard\"\n    },\n    {\n      \"text\": \"What's the process to get a higher credit limit on my account?\",\n      \"action\": \"Ask how to obtain that increase\",\n      \"referent\": \"credit account\"\n    },\n    {\n      \"text\": \"Is my Amex account eligible for a credit limit increase?\",\n      \"action\": \"Ask about eligibility for a credit limit increase\",\n      \"referent\": \"Amex account\"\n    },\n    {\n      \"text\": \"Increase my store card limit now to cover the upcoming purchases.\",\n      \"action\": \"Ask to increase a credit account's limit\",\n      \"referent\": \"store card\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

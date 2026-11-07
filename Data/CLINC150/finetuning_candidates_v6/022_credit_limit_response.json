@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:05:52.5904581Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4544575300,
+  "load_duration": 8132900,
+  "prompt_eval_count": 849,
+  "prompt_eval_duration": 124633000,
+  "eval_count": 188,
+  "eval_duration": 4393064000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Could you let me know the approved credit limit for my Mastercard account?\",\n      \"action\": \"Ask for the current approved credit limit\",\n      \"referent\": \"Mastercard account\"\n    },\n    {\n      \"text\": \"What is the credit ceiling currently set for my account?\",\n      \"action\": \"Ask for the current approved credit limit\",\n      \"referent\": \"account\"\n    },\n    {\n      \"text\": \"I need to check what the approved limit is on my bank card.\",\n      \"action\": \"Ask for the current approved credit limit\",\n      \"referent\": \"bank card\"\n    },\n    {\n      \"text\": \"Can you confirm the existing credit limit on my Amex card?\",\n      \"action\": \"Ask for the current approved credit limit\",\n      \"referent\": \"Amex card\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

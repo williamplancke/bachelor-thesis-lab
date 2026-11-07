@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:06:57.5628337Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4855329300,
+  "load_duration": 11354100,
+  "prompt_eval_count": 804,
+  "prompt_eval_duration": 116620000,
+  "eval_count": 192,
+  "eval_duration": 4712931000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Can you tell me the song playing on the radio right now?\",\n      \"action\": \"Identify the title of music currently playing\",\n      \"referent\": \"song on the radio\"\n    },\n    {\n      \"text\": \"Who is singing this track that's playing in the background?\",\n      \"action\": \"Identify the performer of music currently playing\",\n      \"referent\": \"track playing in the background\"\n    },\n    {\n      \"text\": \"What kind of music is coming from the speakers at the moment?\",\n      \"action\": \"Identify the music currently playing\",\n      \"referent\": \"music coming from the speakers\"\n    },\n    {\n      \"text\": \"What's this tune called?\",\n      \"action\": \"Identify the title of the currently playing tune\",\n      \"referent\": \"tune currently playing\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

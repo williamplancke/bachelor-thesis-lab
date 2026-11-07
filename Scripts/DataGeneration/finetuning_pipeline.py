@@ -1,7 +1,8 @@
 """Review-first targeted data generation. Default is a no-inference plan.
 
-Trials and full candidate generation always write NEW directories. Neither mode
-produces approved training data: semantic review is required after generation.
+Trials and full generation always write NEW directories. Full mode also exports
+mechanically filtered data.parquet; labels are generator-assigned, not semantically
+verified. Raw candidates remain available for later inspection.
 """
 import argparse
 from collections import Counter
@@ -122,6 +123,31 @@ def flag_candidates(rows, sources):
     return rows
 
 
+def export_parquet(rows, output):
+    """Export unflagged candidates only; this is not semantic label approval.
+
+    All members of a duplicate group are excluded, including conflicting labels.
+    Existing files are never overwritten. The raw candidates are kept separately.
+    """
+    selected = [row for row in rows if not row["mechanical_flags"] and canonical(row["text"])]
+    if not selected:
+        raise ValueError("No candidates remain after mechanical filtering; no Parquet written")
+    if any(not isinstance(row["intent"], int) or isinstance(row["intent"], bool)
+           or row["intent"] < 0 for row in selected):
+        raise ValueError("Parquet intent IDs must be nonnegative integers")
+    frame = pd.DataFrame([{"text": row["text"], "intent": row["intent"]} for row in selected])
+    frame = frame.astype({"intent": "int64"})
+    destination = Path(output) / "data.parquet"
+    with destination.open("xb") as file:
+        frame.to_parquet(file, index=False)
+    return {"output_data": "data.parquet", "exported_examples": len(frame),
+            "excluded_examples": len(rows) - len(frame),
+            "exported_per_class": {str(key): int(count) for key, count in
+                                   frame["intent"].value_counts().sort_index().items()},
+            "semantic_review_performed": False,
+            "export_policy": "exclude all mechanically flagged or canonically empty candidates"}
+
+
 def run(spec_path, mode="plan", seed=242, examples=4, output=None, labels=None, batch_size=4):
     if examples < 1 or batch_size < 1:
         raise ValueError("Counts must be positive")
@@ -138,7 +164,8 @@ def run(spec_path, mode="plan", seed=242, examples=4, output=None, labels=None, 
             "classes": len(targets), "examples_per_class": examples,
             "total_candidates": len(targets) * examples, "base_seed": seed,
             "scope": "targeted supplement, not an all-class foundation",
-            "labels": [s["label"] for s in targets], "batch_size": batch_size}
+            "labels": [s["label"] for s in targets], "batch_size": batch_size,
+            "full_mode_output": "data.parquet (mechanically filtered; labels unverified)"}
     print(json.dumps(plan, indent=2), flush=True)
     if mode == "plan":
         return plan
@@ -186,7 +213,9 @@ def run(spec_path, mode="plan", seed=242, examples=4, output=None, labels=None, 
                 (output / "candidates.json").write_text(json.dumps(rows, indent=2, ensure_ascii=False), encoding="utf-8")
                 call_index += 1
                 print(f"{target['label']}: {start + count}/{examples}; total {len(rows)}", flush=True)
-        config.update(status="awaiting_semantic_review", candidates=len(rows),
+        if mode == "full":
+            config.update(export_parquet(rows, output))
+        config.update(status="completed_unreviewed" if mode == "full" else "awaiting_semantic_review", candidates=len(rows),
                       flagged_candidates=sum(bool(r["mechanical_flags"]) for r in rows),
                       completed_at=datetime.now(timezone.utc).isoformat())
     except Exception as error:

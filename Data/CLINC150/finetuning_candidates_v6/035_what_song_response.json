@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T11:06:48.3886882Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4173836600,
+  "load_duration": 10029600,
+  "prompt_eval_count": 725,
+  "prompt_eval_duration": 205222000,
+  "eval_count": 164,
+  "eval_duration": 3866854000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What song is on the radio?\",\n      \"action\": \"Ask to identify the title of music currently playing\",\n      \"referent\": \"song\"\n    },\n    {\n      \"text\": \"Who's singing this track?\",\n      \"action\": \"Ask to identify the performer of music currently playing\",\n      \"referent\": \"track\"\n    },\n    {\n      \"text\": \"What music is coming from the speakers?\",\n      \"action\": \"Ask to identify the title of music currently playing\",\n      \"referent\": \"music\"\n    },\n    {\n      \"text\": \"Name that tune.\",\n      \"action\": \"Ask to identify the title of music currently playing\",\n      \"referent\": \"tune\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}
