@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:11:35.6657378Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1153266400,
+  "load_duration": 4736200,
+  "prompt_eval_count": 500,
+  "prompt_eval_duration": 20174000,
+  "eval_count": 112,
+  "eval_duration": 1097722000,
+  "message": {
+    "role": "assistant",
+    "content": "{\"examples\": [{\"text\": \"Could you play that playlist for me?\", \"action\": \"play_music\", \"referent\": \"playlist\"}, {\"text\": \"Let's put on some indie rock, shall we?\", \"action\": \"play_music\", \"referent\": \"genre\"}, {\"text\": \"Play something fun and upbeat, please.\", \"action\": \"play_music\", \"referent\": \"genre\"}, {\"text\": \"Start listening to the classical concert tonight.\", \"action\": \"play_music\", \"referent\": \"playlist\"}]}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

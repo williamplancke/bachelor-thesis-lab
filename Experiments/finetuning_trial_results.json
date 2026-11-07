@@ -1,0 +1,172 @@
+{
+  "review_type": "single assistant, not independent annotation",
+  "trials": [
+    {
+      "run": "contrastive-v2_20261107_111104_411342",
+      "generated": 44,
+      "label_defensible": 40,
+      "provisionally_usable": 37,
+      "mechanically_flagged": 1,
+      "short_at_most_8_words": 24,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v2_20261107_111125_628284",
+      "generated": 44,
+      "label_defensible": 41,
+      "provisionally_usable": 39,
+      "mechanically_flagged": 1,
+      "short_at_most_8_words": 27,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v3_20261107_111251_148642",
+      "generated": 44,
+      "label_defensible": 43,
+      "provisionally_usable": 41,
+      "mechanically_flagged": 1,
+      "short_at_most_8_words": 20,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v3_20261107_111311_624896",
+      "generated": 44,
+      "label_defensible": 35,
+      "provisionally_usable": 33,
+      "mechanically_flagged": 0,
+      "short_at_most_8_words": 26,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v4_20261107_111427_166454",
+      "generated": 44,
+      "label_defensible": 44,
+      "provisionally_usable": 40,
+      "mechanically_flagged": 3,
+      "short_at_most_8_words": 40,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v4_20261107_111523_604425",
+      "generated": 44,
+      "label_defensible": 43,
+      "provisionally_usable": 41,
+      "mechanically_flagged": 2,
+      "short_at_most_8_words": 40,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v4_20261107_111630_987565",
+      "generated": 88,
+      "label_defensible": 87,
+      "provisionally_usable": 56,
+      "mechanically_flagged": 29,
+      "short_at_most_8_words": 80,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v5_20261107_111919_691391",
+      "generated": 44,
+      "label_defensible": 44,
+      "provisionally_usable": 40,
+      "mechanically_flagged": 4,
+      "short_at_most_8_words": 35,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v5_20261107_112007_867916",
+      "generated": 44,
+      "label_defensible": 44,
+      "provisionally_usable": 41,
+      "mechanically_flagged": 3,
+      "short_at_most_8_words": 34,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v6_20261107_112830_013649",
+      "generated": 36,
+      "label_defensible": 36,
+      "provisionally_usable": 35,
+      "mechanically_flagged": 1,
+      "short_at_most_8_words": 15,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v6_20261107_112929_439400",
+      "generated": 44,
+      "label_defensible": 43,
+      "provisionally_usable": 38,
+      "mechanically_flagged": 5,
+      "short_at_most_8_words": 38,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v6_20261107_113014_352351",
+      "generated": 44,
+      "label_defensible": 44,
+      "provisionally_usable": 39,
+      "mechanically_flagged": 5,
+      "short_at_most_8_words": 39,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v6_20261107_113057_997640",
+      "generated": 132,
+      "label_defensible": 130,
+      "provisionally_usable": 122,
+      "mechanically_flagged": 7,
+      "short_at_most_8_words": 68,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v5_20261107_112500_650638",
+      "generated": 132,
+      "label_defensible": 129,
+      "provisionally_usable": 70,
+      "mechanically_flagged": 58,
+      "short_at_most_8_words": 107,
+      "training_approved": false
+    },
+    {
+      "run": "contrastive-v5_20261107_112054_073069",
+      "generated": 88,
+      "label_defensible": 86,
+      "provisionally_usable": 79,
+      "mechanically_flagged": 6,
+      "short_at_most_8_words": 70,
+      "training_approved": false
+    }
+  ],
+  "final_version_cross_run_overlap": [
+    {
+      "run_a": "contrastive-v6_20261107_112830_013649",
+      "run_b": "contrastive-v6_20261107_112929_439400",
+      "shared_canonical_utterances": 5
+    },
+    {
+      "run_a": "contrastive-v6_20261107_112830_013649",
+      "run_b": "contrastive-v6_20261107_113014_352351",
+      "shared_canonical_utterances": 6
+    },
+    {
+      "run_a": "contrastive-v6_20261107_112830_013649",
+      "run_b": "contrastive-v6_20261107_113057_997640",
+      "shared_canonical_utterances": 13
+    },
+    {
+      "run_a": "contrastive-v6_20261107_112929_439400",
+      "run_b": "contrastive-v6_20261107_113014_352351",
+      "shared_canonical_utterances": 27
+    },
+    {
+      "run_a": "contrastive-v6_20261107_112929_439400",
+      "run_b": "contrastive-v6_20261107_113057_997640",
+      "shared_canonical_utterances": 26
+    },
+    {
+      "run_a": "contrastive-v6_20261107_113014_352351",
+      "run_b": "contrastive-v6_20261107_113057_997640",
+      "shared_canonical_utterances": 28
+    }
+  ]
+}

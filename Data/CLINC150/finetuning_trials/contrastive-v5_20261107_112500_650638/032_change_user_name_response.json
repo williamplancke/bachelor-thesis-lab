@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:27:16.8393155Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4408675800,
+  "load_duration": 5346000,
+  "prompt_eval_count": 983,
+  "prompt_eval_duration": 120787000,
+  "eval_count": 181,
+  "eval_duration": 4268640000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Call me Jordan instead of my full name.\",\n      \"action\": \"request use of a specific first name\",\n      \"referent\": \"USER\"\n    },\n    {\n      \"text\": \"You’ve been using the wrong name, my name is Eli.\",\n      \"action\": \"correct a mistaken user name with a different specific name\",\n      \"referent\": \"USER\"\n    },\n    {\n      \"text\": \"My name is Casey, so please use that.\",\n      \"action\": \"introduce my name, a specific human name\",\n      \"referent\": \"USER\"\n    },\n    {\n      \"text\": \"Address me as Leo, not my first name.\",\n      \"action\": \"request use of a specific nickname instead of full first name\",\n      \"referent\": \"USER\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

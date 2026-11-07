@@ -1,0 +1,409 @@
+{
+  "summary": {
+    "run": "contrastive-v4_20261107_111427_166454",
+    "generated": 44,
+    "label_defensible": 44,
+    "provisionally_usable": 40,
+    "mechanically_flagged": 3,
+    "short_at_most_8_words": 40,
+    "training_approved": false
+  },
+  "decisions": [
+    {
+      "candidate_id": 1,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 2,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 3,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 4,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 5,
+      "label_defensible": true,
+      "provisionally_usable": false,
+      "reasons": [
+        "overlap:Data/CLINC150/train-00000-of-00001.parquet"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 6,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 7,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 8,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 9,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 10,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 11,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 12,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 13,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 14,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 15,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 16,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 17,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 18,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 19,
+      "label_defensible": true,
+      "provisionally_usable": false,
+      "reasons": [
+        "overlap:Data/CLINC150/train-00000-of-00001.parquet"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 20,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 21,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 22,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 23,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 24,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 25,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 26,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 27,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 28,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 29,
+      "label_defensible": true,
+      "provisionally_usable": false,
+      "reasons": [
+        "overlap:Data/CLINC150/train-00000-of-00001.parquet"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 30,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 31,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 32,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 33,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 34,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 35,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 36,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 37,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 38,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 39,
+      "label_defensible": true,
+      "provisionally_usable": false,
+      "reasons": [
+        "Awkward what-is-your-name-called construction"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 40,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 41,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 42,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 43,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    },
+    {
+      "candidate_id": 44,
+      "label_defensible": true,
+      "provisionally_usable": true,
+      "reasons": [
+        "Defensible target action and referent; no mechanical flags"
+      ],
+      "reviewer": "assistant_first_pass_not_independent"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:11:22.2976228Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1439466000,
+  "load_duration": 8642200,
+  "prompt_eval_count": 560,
+  "prompt_eval_duration": 66812000,
+  "eval_count": 125,
+  "eval_duration": 1333919000,
+  "message": {
+    "role": "assistant",
+    "content": "{\"examples\": [{\"text\": \"What should I call you?\", \"action\": \"what_is_your_name\", \"referent\": \"you\"}, {\"text\": \"I know you're my helper, but what's your name?\", \"action\": \"what_is_your_name\", \"referent\": \"you\"}, {\"text\": \"What's the name you go by here?\", \"action\": \"what_is_your_name\", \"referent\": \"you\"}, {\"text\": \"What do you go by around here?\", \"action\": \"what_is_your_name\", \"referent\": \"you\"}]}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

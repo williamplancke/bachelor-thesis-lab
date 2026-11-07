@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:11:10.5534966Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1412015000,
+  "load_duration": 8507000,
+  "prompt_eval_count": 476,
+  "prompt_eval_duration": 56080000,
+  "eval_count": 129,
+  "eval_duration": 1324707000,
+  "message": {
+    "role": "assistant",
+    "content": "{\"examples\": [{\"text\": \"Please initiate the payment for my cable bill.\", \"action\": \"pay_bill\", \"referent\": \"cable bill\"}, {\"text\": \"Can you help me make the payment for my gym membership?\", \"action\": \"pay_bill\", \"referent\": \"gym membership\"}, {\"text\": \"I need to pay the water bill - can you assist?\", \"action\": \"pay_bill\", \"referent\": \"water bill\"}, {\"text\": \"Could you guide me on how to pay my parking ticket?\", \"action\": \"pay_bill\", \"referent\": \"parking ticket\"}]}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:04:20.694725Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1947140000,
+  "load_duration": 5351800,
+  "prompt_eval_count": 984,
+  "prompt_eval_duration": 132249000,
+  "eval_count": 178,
+  "eval_duration": 1779943000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Hey, could you check my credit score?\",\n      \"justification\": \"Directly asks for the user's credit score, concise and to the point.\"\n    },\n    {\n      \"text\": \"I need to verify my credit rating, can you help?\",\n      \"justification\": \"Asks for verification of the user's credit score, using slightly more words for added clarity.\"\n    },\n    {\n      \"text\": \"What's my FICO score?\",\n      \"justification\": \"Uses common terminology for the score, asking for the user's credit score in a straightforward manner.\"\n    },\n    {\n      \"text\": \"Could you fetch my current credit rating?\",\n      \"justification\": \"Asks for the user's current credit rating, providing more context in a concise manner.\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

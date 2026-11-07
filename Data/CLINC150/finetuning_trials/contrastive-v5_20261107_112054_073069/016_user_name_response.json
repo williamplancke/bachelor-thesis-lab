@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:22:03.9649725Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4404877600,
+  "load_duration": 7096400,
+  "prompt_eval_count": 870,
+  "prompt_eval_duration": 25393000,
+  "eval_count": 189,
+  "eval_duration": 4282403000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What first name do you have for me?\",\n      \"action\": \"ask what first name the assistant has saved for me\",\n      \"referent\": \"the USER's first name\"\n    },\n    {\n      \"text\": \"Do you remember my name?\",\n      \"action\": \"ask whether the assistant remembers my name\",\n      \"referent\": \"the USER's name\"\n    },\n    {\n      \"text\": \"What nickname do you use for me?\",\n      \"action\": \"ask the nickname the assistant uses for me\",\n      \"referent\": \"the USER's nickname\"\n    },\n    {\n      \"text\": \"What name am I listed under in your records?\",\n      \"action\": \"ask what name I am listed under in assistant's records\",\n      \"referent\": \"the USER's name in the assistant's records\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

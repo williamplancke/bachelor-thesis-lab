@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:13:01.6938927Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1776610900,
+  "load_duration": 9001400,
+  "prompt_eval_count": 594,
+  "prompt_eval_duration": 103831000,
+  "eval_count": 151,
+  "eval_duration": 1627468000,
+  "message": {
+    "role": "assistant",
+    "content": "{\"examples\": [{\"text\": \"Could you help me increase my Amex limit?\", \"action\": \"increase credit account's limit\", \"referent\": \"Amex credit account\"}, {\"text\": \"I want to ask for an increase in my Discover card limit.\", \"action\": \"increase credit account's limit\", \"referent\": \"Discover card\"}, {\"text\": \"I need to know how to request a higher limit on my Mastercard.\", \"action\": \"how to get increase credit account's limit\", \"referent\": \"Mastercard\"}, {\"text\": \"Please assist me in asking for a limit increase on my Visa account.\", \"action\": \"increase credit account's limit\", \"referent\": \"Visa account\"}]}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:11:27.3933999Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1539035600,
+  "load_duration": 5428800,
+  "prompt_eval_count": 481,
+  "prompt_eval_duration": 24975000,
+  "eval_count": 131,
+  "eval_duration": 1477419000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\"text\": \"What's the lowest payment I owe?\", \"action\": \"min_payment\", \"referent\": \"lowest payment\"},\n    {\"text\": \"Can you tell me the minimum required amount?\", \"action\": \"min_payment\", \"referent\": \"minimum required amount\"},\n    {\"text\": \"I need to know the least I can pay now.\", \"action\": \"min_payment\", \"referent\": \"least payment\"},\n    {\"text\": \"I only need to cover the minimum on this invoice.\", \"action\": \"min_payment\", \"referent\": \"minimum invoice payment\"}\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

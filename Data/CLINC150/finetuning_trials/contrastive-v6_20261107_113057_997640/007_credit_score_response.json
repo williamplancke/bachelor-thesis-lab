@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:31:29.3822945Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 3244725500,
+  "load_duration": 5883400,
+  "prompt_eval_count": 736,
+  "prompt_eval_duration": 107729000,
+  "eval_count": 141,
+  "eval_duration": 3122409000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"I need my current credit score.\",\n      \"action\": \"retrieve\",\n      \"referent\": \"credit score\"\n    },\n    {\n      \"text\": \"Where is my credit rating listed?\",\n      \"action\": \"locate\",\n      \"referent\": \"credit rating\"\n    },\n    {\n      \"text\": \"Can you confirm my latest credit score?\",\n      \"action\": \"verify\",\n      \"referent\": \"credit score\"\n    },\n    {\n      \"text\": \"What is my current credit rating recorded as?\",\n      \"action\": \"verify\",\n      \"referent\": \"credit rating\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

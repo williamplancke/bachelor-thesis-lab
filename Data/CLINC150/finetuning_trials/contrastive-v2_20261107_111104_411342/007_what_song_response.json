@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:11:19.5911655Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1484807400,
+  "load_duration": 7309800,
+  "prompt_eval_count": 488,
+  "prompt_eval_duration": 55614000,
+  "eval_count": 138,
+  "eval_duration": 1402125000,
+  "message": {
+    "role": "assistant",
+    "content": "{\"examples\": [{\"text\": \"What's the title of the song playing?\", \"action\": \"what_song\", \"referent\": \"the song playing\"}, {\"text\": \"Can you identify the track that's currently playing?\", \"action\": \"what_song\", \"referent\": \"the music playing\"}, {\"text\": \"What's the name of the singer of the song I'm hearing?\", \"action\": \"what_song\", \"referent\": \"the singer of the song\"}, {\"text\": \"What's the name of the song that sounds like it's from the 80s?\", \"action\": \"what_song\", \"referent\": \"the song\"}]}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

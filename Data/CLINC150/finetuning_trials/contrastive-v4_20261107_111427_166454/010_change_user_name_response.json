@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:15:21.3778441Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4563950700,
+  "load_duration": 9289500,
+  "prompt_eval_count": 762,
+  "prompt_eval_duration": 203521000,
+  "eval_count": 180,
+  "eval_duration": 4264314999,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Call me Mia from now on.\",\n      \"action\": \"Establishes new name for assistant to use\",\n      \"referent\": \"User's name\"\n    },\n    {\n      \"text\": \"My name is Jordan, so address me as Jordan.\",\n      \"action\": \"Establishes new name for assistant to use\",\n      \"referent\": \"User's name\"\n    },\n    {\n      \"text\": \"Please refer to me as Sam instead of Sarah.\",\n      \"action\": \"Changes existing name for assistant to use\",\n      \"referent\": \"User's name\"\n    },\n    {\n      \"text\": \"Address me as Alex, that's my preferred name.\",\n      \"action\": \"Establishes new name for assistant to use\",\n      \"referent\": \"User's name\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

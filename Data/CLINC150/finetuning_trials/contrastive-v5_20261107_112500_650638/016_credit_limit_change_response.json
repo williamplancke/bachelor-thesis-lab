@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:26:09.8703335Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4274858600,
+  "load_duration": 9804600,
+  "prompt_eval_count": 741,
+  "prompt_eval_duration": 100635000,
+  "eval_count": 173,
+  "eval_duration": 4151917999,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Can I raise my Visa limit by $2,500?\",\n      \"action\": \"request\",\n      \"referent\": \"credit account's limit\"\n    },\n    {\n      \"text\": \"I need a higher bank card limit for a big purchase next week.\",\n      \"action\": \"request\",\n      \"referent\": \"credit account's limit\"\n    },\n    {\n      \"text\": \"What's the process to get a higher Discover credit limit?\",\n      \"action\": \"ask how to obtain\",\n      \"referent\": \"credit account's limit\"\n    },\n    {\n      \"text\": \"May I apply for a larger credit line on my account?\",\n      \"action\": \"request\",\n      \"referent\": \"credit account's limit\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

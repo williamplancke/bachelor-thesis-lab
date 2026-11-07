@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:28:38.8992052Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4219185400,
+  "load_duration": 5284100,
+  "prompt_eval_count": 798,
+  "prompt_eval_duration": 107686000,
+  "eval_count": 184,
+  "eval_duration": 4063850000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What is the minimum payment required for my mortgage this month?\",\n      \"action\": \"Ask for the minimum required payment\",\n      \"referent\": \"mortgage\"\n    },\n    {\n      \"text\": \"What's the least amount I need to pay on my medical bill for this month?\",\n      \"action\": \"Ask for the minimum required payment\",\n      \"referent\": \"medical bill\"\n    },\n    {\n      \"text\": \"What is the lowest required payment for my student loan?\",\n      \"action\": \"Ask for the minimum required payment\",\n      \"referent\": \"student loan\"\n    },\n    {\n      \"text\": \"Please tell me the minimum payment due on my store card this month.\",\n      \"action\": \"Ask for the minimum required payment\",\n      \"referent\": \"store card\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

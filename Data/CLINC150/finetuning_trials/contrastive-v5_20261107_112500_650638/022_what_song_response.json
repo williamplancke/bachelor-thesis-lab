@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:26:33.5039374Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4305529200,
+  "load_duration": 7992400,
+  "prompt_eval_count": 718,
+  "prompt_eval_duration": 100548000,
+  "eval_count": 177,
+  "eval_duration": 4183517000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Who's playing in the background?\",\n      \"action\": \"Ask artist of song playing in background\",\n      \"referent\": \"song playing in background\"\n    },\n    {\n      \"text\": \"Could you tell me the title of the song playing?\",\n      \"action\": \"Identify currently playing track title, polite question\",\n      \"referent\": \"currently playing track\"\n    },\n    {\n      \"text\": \"What band is this song by?\",\n      \"action\": \"Ask band's name for current song\",\n      \"referent\": \"current song\"\n    },\n    {\n      \"text\": \"This music sounds familiar—what is it?\",\n      \"action\": \"Recognize familiar music currently playing, informal request\",\n      \"referent\": \"music currently playing\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

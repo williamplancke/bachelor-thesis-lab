@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:32:07.4724857Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4507343900,
+  "load_duration": 5360600,
+  "prompt_eval_count": 777,
+  "prompt_eval_duration": 110485000,
+  "eval_count": 198,
+  "eval_duration": 4383125000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Can I request a $2000 increase on my Visa credit limit?\",\n      \"action\": \"Request to increase a credit account's limit\",\n      \"referent\": \"Visa credit limit\"\n    },\n    {\n      \"text\": \"I need a higher limit on my bank card for a large upcoming purchase.\",\n      \"action\": \"Request to increase a credit account's limit\",\n      \"referent\": \"bank card\"\n    },\n    {\n      \"text\": \"What steps should I take to get a higher credit limit on my Discover account?\",\n      \"action\": \"Ask how to obtain that increase\",\n      \"referent\": \"Discover account\"\n    },\n    {\n      \"text\": \"May I apply for a larger credit line on my store card?\",\n      \"action\": \"Request to increase a credit account's limit\",\n      \"referent\": \"store card\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

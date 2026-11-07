@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:29:33.8088082Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4139504400,
+  "load_duration": 6511600,
+  "prompt_eval_count": 766,
+  "prompt_eval_duration": 26776000,
+  "eval_count": 171,
+  "eval_duration": 3873946000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What's my card's minimum payment?\",\n      \"action\": \"Ask for the minimum required payment on a credit obligation\",\n      \"referent\": \"credit card\"\n    },\n    {\n      \"text\": \"Car loan's least payment?\",\n      \"action\": \"Ask for the minimum required payment on a loan\",\n      \"referent\": \"car loan\"\n    },\n    {\n      \"text\": \"Phone bill's minimum due?\",\n      \"action\": \"Ask for the minimum required payment on a bill\",\n      \"referent\": \"phone bill\"\n    },\n    {\n      \"text\": \"How low is my electricity payment?\",\n      \"action\": \"Ask for the minimum required payment on a bill\",\n      \"referent\": \"electricity bill\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

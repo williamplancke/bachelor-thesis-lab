@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:11:40.5759497Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1296551300,
+  "load_duration": 5865600,
+  "prompt_eval_count": 581,
+  "prompt_eval_duration": 10321000,
+  "eval_count": 129,
+  "eval_duration": 1255949000,
+  "message": {
+    "role": "assistant",
+    "content": "{\"examples\": [{\"text\": \"Can I call you Noor from now on?\", \"action\": \"change_user_name\", \"referent\": \"Noor\"}, {\"text\": \"What name do you go by when you're not here?\", \"action\": \"change_user_name\", \"referent\": \"not specified\"}, {\"text\": \"Could you please start addressing me as Alex?\", \"action\": \"change_user_name\", \"referent\": \"Alex\"}, {\"text\": \"I want to be known as Luna. How do I change it?\", \"action\": \"change_user_name\", \"referent\": \"Luna\"}]}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

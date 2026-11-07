@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:04:34.7770128Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 2148531100,
+  "load_duration": 9494700,
+  "prompt_eval_count": 984,
+  "prompt_eval_duration": 141690000,
+  "eval_count": 188,
+  "eval_duration": 1957405000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What's your current username?\",\n      \"justification\": \"Directly asks for the current username the assistant uses for the user, fitting the definition and not violating the exclusions.\"\n    },\n    {\n      \"text\": \"Can you use my gamer tag?\",\n      \"justification\": \"Asks if the assistant can use the user's gamer tag, fitting the definition and not violating the exclusions.\"\n    },\n    {\n      \"text\": \"Hey, can I use my nick here?\",\n      \"justification\": \"Asks if the user's nickname can be used, fitting the definition and not violating the exclusions.\"\n    },\n    {\n      \"text\": \"What should I call you?\",\n      \"justification\": \"Asks for the user's preferred name for the assistant, fitting the definition and not violating the exclusions.\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

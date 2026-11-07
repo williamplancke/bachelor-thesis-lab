@@ -1,0 +1,494 @@
+[
+  {
+    "candidate_id": 1,
+    "label": "min_payment",
+    "intent": 143,
+    "seed": 4544,
+    "text": "What's my credit card minimum?",
+    "action": "Ask for the minimum required payment on a bill or credit obligation",
+    "referent": "credit card",
+    "mechanical_flags": [],
+    "word_count": 5
+  },
+  {
+    "candidate_id": 2,
+    "label": "min_payment",
+    "intent": 143,
+    "seed": 4544,
+    "text": "Car loan minimum?",
+    "action": "Ask for the minimum required payment on a bill or credit obligation",
+    "referent": "car loan",
+    "mechanical_flags": [],
+    "word_count": 3
+  },
+  {
+    "candidate_id": 3,
+    "label": "min_payment",
+    "intent": 143,
+    "seed": 4544,
+    "text": "Phone bill minimum payment?",
+    "action": "Ask for the minimum required payment on a bill or credit obligation",
+    "referent": "phone bill",
+    "mechanical_flags": [],
+    "word_count": 4
+  },
+  {
+    "candidate_id": 4,
+    "label": "min_payment",
+    "intent": 143,
+    "seed": 4544,
+    "text": "Lowest electricity bill payment?",
+    "action": "Ask for the minimum required payment on a bill or credit obligation",
+    "referent": "electricity bill",
+    "mechanical_flags": [],
+    "word_count": 4
+  },
+  {
+    "candidate_id": 5,
+    "label": "pay_bill",
+    "intent": 111,
+    "seed": 4545,
+    "text": "Pay my water bill now.",
+    "action": "Make a bill payment",
+    "referent": "Water bill",
+    "mechanical_flags": [],
+    "word_count": 5
+  },
+  {
+    "candidate_id": 6,
+    "label": "pay_bill",
+    "intent": 111,
+    "seed": 4545,
+    "text": "Help me pay my phone bill online.",
+    "action": "Obtain help making a payment",
+    "referent": "Phone bill",
+    "mechanical_flags": [],
+    "word_count": 7
+  },
+  {
+    "candidate_id": 7,
+    "label": "pay_bill",
+    "intent": 111,
+    "seed": 4545,
+    "text": "Make a $200 credit card payment.",
+    "action": "Make a bill payment",
+    "referent": "Credit card",
+    "mechanical_flags": [],
+    "word_count": 6
+  },
+  {
+    "candidate_id": 8,
+    "label": "pay_bill",
+    "intent": 111,
+    "seed": 4545,
+    "text": "How do I pay my gas bill?",
+    "action": "Obtain help making a payment",
+    "referent": "Gas bill",
+    "mechanical_flags": [],
+    "word_count": 7
+  },
+  {
+    "candidate_id": 9,
+    "label": "credit_score",
+    "intent": 69,
+    "seed": 4546,
+    "text": "Show me my credit score now.",
+    "action": "retrieve",
+    "referent": "credit score",
+    "mechanical_flags": [],
+    "word_count": 6
+  },
+  {
+    "candidate_id": 10,
+    "label": "credit_score",
+    "intent": 69,
+    "seed": 4546,
+    "text": "Where can I check my credit rating?",
+    "action": "locate",
+    "referent": "credit rating",
+    "mechanical_flags": [
+      "overlap:Data/CLINC150/train-00000-of-00001.parquet"
+    ],
+    "word_count": 7
+  },
+  {
+    "candidate_id": 11,
+    "label": "credit_score",
+    "intent": 69,
+    "seed": 4546,
+    "text": "Can you confirm my FICO score?",
+    "action": "verify",
+    "referent": "FICO score",
+    "mechanical_flags": [],
+    "word_count": 6
+  },
+  {
+    "candidate_id": 12,
+    "label": "credit_score",
+    "intent": 69,
+    "seed": 4546,
+    "text": "I forgot my credit score; can you get it for me?",
+    "action": "retrieve",
+    "referent": "credit score",
+    "mechanical_flags": [],
+    "word_count": 11
+  },
+  {
+    "candidate_id": 13,
+    "label": "improve_credit_score",
+    "intent": 28,
+    "seed": 4547,
+    "text": "How does a late payment hurt my credit?",
+    "action": "Ask about the credit-score consequences of an action",
+    "referent": "late payment",
+    "mechanical_flags": [],
+    "word_count": 8
+  },
+  {
+    "candidate_id": 14,
+    "label": "improve_credit_score",
+    "intent": 28,
+    "seed": 4547,
+    "text": "Can I build credit without taking loans?",
+    "action": "Ask how to improve or protect a credit score",
+    "referent": "building credit",
+    "mechanical_flags": [],
+    "word_count": 7
+  },
+  {
+    "candidate_id": 15,
+    "label": "improve_credit_score",
+    "intent": 28,
+    "seed": 4547,
+    "text": "How do I protect my credit when closing an account?",
+    "action": "Ask how to improve or protect a credit score",
+    "referent": "protecting credit",
+    "mechanical_flags": [],
+    "word_count": 10
+  },
+  {
+    "candidate_id": 16,
+    "label": "improve_credit_score",
+    "intent": 28,
+    "seed": 4547,
+    "text": "Does applying for a loan affect my credit?",
+    "action": "Ask about the credit-score consequences of an action",
+    "referent": "loan application",
+    "mechanical_flags": [],
+    "word_count": 8
+  },
+  {
+    "candidate_id": 17,
+    "label": "credit_limit",
+    "intent": 41,
+    "seed": 4548,
+    "text": "What's my Mastercard credit limit?",
+    "action": "Ask for the current approved credit limit",
+    "referent": "Mastercard credit account",
+    "mechanical_flags": [],
+    "word_count": 5
+  },
+  {
+    "candidate_id": 18,
+    "label": "credit_limit",
+    "intent": 41,
+    "seed": 4548,
+    "text": "Check my approved credit ceiling.",
+    "action": "Ask to find the existing approved credit limit",
+    "referent": "credit account",
+    "mechanical_flags": [],
+    "word_count": 5
+  },
+  {
+    "candidate_id": 19,
+    "label": "credit_limit",
+    "intent": 41,
+    "seed": 4548,
+    "text": "I need to know my bank card's credit limit.",
+    "action": "Ask for the current approved credit limit",
+    "referent": "bank card",
+    "mechanical_flags": [],
+    "word_count": 9
+  },
+  {
+    "candidate_id": 20,
+    "label": "credit_limit",
+    "intent": 41,
+    "seed": 4548,
+    "text": "Confirm my Amex card's approved limit.",
+    "action": "Ask to find the existing approved card limit",
+    "referent": "Amex card",
+    "mechanical_flags": [],
+    "word_count": 6
+  },
+  {
+    "candidate_id": 21,
+    "label": "credit_limit_change",
+    "intent": 109,
+    "seed": 4549,
+    "text": "Can I raise my Mastercard limit to $3,000?",
+    "action": "Request to increase credit limit",
+    "referent": "Mastercard",
+    "mechanical_flags": [],
+    "word_count": 8
+  },
+  {
+    "candidate_id": 22,
+    "label": "credit_limit_change",
+    "intent": 109,
+    "seed": 4549,
+    "text": "How can I ask for a higher credit limit?",
+    "action": "Ask how to request credit limit increase",
+    "referent": "Credit limit",
+    "mechanical_flags": [],
+    "word_count": 9
+  },
+  {
+    "candidate_id": 23,
+    "label": "credit_limit_change",
+    "intent": 109,
+    "seed": 4549,
+    "text": "Am I eligible for an Amex credit limit increase?",
+    "action": "Ask about eligibility for credit limit increase",
+    "referent": "Amex credit limit",
+    "mechanical_flags": [],
+    "word_count": 9
+  },
+  {
+    "candidate_id": 24,
+    "label": "credit_limit_change",
+    "intent": 109,
+    "seed": 4549,
+    "text": "Increase my store card limit now.",
+    "action": "Command to increase credit limit",
+    "referent": "Store card",
+    "mechanical_flags": [],
+    "word_count": 6
+  },
+  {
+    "candidate_id": 25,
+    "label": "play_music",
+    "intent": 106,
+    "seed": 4550,
+    "text": "Play some instrumental piano.",
+    "action": "Start music playback",
+    "referent": "instrumental piano",
+    "mechanical_flags": [],
+    "word_count": 4
+  },
+  {
+    "candidate_id": 26,
+    "label": "play_music",
+    "intent": 106,
+    "seed": 4550,
+    "text": "Play some jazz by Miles Davis.",
+    "action": "Start music playback",
+    "referent": "artist",
+    "mechanical_flags": [],
+    "word_count": 6
+  },
+  {
+    "candidate_id": 27,
+    "label": "play_music",
+    "intent": 106,
+    "seed": 4550,
+    "text": "Start the workout playlist.",
+    "action": "Start music playback",
+    "referent": "playlist",
+    "mechanical_flags": [],
+    "word_count": 4
+  },
+  {
+    "candidate_id": 28,
+    "label": "play_music",
+    "intent": 106,
+    "seed": 4550,
+    "text": "Put on some reggae tunes.",
+    "action": "Start music playback",
+    "referent": "genre",
+    "mechanical_flags": [],
+    "word_count": 5
+  },
+  {
+    "candidate_id": 29,
+    "label": "what_song",
+    "intent": 21,
+    "seed": 4551,
+    "text": "What's the song on the radio?",
+    "action": "identify song on radio by title",
+    "referent": "song",
+    "mechanical_flags": [],
+    "word_count": 6
+  },
+  {
+    "candidate_id": 30,
+    "label": "what_song",
+    "intent": 21,
+    "seed": 4551,
+    "text": "Who's singing this track?",
+    "action": "identify singer of currently playing track",
+    "referent": "singer",
+    "mechanical_flags": [],
+    "word_count": 4
+  },
+  {
+    "candidate_id": 31,
+    "label": "what_song",
+    "intent": 21,
+    "seed": 4551,
+    "text": "What music is playing from the speakers?",
+    "action": "identify music heard from speakers",
+    "referent": "music",
+    "mechanical_flags": [],
+    "word_count": 7
+  },
+  {
+    "candidate_id": 32,
+    "label": "what_song",
+    "intent": 21,
+    "seed": 4551,
+    "text": "Name that tune.",
+    "action": "ask the name of the currently playing tune, terse fragment",
+    "referent": "tune",
+    "mechanical_flags": [],
+    "word_count": 3
+  },
+  {
+    "candidate_id": 33,
+    "label": "user_name",
+    "intent": 11,
+    "seed": 4552,
+    "text": "What first name do you have for me?",
+    "action": "ask what first name the assistant has saved for me",
+    "referent": "the assistant's saved first name for the user",
+    "mechanical_flags": [],
+    "word_count": 8
+  },
+  {
+    "candidate_id": 34,
+    "label": "user_name",
+    "intent": 11,
+    "seed": 4552,
+    "text": "Do you remember my name?",
+    "action": "ask whether the assistant remembers my name",
+    "referent": "the assistant's recollection of the user's name",
+    "mechanical_flags": [
+      "overlap:Data/CLINC150/train-00000-of-00001.parquet"
+    ],
+    "word_count": 5
+  },
+  {
+    "candidate_id": 35,
+    "label": "user_name",
+    "intent": 11,
+    "seed": 4552,
+    "text": "What nickname do you use for me?",
+    "action": "ask the nickname the assistant uses for me",
+    "referent": "the assistant's nickname for the user",
+    "mechanical_flags": [],
+    "word_count": 7
+  },
+  {
+    "candidate_id": 36,
+    "label": "user_name",
+    "intent": 11,
+    "seed": 4552,
+    "text": "What name am I listed under in your records?",
+    "action": "ask what name I am listed under in assistant's records",
+    "referent": "the name the user is listed under in the assistant's records",
+    "mechanical_flags": [],
+    "word_count": 9
+  },
+  {
+    "candidate_id": 37,
+    "label": "what_is_your_name",
+    "intent": 75,
+    "seed": 4553,
+    "text": "What's your name?",
+    "action": "Ask for the assistant's name",
+    "referent": "The assistant's name",
+    "mechanical_flags": [],
+    "word_count": 3
+  },
+  {
+    "candidate_id": 38,
+    "label": "what_is_your_name",
+    "intent": 75,
+    "seed": 4553,
+    "text": "What should I call you?",
+    "action": "Ask what to call the assistant",
+    "referent": "The assistant's name",
+    "mechanical_flags": [],
+    "word_count": 5
+  },
+  {
+    "candidate_id": 39,
+    "label": "what_is_your_name",
+    "intent": 75,
+    "seed": 4553,
+    "text": "Tell me your name.",
+    "action": "Ask the assistant to introduce itself by name",
+    "referent": "The assistant's name",
+    "mechanical_flags": [
+      "overlap:Data/CLINC150/train-00000-of-00001.parquet"
+    ],
+    "word_count": 4
+  },
+  {
+    "candidate_id": 40,
+    "label": "what_is_your_name",
+    "intent": 75,
+    "seed": 4553,
+    "text": "What name do you prefer?",
+    "action": "Ask what name the assistant prefers",
+    "referent": "The assistant's name",
+    "mechanical_flags": [
+      "overlap:Data/CLINC150/train-00000-of-00001.parquet"
+    ],
+    "word_count": 5
+  },
+  {
+    "candidate_id": 41,
+    "label": "change_user_name",
+    "intent": 144,
+    "seed": 4554,
+    "text": "Address me as Jamie.",
+    "action": "establishes name for assistant to use",
+    "referent": "USER",
+    "mechanical_flags": [],
+    "word_count": 4
+  },
+  {
+    "candidate_id": 42,
+    "label": "change_user_name",
+    "intent": 144,
+    "seed": 4554,
+    "text": "You keep calling me Sarah, but my name is Sam.",
+    "action": "corrects mistaken name",
+    "referent": "USER",
+    "mechanical_flags": [],
+    "word_count": 10
+  },
+  {
+    "candidate_id": 43,
+    "label": "change_user_name",
+    "intent": 144,
+    "seed": 4554,
+    "text": "My name is Taylor, so please call me Taylor.",
+    "action": "introduces user name",
+    "referent": "USER",
+    "mechanical_flags": [],
+    "word_count": 9
+  },
+  {
+    "candidate_id": 44,
+    "label": "change_user_name",
+    "intent": 144,
+    "seed": 4554,
+    "text": "Can you call me Max instead of my full name?",
+    "action": "requests nickname usage",
+    "referent": "USER",
+    "mechanical_flags": [],
+    "word_count": 10
+  }
+]

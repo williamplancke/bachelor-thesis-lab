@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:17:35.8075204Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 3856656200,
+  "load_duration": 6383900,
+  "prompt_eval_count": 737,
+  "prompt_eval_duration": 24020000,
+  "eval_count": 164,
+  "eval_duration": 3747648000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What name do you use for me?\",\n      \"action\": \"Ask about name used for USER\",\n      \"referent\": \"USER's name\"\n    },\n    {\n      \"text\": \"Which name have you got for me?\",\n      \"action\": \"Ask about name used for USER\",\n      \"referent\": \"USER's name\"\n    },\n    {\n      \"text\": \"What do you call me?\",\n      \"action\": \"Ask about name used for USER\",\n      \"referent\": \"USER's name\"\n    },\n    {\n      \"text\": \"What name do you know me by?\",\n      \"action\": \"Ask about name used for USER\",\n      \"referent\": \"USER's name\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

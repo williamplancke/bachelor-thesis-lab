@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:21:21.9838251Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4505795700,
+  "load_duration": 8364100,
+  "prompt_eval_count": 706,
+  "prompt_eval_duration": 27285000,
+  "eval_count": 185,
+  "eval_duration": 4378685000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"How does a late payment hurt my credit?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"late payment\"\n    },\n    {\n      \"text\": \"How can I build credit with no history?\",\n      \"action\": \"Ask how to improve or protect a credit score\",\n      \"referent\": \"building credit\"\n    },\n    {\n      \"text\": \"What's the best way to protect my credit when closing an account?\",\n      \"action\": \"Ask how to improve or protect a credit score\",\n      \"referent\": \"protecting credit\"\n    },\n    {\n      \"text\": \"Does applying for a loan affect my credit?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"loan application\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

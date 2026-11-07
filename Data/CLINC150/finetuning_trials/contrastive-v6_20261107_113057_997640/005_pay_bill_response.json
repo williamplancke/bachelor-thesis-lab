@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:31:22.8490818Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4148299300,
+  "load_duration": 6361400,
+  "prompt_eval_count": 803,
+  "prompt_eval_duration": 110588000,
+  "eval_count": 182,
+  "eval_duration": 4020936000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Could you assist with paying the water bill through my account?\",\n      \"action\": \"Request help making a payment\",\n      \"referent\": \"Water bill\"\n    },\n    {\n      \"text\": \"I need help setting up a payment for my phone bill online.\",\n      \"action\": \"Request help arranging a payment\",\n      \"referent\": \"Phone bill\"\n    },\n    {\n      \"text\": \"Can you help me process a $75 payment on my credit card?\",\n      \"action\": \"Request making a specific credit card payment\",\n      \"referent\": \"Credit card\"\n    },\n    {\n      \"text\": \"Please guide me through paying the gas bill from my savings account.\",\n      \"action\": \"Request instructions for making a payment\",\n      \"referent\": \"Gas bill\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

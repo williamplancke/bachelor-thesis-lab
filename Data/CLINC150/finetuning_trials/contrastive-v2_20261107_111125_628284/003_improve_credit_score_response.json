@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:11:31.5034449Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1398011100,
+  "load_duration": 5451400,
+  "prompt_eval_count": 484,
+  "prompt_eval_duration": 14542000,
+  "eval_count": 142,
+  "eval_duration": 1355642000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\"text\": \"What actions can help improve my credit score?\", \"action\": \"improve_credit_score\", \"referent\": \"credit score\"},\n    {\"text\": \"How does paying off my debt affect my credit score?\", \"action\": \"improve_credit_score\", \"referent\": \"credit score\"},\n    {\"text\": \"Can you suggest ways to build a stronger credit history?\", \"action\": \"improve_credit_score\", \"referent\": \"credit score\"},\n    {\"text\": \"What changes should I make to keep my credit score from dropping?\", \"action\": \"improve_credit_score\", \"referent\": \"credit score\"}\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:04:32.6219119Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 2894406300,
+  "load_duration": 9010800,
+  "prompt_eval_count": 984,
+  "prompt_eval_duration": 147384000,
+  "eval_count": 262,
+  "eval_duration": 2700419000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What song is this? I can't hear the title.\",\n      \"justification\": \"This message asks about the currently playing song but does not request a playback, aligning with the definition of 'what_song'. It avoids the neighboring intent 'play_music'.\"\n    },\n    {\n      \"text\": \"What's the name of the song playing on the radio?\",\n      \"justification\": \"This message is a clear query about a currently playing song, avoiding the definition of 'play_music'. It uses different construction compared to the previous example.\"\n    },\n    {\n      \"text\": \"I can't hear the title, can you identify it for me?\",\n      \"justification\": \"This message inquires about the title of the song currently playing, falling under the 'what_song' intent without crossing into 'play_music'. It is distinct from the previous examples.\"\n    },\n    {\n      \"text\": \"What's playing right now? The artist sounds familiar.\",\n      \"justification\": \"This message is a query about the current song, asking for the artist name rather than the song title directly. It avoids the definition of 'play_music' and is a different construction compared to the previous examples.\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

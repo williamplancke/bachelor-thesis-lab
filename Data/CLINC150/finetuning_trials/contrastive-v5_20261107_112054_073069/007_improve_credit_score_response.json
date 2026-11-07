@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:21:26.05773Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4065277800,
+  "load_duration": 8040700,
+  "prompt_eval_count": 750,
+  "prompt_eval_duration": 110465000,
+  "eval_count": 168,
+  "eval_duration": 3933621000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"How can I rebuild credit after bankruptcy?\",\n      \"action\": \"Ask how to improve or protect a credit score\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"Does paying off debt improve my credit?\",\n      \"action\": \"Ask how an action affects a credit score\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"Will checking my credit report lower my credit score?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"What habits help maintain good credit?\",\n      \"action\": \"Ask how to protect a credit score\",\n      \"referent\": \"credit\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

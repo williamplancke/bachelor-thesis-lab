@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:15:43.9168585Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4369919500,
+  "load_duration": 8157200,
+  "prompt_eval_count": 596,
+  "prompt_eval_duration": 24522000,
+  "eval_count": 182,
+  "eval_duration": 4255968000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What's my card's credit limit?\",\n      \"action\": \"Ask for the current approved credit limit on a credit account.\",\n      \"referent\": \"credit account\"\n    },\n    {\n      \"text\": \"Check my card's approved limit.\",\n      \"action\": \"Ask for the current approved credit limit on a credit account.\",\n      \"referent\": \"credit account\"\n    },\n    {\n      \"text\": \"What's the credit limit on my account?\",\n      \"action\": \"Ask for the current approved credit limit on a credit account.\",\n      \"referent\": \"credit account\"\n    },\n    {\n      \"text\": \"Show me my card's credit limit.\",\n      \"action\": \"Ask for the current approved credit limit on a credit account.\",\n      \"referent\": \"credit account\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:22:25.5911766Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4396203300,
+  "load_duration": 9095400,
+  "prompt_eval_count": 945,
+  "prompt_eval_duration": 126249000,
+  "eval_count": 178,
+  "eval_duration": 4239814000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Call me Luna from now on.\",\n      \"action\": \"establishes new name for assistant to use\",\n      \"referent\": \"USER\"\n    },\n    {\n      \"text\": \"I prefer you refer to me as Casey moving forward.\",\n      \"action\": \"requests specific preferred first name in future\",\n      \"referent\": \"USER\"\n    },\n    {\n      \"text\": \"My name is now Sky, so please use that.\",\n      \"action\": \"states name was changed to specific new name\",\n      \"referent\": \"USER\"\n    },\n    {\n      \"text\": \"Stop using Morgan and call me Sky instead.\",\n      \"action\": \"asks assistant to stop using old name and call me a specific new one\",\n      \"referent\": \"USER\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

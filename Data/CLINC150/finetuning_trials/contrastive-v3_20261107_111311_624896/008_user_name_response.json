@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:13:27.1245322Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1135979800,
+  "load_duration": 9375500,
+  "prompt_eval_count": 761,
+  "prompt_eval_duration": 47753000,
+  "eval_count": 101,
+  "eval_duration": 1041040999,
+  "message": {
+    "role": "assistant",
+    "content": "{\"examples\": [{\"text\": \"user utterance 1\", \"action\": \"TARGET\", \"referent\": \"my name\"}, {\"text\": \"user utterance 2\", \"action\": \"TARGET\", \"referent\": \"my name\"}, {\"text\": \"user utterance 3\", \"action\": \"TARGET\", \"referent\": \"my name\"}, {\"text\": \"user utterance 4\", \"action\": \"TARGET\", \"referent\": \"my name\"}]}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

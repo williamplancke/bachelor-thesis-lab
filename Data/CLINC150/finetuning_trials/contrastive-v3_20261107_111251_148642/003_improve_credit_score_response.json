@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:12:58.1892435Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1709541300,
+  "load_duration": 10143900,
+  "prompt_eval_count": 606,
+  "prompt_eval_duration": 109203000,
+  "eval_count": 154,
+  "eval_duration": 1567622000,
+  "message": {
+    "role": "assistant",
+    "content": "{\"examples\": [{\"text\": \"How can I improve my credit score with a payday loan?\", \"action\": \"Ask how an action affects credit\", \"referent\": \"payday loan\"}, {\"text\": \"What steps should I take to rebuild my credit after bankruptcy?\", \"action\": \"Ask how to improve credit\", \"referent\": \"bankruptcy\"}, {\"text\": \"Will paying off a credit card in full affect my credit score positively?\", \"action\": \"Ask about the consequences of an action on credit\", \"referent\": \"full payment of a credit card\"}, {\"text\": \"How can I improve my credit if I have no history?\", \"action\": \"Ask how to improve credit\", \"referent\": \"no credit history\"}]}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

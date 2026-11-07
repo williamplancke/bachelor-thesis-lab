@@ -1,0 +1,179 @@
+{
+  "mode": "trial",
+  "model": "qwen2.5:3b",
+  "prompt_version": "contrastive-v2",
+  "classes": 11,
+  "examples_per_class": 4,
+  "total_candidates": 44,
+  "base_seed": 242,
+  "scope": "targeted supplement, not an all-class foundation",
+  "labels": [
+    "min_payment",
+    "pay_bill",
+    "credit_score",
+    "improve_credit_score",
+    "credit_limit",
+    "credit_limit_change",
+    "play_music",
+    "what_song",
+    "user_name",
+    "what_is_your_name",
+    "change_user_name"
+  ],
+  "batch_size": 4,
+  "status": "awaiting_semantic_review",
+  "created_at": "2026-11-07T10:11:04.728928+00:00",
+  "specification": {
+    "version": "contrastive-v2",
+    "model": "qwen2.5:3b",
+    "temperature": 0.7,
+    "instructions": "Write natural English messages from a USER speaking to an ASSISTANT. USER means the speaker (I/me/my). ASSISTANT means the addressee (you/your). Preserve these roles. Generate only the assigned target intent, not any neighboring intent. A topic alone is not an intent: the requested action must match. Each message must be independently understandable with one defensible label. Never invent missing context, combine goals, or produce an assistant reply. Use diverse wording and situations, not repetitive stories or cosmetic substitutions. Do not copy demonstrations. Ordinary concise requests are more valuable than artificial ambiguity. Avoid unnecessary politeness, elaborate backstories, and forced spelling errors. Review fields describe what the actual text says, not what you wish it meant.",
+    "overlap_training_paths": [
+      "Data/CLINC150/synthetic_train_with_definition.parquet",
+      "Data/CLINC150/train-00000-of-00001.parquet"
+    ],
+    "intents": [
+      {
+        "label": "min_payment",
+        "definition": "Ask for the minimum required payment on a bill or credit obligation.",
+        "required_cue": "Explicitly ask for the MINIMUM, LEAST, or LOWEST REQUIRED payment. Asking only how much is due is insufficient. Do not request payment execution or ask if available funds cover expenses.",
+        "neighbors": [
+          "pay_bill"
+        ],
+        "demonstrations": [
+          "Minimum due on the broadband account?",
+          "Tell me the lowest payment required on my card statement, not the full balance."
+        ]
+      },
+      {
+        "label": "pay_bill",
+        "definition": "Request making a bill payment or help arranging or making that payment.",
+        "required_cue": "Ask to MAKE a payment or obtain help making it. Do not merely ask for an amount, balance, or minimum due. Use a plausible billed service or credit account.",
+        "neighbors": [
+          "min_payment"
+        ],
+        "demonstrations": [
+          "Send the broadband payment today.",
+          "Walk me through making a payment on my electricity account."
+        ]
+      },
+      {
+        "label": "credit_score",
+        "definition": "Ask to retrieve, locate, or verify the user's credit score or rating.",
+        "required_cue": "Find or report the CURRENT score; do not ask for advice to improve it or about an action's effect on it.",
+        "neighbors": [
+          "improve_credit_score"
+        ],
+        "demonstrations": [
+          "Pull up my latest credit rating.",
+          "Help me find out what my credit rating is right now."
+        ]
+      },
+      {
+        "label": "improve_credit_score",
+        "definition": "Ask how to improve or protect a credit score, or how an action affects it.",
+        "required_cue": "Ask for advice to build or protect credit, or ask about the credit-score consequences of an action. Do not merely retrieve the current score.",
+        "neighbors": [
+          "credit_score"
+        ],
+        "demonstrations": [
+          "How do I rebuild damaged credit?",
+          "My credit rating has dropped; what changes could help it recover?"
+        ]
+      },
+      {
+        "label": "credit_limit",
+        "definition": "Ask for the current approved credit limit on a credit account.",
+        "required_cue": "Ask to FIND the existing approved limit, not change it. For this clean pilot avoid remaining-available-credit queries. Vary more than politeness around the words credit limit.",
+        "neighbors": [
+          "credit_limit_change"
+        ],
+        "demonstrations": [
+          "What's my card's approved spending ceiling?",
+          "I forgot the credit limit on my bank card; can you look it up?"
+        ]
+      },
+      {
+        "label": "credit_limit_change",
+        "definition": "Ask to increase a credit account's limit, or ask how to obtain that increase.",
+        "required_cue": "An INCREASE must be requested or discussed as the desired change. A query about the current maximum charge is credit_limit, not this label. Do not restrict brands to Visa/Discover.",
+        "neighbors": [
+          "credit_limit"
+        ],
+        "demonstrations": [
+          "Raise my Mastercard limit to three thousand.",
+          "What do I need to do to get a larger limit on my card?"
+        ]
+      },
+      {
+        "label": "play_music",
+        "definition": "Ask the assistant to START music playback: a song, artist, genre, playlist, or music generally.",
+        "required_cue": "The user must request actual PLAYBACK, with a cue such as play, put on, start listening, or turn on music. Recommendations, asking what music is available, and identifying a playing song are NOT playback requests.",
+        "neighbors": [
+          "what_song"
+        ],
+        "demonstrations": [
+          "Put on some quiet piano music.",
+          "Could you play Here Comes the Sun by the Beatles?"
+        ]
+      },
+      {
+        "label": "what_song",
+        "definition": "Ask to identify the title or performer of music currently playing.",
+        "required_cue": "Make the music referent clear: song, music, track, singer, or a clear sound source. Ask to IDENTIFY it, not start playback. Do not write unnatural claims about hearing a title.",
+        "neighbors": [
+          "play_music"
+        ],
+        "demonstrations": [
+          "Title of the track playing now?",
+          "The song playing right now sounds familiar; what's it called?"
+        ]
+      },
+      {
+        "label": "user_name",
+        "definition": "The USER asks the ASSISTANT what name the ASSISTANT knows or uses for the USER.",
+        "required_cue": "Ask about MY name, what YOU CALL ME, or what name YOU HAVE FOR ME. Do NOT ask what I should call you: that asks for the assistant's name. Do NOT request use of a new name or ask permission to use a nickname. The user is retrieving their own existing name, not changing it.",
+        "neighbors": [
+          "what_is_your_name",
+          "change_user_name"
+        ],
+        "demonstrations": [
+          "Which name have you saved for me?",
+          "When you address me, what name do you currently use?"
+        ]
+      },
+      {
+        "label": "what_is_your_name",
+        "definition": "The USER asks what the ASSISTANT is named or should be called.",
+        "required_cue": "Ask for YOUR name (the assistant's), not MY name (the user's). Request the existing name, not inventing or changing the assistant's name.",
+        "neighbors": [
+          "user_name",
+          "change_user_name"
+        ],
+        "demonstrations": [
+          "What should I call you, assistant?",
+          "I know you're my assistant, but what are you called?"
+        ]
+      },
+      {
+        "label": "change_user_name",
+        "definition": "The USER establishes or changes the name the ASSISTANT should use to address the USER, or asks how to do so.",
+        "required_cue": "Supply a preferred name, introduce yourself, or ask to change what the assistant CALLS YOU. Never ask the assistant to go by the user's name. Never ask what you should call the assistant. Avoid unrelated account-login handles.",
+        "neighbors": [
+          "user_name",
+          "what_is_your_name"
+        ],
+        "demonstrations": [
+          "From now on, address me as Noor.",
+          "Please stop calling me Robert and use Robbie instead."
+        ]
+      }
+    ]
+  },
+  "spec_sha256": "bb8781a0634ecd80c3c18206dbbee32d6c4822792e17d743902d60b04323084d",
+  "training_approved": false,
+  "automatic_retries": 0,
+  "candidates": 44,
+  "flagged_candidates": 1,
+  "completed_at": "2026-11-07T10:11:23.828702+00:00"
+}

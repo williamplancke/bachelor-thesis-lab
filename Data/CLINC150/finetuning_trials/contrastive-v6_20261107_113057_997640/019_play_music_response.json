@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:32:18.6033082Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 3788153600,
+  "load_duration": 5307500,
+  "prompt_eval_count": 769,
+  "prompt_eval_duration": 107482000,
+  "eval_count": 164,
+  "eval_duration": 3665102000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Play a jazz album in the background.\",\n      \"action\": \"Start music playback\",\n      \"referent\": \"jazz album\"\n    },\n    {\n      \"text\": \"Start a classical music station for ambient sounds.\",\n      \"action\": \"Start music playback\",\n      \"referent\": \"classical music station\"\n    },\n    {\n      \"text\": \"Play some blues music while I'm cooking dinner.\",\n      \"action\": \"Start music playback\",\n      \"referent\": \"blues music\"\n    },\n    {\n      \"text\": \"Could you put on some electronic dance music for the party?\",\n      \"action\": \"Start music playback\",\n      \"referent\": \"electronic dance music\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

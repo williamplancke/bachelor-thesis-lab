@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:17:01.3057453Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 3961441400,
+  "load_duration": 8797500,
+  "prompt_eval_count": 621,
+  "prompt_eval_duration": 66551000,
+  "eval_count": 173,
+  "eval_duration": 3873609000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Will applying for a loan hurt my credit?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"How can I fix late payments on my credit?\",\n      \"action\": \"Ask how to improve or protect a credit score\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"Does checking my credit report lower my score?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"What steps help build strong credit?\",\n      \"action\": \"Ask how to improve or protect a credit score\",\n      \"referent\": \"credit\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

@@ -1,0 +1,310 @@
+[
+  {
+    "candidate_id":1,
+    "label":"min_payment",
+    "intent":143,
+    "text":"What's the minimum payment due on my phone bill?",
+    "justification":"Directly asks for the minimum payment due on a specific bill, which aligns with the minimum payment intent definition."
+  },
+  {
+    "candidate_id":2,
+    "label":"min_payment",
+    "intent":143,
+    "text":"Can you tell me the amount I need to pay on my utility bills?",
+    "justification":"Asks for the minimum payment required on utility bills, which fits the minimum payment intent definition."
+  },
+  {
+    "candidate_id":3,
+    "label":"min_payment",
+    "intent":143,
+    "text":"What's the minimum amount I owe on my credit card?",
+    "justification":"Queries the minimum payment required on a credit card, directly addressing the minimum payment intent."
+  },
+  {
+    "candidate_id":4,
+    "label":"min_payment",
+    "intent":143,
+    "text":"How much do I need to pay this month on my student loans?",
+    "justification":"Asks for the minimum payment required on student loans, which is related to the minimum payment intent definition."
+  },
+  {
+    "candidate_id":5,
+    "label":"pay_bill",
+    "intent":111,
+    "text":"Can I pay the rent bill now?",
+    "justification":"This message requests paying a bill and is clear in its intent without being overly specific."
+  },
+  {
+    "candidate_id":6,
+    "label":"pay_bill",
+    "intent":111,
+    "text":"Please help me with the utility bill payment.",
+    "justification":"This message is a command to assist with paying a bill and is direct and unambiguous."
+  },
+  {
+    "candidate_id":7,
+    "label":"pay_bill",
+    "intent":111,
+    "text":"I need to pay the electric bill. Can you guide me?",
+    "justification":"This message requests assistance with paying a bill and uses the term 'electric bill' to specify the type of bill."
+  },
+  {
+    "candidate_id":8,
+    "label":"pay_bill",
+    "intent":111,
+    "text":"Pay the groceries bill, please.",
+    "justification":"This message is a command to pay a bill and specifies the type of bill (groceries)."
+  },
+  {
+    "candidate_id":9,
+    "label":"credit_score",
+    "intent":69,
+    "text":"Hey, could you check my credit score?",
+    "justification":"Directly asks for the user's credit score, concise and to the point."
+  },
+  {
+    "candidate_id":10,
+    "label":"credit_score",
+    "intent":69,
+    "text":"I need to verify my credit rating, can you help?",
+    "justification":"Asks for verification of the user's credit score, using slightly more words for added clarity."
+  },
+  {
+    "candidate_id":11,
+    "label":"credit_score",
+    "intent":69,
+    "text":"What's my FICO score?",
+    "justification":"Uses common terminology for the score, asking for the user's credit score in a straightforward manner."
+  },
+  {
+    "candidate_id":12,
+    "label":"credit_score",
+    "intent":69,
+    "text":"Could you fetch my current credit rating?",
+    "justification":"Asks for the user's current credit rating, providing more context in a concise manner."
+  },
+  {
+    "candidate_id":13,
+    "label":"improve_credit_score",
+    "intent":28,
+    "text":"How can I boost my credit score?",
+    "justification":"Directly asks about improving the credit score without seeking any other financial information or action."
+  },
+  {
+    "candidate_id":14,
+    "label":"improve_credit_score",
+    "intent":28,
+    "text":"Does paying off debt affect my credit score?",
+    "justification":"Asks whether a specific action (paying off debt) affects the credit score, fitting the improve_credit_score intent."
+  },
+  {
+    "candidate_id":15,
+    "label":"improve_credit_score",
+    "intent":28,
+    "text":"What's the best way to increase my credit score?",
+    "justification":"Indirectly asks for advice on how to improve the credit score, avoiding specific actions like minimum payments."
+  },
+  {
+    "candidate_id":16,
+    "label":"improve_credit_score",
+    "intent":28,
+    "text":"How does applying for a new credit card impact my score?",
+    "justification":"Asks about the impact of a specific action (applying for a new credit card) on the credit score, fitting the improve_credit_score intent."
+  },
+  {
+    "candidate_id":17,
+    "label":"credit_limit",
+    "intent":41,
+    "text":"What's my current credit limit?",
+    "justification":"Directly asks for the current credit limit on a credit account."
+  },
+  {
+    "candidate_id":18,
+    "label":"credit_limit",
+    "intent":41,
+    "text":"Check my credit limit.",
+    "justification":"Asks for the credit limit without specifying the account."
+  },
+  {
+    "candidate_id":19,
+    "label":"credit_limit",
+    "intent":41,
+    "text":"Hey, how much is my credit limit?",
+    "justification":"Uses informal speech to ask for the credit limit."
+  },
+  {
+    "candidate_id":20,
+    "label":"credit_limit",
+    "intent":41,
+    "text":"Can you tell me my current credit limit?",
+    "justification":"Asks the assistant to provide the credit limit information."
+  },
+  {
+    "candidate_id":21,
+    "label":"credit_limit_change",
+    "intent":109,
+    "text":"Can I get a higher credit limit?",
+    "justification":"Directly asks to increase the credit limit, aligning with the intent of changing the credit limit without requesting the current limit."
+  },
+  {
+    "candidate_id":22,
+    "label":"credit_limit_change",
+    "intent":109,
+    "text":"What's the maximum I can charge on this card?",
+    "justification":"Inquires about the maximum charge limit, which is related to the credit limit but avoids the specific term to maintain distinction from other intents."
+  },
+  {
+    "candidate_id":23,
+    "label":"credit_limit_change",
+    "intent":109,
+    "text":"How can I increase my credit limit?",
+    "justification":"Requests guidance on how to increase the credit limit, which fits the intent without directly asking for the change."
+  },
+  {
+    "candidate_id":24,
+    "label":"credit_limit_change",
+    "intent":109,
+    "text":"Raise my card limit by $500.",
+    "justification":"Commands a specific increase to the credit limit, which is a direct request fitting the credit limit change intent without asking how to do it."
+  },
+  {
+    "candidate_id":25,
+    "label":"play_music",
+    "intent":106,
+    "text":"What's a good playlist for workout?",
+    "justification":"This message asks for a music playlist suggestion, aligning with the intent to play music. It does not request an already playing song, artist, or genre."
+  },
+  {
+    "candidate_id":26,
+    "label":"play_music",
+    "intent":106,
+    "text":"Can you recommend a song by Adele?",
+    "justification":"This message asks for a specific song recommendation, fitting the intent to play music. It is concise and specific, not overlapping with the neighboring intents."
+  },
+  {
+    "candidate_id":27,
+    "label":"play_music",
+    "intent":106,
+    "text":"Play something by Coldplay",
+    "justification":"This command asks to play music by a specific artist, complying with the intent to play music. It specifies an artist and is straightforward without additional context."
+  },
+  {
+    "candidate_id":28,
+    "label":"play_music",
+    "intent":106,
+    "text":"What music do you have for a party?",
+    "justification":"This message seeks music suggestions for a party setting, matching the intent to play music. It is a clear request for music recommendations without being too specific."
+  },
+  {
+    "candidate_id":29,
+    "label":"what_song",
+    "intent":21,
+    "text":"What song is this? I can't hear the title.",
+    "justification":"This message asks about the currently playing song but does not request a playback, aligning with the definition of 'what_song'. It avoids the neighboring intent 'play_music'."
+  },
+  {
+    "candidate_id":30,
+    "label":"what_song",
+    "intent":21,
+    "text":"What's the name of the song playing on the radio?",
+    "justification":"This message is a clear query about a currently playing song, avoiding the definition of 'play_music'. It uses different construction compared to the previous example."
+  },
+  {
+    "candidate_id":31,
+    "label":"what_song",
+    "intent":21,
+    "text":"I can't hear the title, can you identify it for me?",
+    "justification":"This message inquires about the title of the song currently playing, falling under the 'what_song' intent without crossing into 'play_music'. It is distinct from the previous examples."
+  },
+  {
+    "candidate_id":32,
+    "label":"what_song",
+    "intent":21,
+    "text":"What's playing right now? The artist sounds familiar.",
+    "justification":"This message is a query about the current song, asking for the artist name rather than the song title directly. It avoids the definition of 'play_music' and is a different construction compared to the previous examples."
+  },
+  {
+    "candidate_id":33,
+    "label":"user_name",
+    "intent":11,
+    "text":"What's your current username?",
+    "justification":"Directly asks for the current username the assistant uses for the user, fitting the definition and not violating the exclusions."
+  },
+  {
+    "candidate_id":34,
+    "label":"user_name",
+    "intent":11,
+    "text":"Can you use my gamer tag?",
+    "justification":"Asks if the assistant can use the user's gamer tag, fitting the definition and not violating the exclusions."
+  },
+  {
+    "candidate_id":35,
+    "label":"user_name",
+    "intent":11,
+    "text":"Hey, can I use my nick here?",
+    "justification":"Asks if the user's nickname can be used, fitting the definition and not violating the exclusions."
+  },
+  {
+    "candidate_id":36,
+    "label":"user_name",
+    "intent":11,
+    "text":"What should I call you?",
+    "justification":"Asks for the user's preferred name for the assistant, fitting the definition and not violating the exclusions."
+  },
+  {
+    "candidate_id":37,
+    "label":"what_is_your_name",
+    "intent":75,
+    "text":"What's your name?",
+    "justification":"Direct and concise request for the assistant's name."
+  },
+  {
+    "candidate_id":38,
+    "label":"what_is_your_name",
+    "intent":75,
+    "text":"Can you tell me what you're named as?",
+    "justification":"More formal and indirect request for the assistant's name."
+  },
+  {
+    "candidate_id":39,
+    "label":"what_is_your_name",
+    "intent":75,
+    "text":"What shall I call you?",
+    "justification":"Requesting the appropriate name the assistant should use."
+  },
+  {
+    "candidate_id":40,
+    "label":"what_is_your_name",
+    "intent":75,
+    "text":"Could you name yourself?",
+    "justification":"Using a slightly less common phrasing for the same request as 'What's your name?'"
+  },
+  {
+    "candidate_id":41,
+    "label":"change_user_name",
+    "intent":144,
+    "text":"What should I call you?",
+    "justification":"Directly asks for the name the user would like the assistant to use, aligning with the definition of changing user name."
+  },
+  {
+    "candidate_id":42,
+    "label":"change_user_name",
+    "intent":144,
+    "text":"Could you use my real name instead?",
+    "justification":"Asks for the assistant to use the user's real name, a clear request to change the name the assistant uses."
+  },
+  {
+    "candidate_id":43,
+    "label":"change_user_name",
+    "intent":144,
+    "text":"Change my name to John Doe, please.",
+    "justification":"A straightforward request to change the user's name to 'John Doe', fitting the intent of changing the user's name."
+  },
+  {
+    "candidate_id":44,
+    "label":"change_user_name",
+    "intent":144,
+    "text":"Can you go by my name?",
+    "justification":"Asks the assistant to use the user's name, effectively requesting the change of user name."
+  }
+]

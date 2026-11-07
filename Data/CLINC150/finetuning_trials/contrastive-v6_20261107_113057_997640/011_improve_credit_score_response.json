@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:31:46.082263Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4288759600,
+  "load_duration": 6131300,
+  "prompt_eval_count": 842,
+  "prompt_eval_duration": 114739000,
+  "eval_count": 188,
+  "eval_duration": 4158138000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Will closing my old credit card hurt my credit?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"How can I start building credit without taking on debt?\",\n      \"action\": \"Ask how to improve or protect a credit score\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"What steps can I take to keep my credit safe when I close an account?\",\n      \"action\": \"Ask how to improve or protect a credit score\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"Does applying for a new credit card impact my credit score negatively?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"credit\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

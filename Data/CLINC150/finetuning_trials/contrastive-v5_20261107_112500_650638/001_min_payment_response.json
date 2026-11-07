@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:25:09.1536243Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4180882900,
+  "load_duration": 8510300,
+  "prompt_eval_count": 760,
+  "prompt_eval_duration": 106965000,
+  "eval_count": 169,
+  "eval_duration": 4050393000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What's my mortgage's minimum payment?\",\n      \"action\": \"Ask for the minimum required payment\",\n      \"referent\": \"mortgage\"\n    },\n    {\n      \"text\": \"What's the minimum for this month's medical bill?\",\n      \"action\": \"Ask for the minimum required payment\",\n      \"referent\": \"medical bill\"\n    },\n    {\n      \"text\": \"What's the lowest required student loan payment?\",\n      \"action\": \"Ask for the minimum required payment\",\n      \"referent\": \"student loan\"\n    },\n    {\n      \"text\": \"Show me the minimum payment for my store card.\",\n      \"action\": \"Ask for the minimum required payment\",\n      \"referent\": \"store card\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

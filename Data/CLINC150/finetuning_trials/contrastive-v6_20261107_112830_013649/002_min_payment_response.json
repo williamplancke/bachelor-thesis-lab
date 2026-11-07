@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:28:43.8220716Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4915145600,
+  "load_duration": 5376000,
+  "prompt_eval_count": 855,
+  "prompt_eval_duration": 119440000,
+  "eval_count": 214,
+  "eval_duration": 4775266000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Could you let me know the least amount I need to pay on my credit card this month?\",\n      \"action\": \"Ask for the minimum required payment on a bill or credit obligation\",\n      \"referent\": \"credit card\"\n    },\n    {\n      \"text\": \"What's the minimum payment required for my car loan?\",\n      \"action\": \"Ask for the minimum required payment on a bill or credit obligation\",\n      \"referent\": \"car loan\"\n    },\n    {\n      \"text\": \"Is there a minimum payment I need to make on my phone bill?\",\n      \"action\": \"Ask for the minimum required payment on a bill or credit obligation\",\n      \"referent\": \"phone bill\"\n    },\n    {\n      \"text\": \"Can you tell me the lowest payment due on my electricity bill this month?\",\n      \"action\": \"Ask for the minimum required payment on a bill or credit obligation\",\n      \"referent\": \"electricity bill\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

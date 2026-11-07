@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:04:24.8217912Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1746090100,
+  "load_duration": 9410100,
+  "prompt_eval_count": 984,
+  "prompt_eval_duration": 147037000,
+  "eval_count": 145,
+  "eval_duration": 1532809000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What's my current credit limit?\",\n      \"justification\": \"Directly asks for the current credit limit on a credit account.\"\n    },\n    {\n      \"text\": \"Check my credit limit.\",\n      \"justification\": \"Asks for the credit limit without specifying the account.\"\n    },\n    {\n      \"text\": \"Hey, how much is my credit limit?\",\n      \"justification\": \"Uses informal speech to ask for the credit limit.\"\n    },\n    {\n      \"text\": \"Can you tell me my current credit limit?\",\n      \"justification\": \"Asks the assistant to provide the credit limit information.\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:11:32.9517388Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1443317400,
+  "load_duration": 4717300,
+  "prompt_eval_count": 490,
+  "prompt_eval_duration": 14791000,
+  "eval_count": 146,
+  "eval_duration": 1396144000,
+  "message": {
+    "role": "assistant",
+    "content": "{\"examples\": [{\"text\": \"Could you tell me my current credit limit?\", \"action\": \"credit_limit\", \"referent\": \"my current credit limit on a credit account\"}, {\"text\": \"What's the approved spending limit on my credit card?\", \"action\": \"credit_limit\", \"referent\": \"approved spending limit on my credit card\"}, {\"text\": \"Can you find out my current credit limit?\", \"action\": \"credit_limit\", \"referent\": \"my current credit limit on a credit account\"}, {\"text\": \"I can't remember my card's credit limit; could you check?\", \"action\": \"credit_limit\", \"referent\": \"my credit limit on a credit account\"}]}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

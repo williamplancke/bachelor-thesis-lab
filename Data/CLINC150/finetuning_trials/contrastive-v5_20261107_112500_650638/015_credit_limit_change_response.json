@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:26:05.5895229Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4285756900,
+  "load_duration": 9096500,
+  "prompt_eval_count": 695,
+  "prompt_eval_duration": 83488000,
+  "eval_count": 175,
+  "eval_duration": 4091123000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Can I raise my Mastercard limit to $3,000?\",\n      \"action\": \"Request to increase credit limit\",\n      \"referent\": \"Mastercard\"\n    },\n    {\n      \"text\": \"How can I apply for a higher credit limit?\",\n      \"action\": \"Ask how to request higher credit limit\",\n      \"referent\": \"credit limit\"\n    },\n    {\n      \"text\": \"Am I eligible for an Amex credit limit boost?\",\n      \"action\": \"Ask about eligibility for credit limit increase\",\n      \"referent\": \"Amex credit limit\"\n    },\n    {\n      \"text\": \"Increase my store card limit now.\",\n      \"action\": \"Command to increase credit limit\",\n      \"referent\": \"store card\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

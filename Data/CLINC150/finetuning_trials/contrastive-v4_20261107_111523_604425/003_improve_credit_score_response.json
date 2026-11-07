@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:15:39.5389529Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4130014600,
+  "load_duration": 9193200,
+  "prompt_eval_count": 582,
+  "prompt_eval_duration": 23623000,
+  "eval_count": 171,
+  "eval_duration": 4017572000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"How can I boost my credit?\",\n      \"action\": \"Ask for advice to build or protect credit\",\n      \"referent\": \"credit score\"\n    },\n    {\n      \"text\": \"Will closing a credit card hurt my credit?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"credit score\"\n    },\n    {\n      \"text\": \"What steps help protect my credit?\",\n      \"action\": \"Ask for advice to build or protect credit\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"Does paying off debt improve my credit?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"credit score\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

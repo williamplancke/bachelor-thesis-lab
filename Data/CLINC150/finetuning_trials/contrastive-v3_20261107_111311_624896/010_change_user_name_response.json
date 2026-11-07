@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:13:30.5466626Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1968467800,
+  "load_duration": 14525200,
+  "prompt_eval_count": 786,
+  "prompt_eval_duration": 52808000,
+  "eval_count": 182,
+  "eval_duration": 1861398000,
+  "message": {
+    "role": "assistant",
+    "content": "{\"examples\": [{\"text\": \"Call me Alex, please.\", \"action\": \"establishes or changes the name the ASSISTANT should use to address the USER\", \"referent\": \"the user's name\"}, {\"text\": \"My name is Taylor, address me as Jamie.\", \"action\": \"establishes or changes the name the ASSISTANT should use to address the USER\", \"referent\": \"the user's name\"}, {\"text\": \"Call me Sarah instead of Mary, please.\", \"action\": \"establishes or changes the name the ASSISTANT should use to address the USER\", \"referent\": \"the user's name\"}, {\"text\": \"I prefer to be called Jordan, address me as Max.\", \"action\": \"establishes or changes the name the ASSISTANT should use to address the USER\", \"referent\": \"the user's name\"}]}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

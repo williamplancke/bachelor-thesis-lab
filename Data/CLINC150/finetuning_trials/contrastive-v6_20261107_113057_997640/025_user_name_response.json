@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:32:44.4495657Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4746261800,
+  "load_duration": 5371200,
+  "prompt_eval_count": 942,
+  "prompt_eval_duration": 126751000,
+  "eval_count": 207,
+  "eval_duration": 4597262000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"I think I mentioned my name before, but I'm not sure what you have for me.\",\n      \"action\": \"Ask about MY name\",\n      \"referent\": \"what YOU HAVE FOR ME\"\n    },\n    {\n      \"text\": \"If you had to guess, what name would you use for me?\",\n      \"action\": \"Ask the assistant to guess my name\",\n      \"referent\": \"what YOU CALL ME\"\n    },\n    {\n      \"text\": \"How was my name stored in your system, and what does it show?\",\n      \"action\": \"Ask how my name was stored\",\n      \"referent\": \"what name YOU HAVE FOR ME\"\n    },\n    {\n      \"text\": \"When you speak to me, what name do you use to address me?\",\n      \"action\": \"Ask what the assistant calls me when speaking to me\",\n      \"referent\": \"what YOU CALL ME\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:04:23.0682919Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 2364335400,
+  "load_duration": 9871200,
+  "prompt_eval_count": 983,
+  "prompt_eval_duration": 155568000,
+  "eval_count": 202,
+  "eval_duration": 2152440000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"How can I boost my credit score?\",\n      \"justification\": \"Directly asks about improving the credit score without seeking any other financial information or action.\"\n    },\n    {\n      \"text\": \"Does paying off debt affect my credit score?\",\n      \"justification\": \"Asks whether a specific action (paying off debt) affects the credit score, fitting the improve_credit_score intent.\"\n    },\n    {\n      \"text\": \"What's the best way to increase my credit score?\",\n      \"justification\": \"Indirectly asks for advice on how to improve the credit score, avoiding specific actions like minimum payments.\"\n    },\n    {\n      \"text\": \"How does applying for a new credit card impact my score?\",\n      \"justification\": \"Asks about the impact of a specific action (applying for a new credit card) on the credit score, fitting the improve_credit_score intent.\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

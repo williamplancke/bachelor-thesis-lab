@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:25:48.093595Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4206222800,
+  "load_duration": 9811600,
+  "prompt_eval_count": 789,
+  "prompt_eval_duration": 101091000,
+  "eval_count": 174,
+  "eval_duration": 4083794000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"How does a late payment impact my credit?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"How can I start building credit without borrowing?\",\n      \"action\": \"Ask how to build credit\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"What's the best way to keep my credit safe when closing an account?\",\n      \"action\": \"Ask how to protect credit\",\n      \"referent\": \"credit\"\n    },\n    {\n      \"text\": \"Will applying for a personal loan hurt my credit?\",\n      \"action\": \"Ask about the credit-score consequences of an action\",\n      \"referent\": \"credit\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

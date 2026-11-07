@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:04:27.188401Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 2359942100,
+  "load_duration": 8115600,
+  "prompt_eval_count": 984,
+  "prompt_eval_duration": 140652000,
+  "eval_count": 207,
+  "eval_duration": 2174765000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Can I get a higher credit limit?\",\n      \"justification\": \"Directly asks to increase the credit limit, aligning with the intent of changing the credit limit without requesting the current limit.\"\n    },\n    {\n      \"text\": \"What's the maximum I can charge on this card?\",\n      \"justification\": \"Inquires about the maximum charge limit, which is related to the credit limit but avoids the specific term to maintain distinction from other intents.\"\n    },\n    {\n      \"text\": \"How can I increase my credit limit?\",\n      \"justification\": \"Requests guidance on how to increase the credit limit, which fits the intent without directly asking for the change.\"\n    },\n    {\n      \"text\": \"Raise my card limit by $500.\",\n      \"justification\": \"Commands a specific increase to the credit limit, which is a direct request fitting the credit limit change intent without asking how to do it.\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

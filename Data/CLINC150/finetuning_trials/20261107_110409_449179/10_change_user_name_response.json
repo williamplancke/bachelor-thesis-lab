@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:04:38.7255493Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 2202400000,
+  "load_duration": 9232700,
+  "prompt_eval_count": 984,
+  "prompt_eval_duration": 143696000,
+  "eval_count": 192,
+  "eval_duration": 2001218000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What should I call you?\",\n      \"justification\": \"Directly asks for the name the user would like the assistant to use, aligning with the definition of changing user name.\"\n    },\n    {\n      \"text\": \"Could you use my real name instead?\",\n      \"justification\": \"Asks for the assistant to use the user's real name, a clear request to change the name the assistant uses.\"\n    },\n    {\n      \"text\": \"Change my name to John Doe, please.\",\n      \"justification\": \"A straightforward request to change the user's name to 'John Doe', fitting the intent of changing the user's name.\"\n    },\n    {\n      \"text\": \"Can you go by my name?\",\n      \"justification\": \"Asks the assistant to use the user's name, effectively requesting the change of user name.\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

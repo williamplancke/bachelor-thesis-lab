@@ -1,0 +1,21 @@
+{
+  "model": "qwen2.5:3b",
+  "created_at": "2026-11-07T10:04:36.5157265Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1727904300,
+  "load_duration": 8327200,
+  "prompt_eval_count": 984,
+  "prompt_eval_duration": 153577000,
+  "eval_count": 146,
+  "eval_duration": 1515745000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"What's your name?\",\n      \"justification\": \"Direct and concise request for the assistant's name.\"\n    },\n    {\n      \"text\": \"Can you tell me what you're named as?\",\n      \"justification\": \"More formal and indirect request for the assistant's name.\"\n    },\n    {\n      \"text\": \"What shall I call you?\",\n      \"justification\": \"Requesting the appropriate name the assistant should use.\"\n    },\n    {\n      \"text\": \"Could you name yourself?\",\n      \"justification\": \"Using a slightly less common phrasing for the same request as 'What's your name?'\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

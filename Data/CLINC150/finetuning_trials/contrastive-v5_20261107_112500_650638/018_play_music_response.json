@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:26:17.8439936Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 3738795200,
+  "load_duration": 6678800,
+  "prompt_eval_count": 711,
+  "prompt_eval_duration": 87288000,
+  "eval_count": 148,
+  "eval_duration": 3551260000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Play some instrumental piano.\",\n      \"action\": \"Start music playback\",\n      \"referent\": \"instrumental piano\"\n    },\n    {\n      \"text\": \"Play some jazz by Miles Davis.\",\n      \"action\": \"Start music playback\",\n      \"referent\": \"Miles Davis\"\n    },\n    {\n      \"text\": \"Start the workout playlist.\",\n      \"action\": \"Start music playback\",\n      \"referent\": \"workout playlist\"\n    },\n    {\n      \"text\": \"Put on some reggae tunes.\",\n      \"action\": \"Start music playback\",\n      \"referent\": \"reggae music\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}

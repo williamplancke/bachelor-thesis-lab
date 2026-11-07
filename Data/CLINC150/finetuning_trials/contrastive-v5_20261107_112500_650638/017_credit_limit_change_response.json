@@ -1,0 +1,21 @@
+{
+  "model": "qwen3:8b",
+  "created_at": "2026-11-07T10:26:14.0986996Z",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 4218716800,
+  "load_duration": 10870800,
+  "prompt_eval_count": 798,
+  "prompt_eval_duration": 110978000,
+  "eval_count": 170,
+  "eval_duration": 4083608000,
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"examples\": [\n    {\n      \"text\": \"Can I get my Capital One limit up to $5,000?\",\n      \"action\": \"request\",\n      \"referent\": \"credit account's limit\"\n    },\n    {\n      \"text\": \"What's the way to ask for a higher limit on my credit card?\",\n      \"action\": \"ask how to obtain\",\n      \"referent\": \"increase\"\n    },\n    {\n      \"text\": \"Am I qualified for a credit line boost with my Amex card?\",\n      \"action\": \"ask eligibility for\",\n      \"referent\": \"credit limit increase\"\n    },\n    {\n      \"text\": \"Increase my gas card limit immediately.\",\n      \"action\": \"command\",\n      \"referent\": \"store card limit\"\n    }\n  ]\n}",
+    "thinking": null,
+    "images": null,
+    "tool_name": null,
+    "tool_calls": null
+  },
+  "logprobs": null
+}
