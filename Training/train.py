@@ -34,6 +34,7 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
             raise FileExistsError(f"Run already exists: {run_dir}")
 
     # 2. Build the vocabulary before creating the embedding layer.
+    print("Creating tokenizer")
     tokenizer_params = params.get("tokenizer_params", {})
     tokenizer = get_tokenizer(params.get("tokenizer_instance", "word"), tokenizer_params)
     for text in df_train["text"]:
@@ -44,10 +45,10 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
         else:
             # The word tokenizer builds its vocabulary while encoding.
             tokenizer.encode(words)
+    print("Building vocabulary")
     tokenizer.fit()
     tokenizer.freeze_vocabulary()
     padding_id = tokenizer.obtain_token("<PAD>")
-
     # Encode both splits once, before model creation or any optimization steps.
     # Validation uses the frozen training vocabulary and training label mapping.
     train_dataset = encode_dataset(
@@ -56,7 +57,7 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     validation_dataset = encode_dataset(
         df_val, tokenizer, label_to_id, sequence_length, padding_id, label_col_name,
     )
-
+    print("Tokenizer ready")
     # 3. Create the model, loss function, and optimizer.
     classifier = build_model(
         architecture,
@@ -69,6 +70,8 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     optimizer = torch.optim.SGD(classifier.parameters(), lr=learning_rate)
 
     # 4. Make one training pass, updating the model after each sentence.
+    classifier.to("cuda")
+    print("Model is on the GPU")
     classifier.train() # Enable training mode
     for epoch in range(params["epochs"]):
         total_loss = 0.0

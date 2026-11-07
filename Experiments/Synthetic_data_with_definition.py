@@ -3,9 +3,10 @@ import pandas as pd
 
 from Experiments.common import PARAMS, SYNTHETIC_WITH_DEFINITION_PATH, load_training_data, validate_synthetic_data
 from Training.train import main as train
-
+import torch
 
 def main():
+    assert(torch.cuda.is_available())
     real_train, df_val = load_training_data()
     if not SYNTHETIC_WITH_DEFINITION_PATH.exists():
         raise FileNotFoundError(

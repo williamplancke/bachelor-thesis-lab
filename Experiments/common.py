@@ -15,7 +15,7 @@ if not SYNTHETIC_WITH_DEFINITION_PATH.exists() and _legacy_definition_path.is_fi
 PARAMS = {
     "seed": 42,
     "sequence_length": 1200,
-    "architecture": "mean-pooling",
+    "architecture": "transformer-encoder",
     "embedding_dim": 64,
     "learning_rate": 0.01,
     "epochs": 20,
