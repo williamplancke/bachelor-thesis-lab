@@ -23,7 +23,7 @@ def prepare_input(tokenizer, text, sequence_length, padding_id):
     return input_ids, attention_mask
 
 
-def encode_dataset(frame, tokenizer, label_to_id, sequence_length, padding_id, label_col_name="label"):
+def encode_dataset(frame, tokenizer, label_to_id, sequence_length, padding_id, label_col_name="label", device=None):
     """Encode rows once, preserving row order and the training label mapping.
 
     TensorDataset contains IDs [N, L], masks [N, L], and targets [N]. N is the
@@ -37,9 +37,10 @@ def encode_dataset(frame, tokenizer, label_to_id, sequence_length, padding_id, l
         raise ValueError("Sequence length must be a positive integer.")
 
     # Preallocate to avoid retaining both a list of tensors and a stacked copy.
-    input_ids = torch.empty((len(frame), sequence_length), dtype=torch.long, device="cuda")
+    device = device or ("cuda" if torch.cuda.is_available() else "cpu")
+    input_ids = torch.empty((len(frame), sequence_length), dtype=torch.long, device=device)
     attention_masks = torch.empty_like(input_ids)
-    targets = torch.empty(len(frame), dtype=torch.long, device="cuda")
+    targets = torch.empty(len(frame), dtype=torch.long, device=device)
     for position, (text, label) in enumerate(zip(frame["text"], frame[label_col_name])):
         if label not in label_to_id:
             raise ValueError(f"Row {position}: label {label!r} is absent from the training label mapping.")

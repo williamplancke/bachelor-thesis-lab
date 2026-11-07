@@ -9,13 +9,29 @@ from Architecture.Tokenizers.WordTokenizer import Tokenizer as WordTokenizer
 from Architecture.Tokenizers.BytePairTokenizer import SubwordBPETokenizer
 from Training.metrics import classification_metrics, confusion_matrix
 from Training.data import encode_dataset
+from Training.load import load_run
 from Training.runs import run_name, staged_run
 
 
-def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
-    """Train once on df (text/label columns), save the run, and return its path."""
+def main(df_train, df_val, params, run_dir=None, label_col_name="label", checkpoint=None):
+    """Train or fully fine-tune a saved checkpoint with a fresh SGD optimizer.
+
+    Checkpoint mode preserves the model, frozen tokenizer, and original labels.
+    Only optimization/experiment settings come from params in that mode.
+    """
     if df_train.empty:
         raise ValueError("The training dataset must not be empty.")
+
+    device = params.get("device", "cuda" if torch.cuda.is_available() else "cpu")
+    loaded = None
+    if checkpoint is not None:
+        loaded = load_run(checkpoint, device=device)
+        # Never reinterpret a checkpoint using a newly fitted vocabulary or model.
+        saved_settings = ("sequence_length", "architecture", "architecture_params",
+                          "embedding_dim", "tokenizer_instance", "tokenizer_params")
+        params = {**params, **{key: loaded.config[key] for key in saved_settings
+                             if key in loaded.config},
+                  "parent_checkpoint": str(Path(checkpoint).resolve())}
 
     # Use the hyperparameters supplied by the caller.
     torch.manual_seed(params["seed"])
@@ -24,7 +40,7 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     learning_rate = params["learning_rate"]
 
     # Derive class IDs from this dataset rather than hard-coding its labels.
-    labels = sorted(df_train[label_col_name].unique().tolist()) # .tolist() is necessary because json.dump() can't deal with numpy dtypes
+    labels = loaded.labels if loaded else sorted(df_train[label_col_name].unique().tolist())
     label_to_id = {label: index for index, label in enumerate(labels)}
 
     # Reject existing destinations now, but don't create a folder until saving.
@@ -36,8 +52,8 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
     # 2. Build the vocabulary before creating the embedding layer.
     print("Creating tokenizer")
     tokenizer_params = params.get("tokenizer_params", {})
-    tokenizer = get_tokenizer(params.get("tokenizer_instance", "word"), tokenizer_params)
-    for text in df_train["text"]:
+    tokenizer = loaded.tokenizer if loaded else get_tokenizer(params.get("tokenizer_instance", "word"), tokenizer_params)
+    for text in ([] if loaded else df_train["text"]):
         words = tokenizer.prepare_input(text)
         if isinstance(tokenizer, SubwordBPETokenizer):
             # BPE needs corpus-wide pair counts before it can encode text.
@@ -46,32 +62,35 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
             # The word tokenizer builds its vocabulary while encoding.
             tokenizer.encode(words)
     print("Building vocabulary")
-    tokenizer.fit()
-    tokenizer.freeze_vocabulary()
+    if loaded is None:
+        tokenizer.fit()
+        tokenizer.freeze_vocabulary()
     padding_id = tokenizer.obtain_token("<PAD>")
     # Encode both splits once, before model creation or any optimization steps.
     # Validation uses the frozen training vocabulary and training label mapping.
     train_dataset = encode_dataset(
-        df_train, tokenizer, label_to_id, sequence_length, padding_id, label_col_name,
+        df_train, tokenizer, label_to_id, sequence_length, padding_id, label_col_name, device=device,
     )
     validation_dataset = encode_dataset(
-        df_val, tokenizer, label_to_id, sequence_length, padding_id, label_col_name,
+        df_val, tokenizer, label_to_id, sequence_length, padding_id, label_col_name, device=device,
     )
     print("Tokenizer ready")
     # 3. Create the model, loss function, and optimizer.
-    classifier = build_model(
+    classifier = loaded.model if loaded else build_model(
         architecture,
         vocabulary_size=len(tokenizer.vocabulary),
         number_of_classes=len(label_to_id),
         padding_id=padding_id,
         architecture_params=model_params,
     )
+    for parameter in classifier.parameters():
+        parameter.requires_grad_(True)
     loss_function = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(classifier.parameters(), lr=learning_rate)
 
     # 4. Make one training pass, updating the model after each sentence.
-    classifier.to("cuda")
-    print("Model is on the GPU")
+    classifier.to(device)
+    print(f"Model is on {device}")
     classifier.train() # Enable training mode
     for epoch in range(params["epochs"]):
         total_loss = 0.0
@@ -142,6 +161,9 @@ def main(df_train, df_val, params, run_dir=None, label_col_name = "label"):
         "label_to_id": label_to_id,
         "optimizer": "SGD",
         "training_examples": len(df_train),
+        "training_updates": len(df_train) * params["epochs"],
+        "batch_size": 1,
+        "device": str(device),
     }
     if run_dir is None:
         project_root = Path(__file__).resolve().parent.parent

@@ -88,8 +88,8 @@ class TransformerIntentClassifier(nn.Module):
         if number_of_layers < 1 or feedforward_dim < 1 or max_sequence_length < 1:
             raise ValueError("Layer count, feed-forward size, and maximum sequence length must be positive.")
         self.max_sequence_length = max_sequence_length
-        self.embedding = nn.Embedding(vocabulary_size, embedding_dim, padding_idx=padding_id).to("cuda")
-        self.position_embedding = nn.Embedding(max_sequence_length, embedding_dim).to("cuda")
+        self.embedding = nn.Embedding(vocabulary_size, embedding_dim, padding_idx=padding_id)
+        self.position_embedding = nn.Embedding(max_sequence_length, embedding_dim)
         layer = nn.TransformerEncoderLayer( # <-- Self attention is here
             d_model=embedding_dim,
             nhead=number_of_heads,
