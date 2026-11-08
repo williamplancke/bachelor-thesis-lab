@@ -1,0 +1,23 @@
+{
+  "dataset": "AG-News",
+  "source_training_data": "C:\\Users\\Willi\\Documents\\School\\AI\\Thesis\\Data\\AG-News\\train-00000-of-00001.parquet",
+  "source_sha256": "fc508d6d9868594e3da960a8cfeb63ab5a4746598b93428c224397080c1f52ee",
+  "training_examples": 107999,
+  "derived_validation_examples": 12001,
+  "validation_policy": "grouped stratified holdout from imported training data",
+  "validation_fraction": 0.1,
+  "split_seed": 42,
+  "training_duplicate_rows": 135,
+  "training_word_lengths": {
+    "count": 107999.0,
+    "mean": 37.86288761932981,
+    "std": 10.110909079559063,
+    "min": 8.0,
+    "25%": 32.0,
+    "50%": 37.0,
+    "75%": 43.0,
+    "max": 177.0
+  },
+  "validation_and_test_text_used_for_generation": false,
+  "definition_source": "handwritten dataset specifications; optional inferred definitions are separate"
+}

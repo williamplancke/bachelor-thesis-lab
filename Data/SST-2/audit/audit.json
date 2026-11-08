@@ -1,0 +1,23 @@
+{
+  "dataset": "SST-2",
+  "source_training_data": "C:\\Users\\Willi\\Documents\\School\\AI\\Thesis\\Data\\SST-2\\train-00000-of-00001.parquet",
+  "source_sha256": "c7921283b75a42e685f50edecb96798607ea0fcbfd0739ee8975f22c12d55f09",
+  "training_examples": 67349,
+  "derived_validation_examples": null,
+  "validation_policy": "use imported validation split",
+  "validation_fraction": null,
+  "split_seed": 42,
+  "training_duplicate_rows": 371,
+  "training_word_lengths": {
+    "count": 67349.0,
+    "mean": 9.409553222765,
+    "std": 8.073806407501342,
+    "min": 1.0,
+    "25%": 3.0,
+    "50%": 7.0,
+    "75%": 13.0,
+    "max": 52.0
+  },
+  "validation_and_test_text_used_for_generation": false,
+  "definition_source": "handwritten dataset specifications; optional inferred definitions are separate"
+}

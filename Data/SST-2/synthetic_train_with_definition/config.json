@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "dataset": "SST-2",
+    "prompt_version": "classification-v1",
+    "condition": "with-definition",
+    "model": "qwen3.5:9b",
+    "temperature": 1.0,
+    "seed": 75,
+    "batch_size": 10,
+    "max_retries": 5,
+    "targets": {
+      "0": 29780,
+      "1": 37569
+    },
+    "label_names": [
+      "negative",
+      "positive"
+    ],
+    "matches_real_training_counts": true,
+    "real_training_counts": {
+      "0": 29780,
+      "1": 37569
+    },
+    "source_sha256": "c7921283b75a42e685f50edecb96798607ea0fcbfd0739ee8975f22c12d55f09",
+    "settings": {
+      "name": "SST-2",
+      "text_column": "sentence",
+      "labels": [
+        "negative",
+        "positive"
+      ],
+      "validation_fraction": null,
+      "split_seed": 42,
+      "definitions": [
+        "A movie-review sentence or phrase expressing an overall unfavorable opinion of the film, its storytelling, performances, direction, or other cinematic qualities.",
+        "A movie-review sentence or phrase expressing an overall favorable opinion of the film, its storytelling, performances, direction, or other cinematic qualities."
+      ],
+      "generation_instructions": "Write English movie-review sentiment examples, NOT customer-service requests or assistant replies. Include both short review phrases/fragments (roughly 2–8 words) and complete review sentences (roughly 9–30 words). The source task includes fragments, so do not turn every example into a polished full review. Vary aspects such as acting, pacing, dialogue, direction, cinematography, and emotional impact. Vary sentence structure, vocabulary, and explicitness; include some natural negation and qualified judgments. The overall sentiment must clearly match the assigned category; exclude neutral text and unresolved mixed sentiment. Avoid generic product reviews, repetitive praise/complaint templates, and deliberate label-word stuffing. Do not prepend a sentiment label, star rating, or explanation.",
+      "max_characters": 600
+    },
+    "definitions": {
+      "0": "A movie-review sentence or phrase expressing an overall unfavorable opinion of the film, its storytelling, performances, direction, or other cinematic qualities.",
+      "1": "A movie-review sentence or phrase expressing an overall favorable opinion of the film, its storytelling, performances, direction, or other cinematic qualities."
+    },
+    "definitions_path": null
+  },
+  "created_at": "2026-11-08T09:16:44.568345+00:00",
+  "next_seed": 78,
+  "status": "in_progress",
+  "label_verification": "generator-assigned; not independently verified"
+}
