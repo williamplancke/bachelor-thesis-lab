@@ -177,6 +177,62 @@ class ClassificationGenerationTests(unittest.TestCase):
         self.assertFalse((output / "data.parquet").exists())
         self.assertEqual(json.loads((output / "config.json").read_text())["status"], "failed")
 
+    def test_thinking_options_cover_qwen35_and_namespaced_tags(self):
+        for model in ("qwen3:8b", "qwen3.5:9b", "qwen3.5", "library/qwen3.5:9b"):
+            with self.subTest(model=model):
+                self.assertEqual(generator.thinking_options(model), {"think": False})
+        self.assertEqual(generator.thinking_options("qwen2.5:3b"), {})
+        self.assertEqual(generator.thinking_options("other-model:9b"), {})
+
+    def test_empty_output_logs_diagnostics_and_is_not_reported_as_duplicates(self):
+        response = SimpleNamespace(message=SimpleNamespace(content="", thinking="internal model text"),
+            done_reason="length", eval_count=512, prompt_eval_count=64, eval_duration=12, total_duration=20)
+        with patch.object(generator.ollama, "chat", return_value=response) as chat, \
+                self.assertRaisesRegex(ValueError, "empty_responses.*2"):
+            generator.generate_dataset(self.settings, generate=True, model="qwen3.5:9b",
+                examples_per_class=1, batch_size=1, max_retries=1)
+        self.assertTrue(all(call.kwargs["think"] is False for call in chat.call_args_list))
+        output = self.directory / "synthetic_train_with_definition"
+        logs = [json.loads(line) for line in (output / "generation_log.jsonl").read_text().splitlines()]
+        self.assertEqual(len(logs), 2)
+        self.assertEqual(logs[0]["rejections"]["empty_responses"], 1)
+        self.assertEqual(logs[0]["rejections"]["generated_duplicates"], 0)
+        self.assertEqual(logs[0]["diagnostics"]["eval_count"], 512)
+        self.assertEqual(logs[0]["diagnostics"]["thinking_characters"], len("internal model text"))
+        self.assertEqual(logs[0]["diagnostics"]["done_reason"], "length")
+        self.assertFalse((output / "data.parquet").exists())
+
+    def test_empty_then_valid_response_recovers_without_weakening_filters(self):
+        responses = [SimpleNamespace(message=SimpleNamespace(content=None)),
+            SimpleNamespace(message=SimpleNamespace(content='{"examples": ["new negative"]}')),
+            SimpleNamespace(message=SimpleNamespace(content='{"examples": ["new positive"]}'))]
+        with patch.object(generator.ollama, "chat", side_effect=responses):
+            output = generator.generate_dataset(self.settings, generate=True, model="qwen3.5:9b",
+                examples_per_class=1, batch_size=1, max_retries=1)
+        self.assertEqual(pd.read_parquet(output / "data.parquet").label.tolist(), [0, 1])
+        config = json.loads((output / "config.json").read_text())
+        self.assertEqual(config["request_policy"]["thinking_options"], {"think": False})
+
+    def test_invalid_json_and_structure_have_distinct_rejection_counts(self):
+        for content, counter in [("not json", "invalid_json"), ('{"examples": []}', "invalid_structure")]:
+            with TemporaryDirectory() as temp:
+                response = SimpleNamespace(message=SimpleNamespace(content=content))
+                with patch.object(generator.ollama, "chat", return_value=response), self.assertRaisesRegex(ValueError, counter):
+                    generator.generate_dataset(self.settings, generate=True, examples_per_class=1,
+                        batch_size=1, max_retries=0, output=Path(temp) / "run")
+                log = json.loads((Path(temp) / "run" / "generation_log.jsonl").read_text())
+                self.assertEqual(log["rejections"][counter], 1)
+                self.assertEqual(log["rejections"]["generated_duplicates"], 0)
+
+    def test_definition_inference_disables_qwen35_thinking(self):
+        response = SimpleNamespace(message=SimpleNamespace(content='{"definition": "A class definition."}'))
+        with patch.object(generator.ollama, "chat", return_value=response) as chat:
+            path = generator.infer_definitions(self.settings, generate=True, model="qwen3.5:9b")
+        self.assertTrue(all(call.kwargs["think"] is False for call in chat.call_args_list))
+        log = json.loads(path.with_suffix(".json").read_text())
+        self.assertEqual(log["requests"][0]["thinking_options"], {"think": False})
+        self.assertEqual(log["requests"][0]["diagnostics"]["thinking_characters"], 0)
+
     def test_definition_file_mapping_is_validated(self):
         path = self.directory / "definitions.parquet"
         pd.DataFrame({"label": [0, 1], "label_name": ["positive", "negative"], "definition": ["x", "y"]}).to_parquet(path, index=False)

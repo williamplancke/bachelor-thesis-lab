@@ -4,10 +4,10 @@
     "prompt_version": "classification-v1",
     "condition": "with-definition",
     "model": "qwen3.5:9b",
-    "temperature": 1.0,
+    "temperature": 1.1,
     "seed": 75,
     "batch_size": 10,
-    "max_retries": 5,
+    "max_retries": 15,
     "targets": {
       "0": 29780,
       "1": 37569
@@ -44,8 +44,20 @@
     },
     "definitions_path": null
   },
-  "created_at": "2026-11-08T09:16:44.568345+00:00",
-  "next_seed": 78,
-  "status": "in_progress",
-  "label_verification": "generator-assigned; not independently verified"
+  "created_at": "2026-11-08T09:40:36.872994+00:00",
+  "next_seed": 8882,
+  "status": "completed",
+  "label_verification": "generator-assigned; not independently verified",
+  "request_policy": {
+    "thinking_options": {
+      "think": false
+    },
+    "diagnostics_version": 1
+  },
+  "examples": 67349,
+  "counts": {
+    "0": 29780,
+    "1": 37569
+  },
+  "completed_at": "2026-11-10T18:02:37.711222+00:00"
 }
