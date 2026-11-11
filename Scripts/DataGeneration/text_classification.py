@@ -23,6 +23,20 @@ def normalize(text):
     return " ".join(text.casefold().split())
 
 
+def thinking_options(model):
+    """Disable thinking for supported Qwen families, including namespaced tags."""
+    family = model.rsplit("/", 1)[-1].split(":", 1)[0].lower()
+    return {"think": False} if family in {"qwen3", "qwen3.5"} else {}
+
+
+def response_diagnostics(response):
+    """Ollama reports total output tokens, not a separate thinking-token count."""
+    thinking = getattr(response.message, "thinking", None) or ""
+    return {"thinking_characters": len(thinking),
+            **{key: getattr(response, key, None) for key in (
+                "done_reason", "eval_count", "prompt_eval_count", "eval_duration", "total_duration")}}
+
+
 def source_path(settings):
     return ROOT / "Data" / settings["name"] / "train-00000-of-00001.parquet"
 
@@ -209,7 +223,9 @@ def generate_dataset(settings, *, generate=False, condition="with-definition", o
     else:
         output.mkdir(parents=True, exist_ok=False)
         config = {"identity": identity, "created_at": datetime.now(timezone.utc).isoformat(), "next_seed": seed}
-    config.update(status="in_progress", label_verification="generator-assigned; not independently verified")
+    # Keep the original identity resumable; each new request logs its effective policy.
+    config.update(status="in_progress", label_verification="generator-assigned; not independently verified",
+                  request_policy={"thinking_options": thinking_options(model), "diagnostics_version": 1})
     write_json(output / "config.json", config)
     seen = blocked | set(frame["text"].map(normalize))
     try:
@@ -218,6 +234,9 @@ def generate_dataset(settings, *, generate=False, condition="with-definition", o
                 remaining = target - int(frame["label"].eq(label).sum())
                 wanted = min(batch_size, remaining)
                 accepted = []
+                rejections = dict.fromkeys(("empty_responses", "invalid_json", "invalid_structure",
+                    "invalid_examples", "training_overlaps", "generated_duplicates"), 0)
+                last_issue = None
                 for attempt in range(max_retries + 1):
                     count = wanted - len(accepted)
                     excluded = frame.loc[frame["label"] == label, "text"].tail(40).tolist() + accepted
@@ -229,31 +248,57 @@ def generate_dataset(settings, *, generate=False, condition="with-definition", o
                     config["next_seed"] += 1
                     write_json(output / "config.json", config)
                     response = ollama.chat(model=model, messages=[{"role": "user", "content": prompt}], format=schema,
-                        **({"think": False} if model.startswith("qwen3:") else {}),
+                        **thinking_options(model),
                         options={"temperature": temperature, "seed": request_seed, "num_predict": max(512, count * 220)})
+                    content = response.message.content or ""
+                    diagnostics = response_diagnostics(response)
+                    before = rejections.copy()
+                    accepted_before = len(accepted)
+                    last_issue = None
+                    if not content.strip():
+                        rejections["empty_responses"] += 1
+                        last_issue = "Empty response content; check thinking_characters, eval_count, and done_reason"
+                    else:
+                        try:
+                            data = json.loads(content)
+                        except ValueError as error:
+                            rejections["invalid_json"] += 1
+                            last_issue = f"Invalid JSON: {error}"
+                        else:
+                            texts = data.get("examples") if isinstance(data, dict) else None
+                            if not isinstance(texts, list) or len(texts) != count:
+                                rejections["invalid_structure"] += 1
+                                last_issue = f"Expected an examples array containing {count} strings"
+                            else:
+                                for text in texts:
+                                    if not isinstance(text, str) or not text.strip() or len(text.strip()) > settings["max_characters"]:
+                                        rejections["invalid_examples"] += 1
+                                        continue
+                                    text = text.strip()
+                                    key = normalize(text)
+                                    if key in blocked:
+                                        rejections["training_overlaps"] += 1
+                                        continue
+                                    if key in seen:
+                                        rejections["generated_duplicates"] += 1
+                                        continue
+                                    seen.add(key)
+                                    accepted.append(text)
+                    attempt_rejections = {key: value - before[key] for key, value in rejections.items()}
                     with (output / "generation_log.jsonl").open("a", encoding="utf-8") as log:
                         log.write(json.dumps({"label": label, "seed": request_seed, "prompt": prompt,
-                            "response": response.message.content}, ensure_ascii=False) + "\n")
-                    try:
-                        data = json.loads(response.message.content)
-                        texts = data.get("examples") if isinstance(data, dict) else None
-                        if not isinstance(texts, list) or len(texts) != count:
-                            raise ValueError("Incorrect response structure or count")
-                        for text in texts:
-                            if not isinstance(text, str) or not text.strip() or len(text.strip()) > settings["max_characters"]:
-                                continue
-                            text = text.strip()
-                            key = normalize(text)
-                            if key in seen:
-                                continue
-                            seen.add(key)
-                            accepted.append(text)
-                    except (ValueError, TypeError):
-                        pass
+                            "response": content, "thinking_options": thinking_options(model),
+                            "diagnostics": diagnostics, "rejections": attempt_rejections,
+                            "accepted": len(accepted) - accepted_before, "issue": last_issue}, ensure_ascii=False) + "\n")
+                    print(f"{settings['labels'][label]}: attempt {attempt + 1}/{max_retries + 1}, "
+                          f"accepted {len(accepted)}/{wanted}; rejections={attempt_rejections}"
+                          + (f"; {last_issue}; diagnostics={diagnostics}" if last_issue else ""), flush=True)
                     if len(accepted) == wanted:
                         break
                 else:
-                    raise ValueError(f"Could not collect {wanted} unique examples for {settings['labels'][label]} after {max_retries + 1} attempts")
+                    raise ValueError(f"Generation failed for {settings['labels'][label]} after {max_retries + 1} attempts: "
+                        f"collected {len(accepted)}/{wanted} new examples. Rejections: {rejections}. "
+                        f"Last issue: {last_issue or 'candidate filtering'}; last response diagnostics: {diagnostics}")
                 addition = pd.DataFrame({"text": accepted, "label": label}).astype({"label": "int64"})
                 frame = pd.concat([frame, addition], ignore_index=True)
                 temporary = output / "data.tmp.parquet"
@@ -295,13 +340,16 @@ def infer_definitions(settings, *, generate=False, output=None, model=MODEL_NAME
         response = ollama.chat(model=model, messages=[{"role": "user", "content": prompt}],
             format={"type": "object", "properties": {"definition": {"type": "string", "minLength": 1}},
                     "required": ["definition"], "additionalProperties": False},
-            **({"think": False} if model.startswith("qwen3:") else {}),
+            **thinking_options(model),
             options={"temperature": 0.2, "seed": seed + label, "num_predict": 256})
+        if not (response.message.content or "").strip():
+            raise ValueError(f"Empty definition response for {name}; diagnostics: {response_diagnostics(response)}")
         text = json.loads(response.message.content)["definition"]
         if not isinstance(text, str) or not text.strip():
             raise ValueError("Invalid inferred definition")
         records.append({"label": label, "label_name": name, "definition": text.strip()})
-        log.append({"label": label, "prompt": prompt, "response": response.message.content})
+        log.append({"label": label, "prompt": prompt, "response": response.message.content,
+                    "thinking_options": thinking_options(model), "diagnostics": response_diagnostics(response)})
     with output.open("xb") as file:
         pd.DataFrame(records).to_parquet(file, index=False)
     write_json(output.with_suffix(".json"), {"model": model, "seed": seed,
@@ -319,9 +367,9 @@ def generation_cli(settings):
     parser.add_argument("--examples-per-class", type=int)
     parser.add_argument("--batch-size", type=int, default=10)
     parser.add_argument("--model", default=MODEL_NAME)
-    parser.add_argument("--temperature", type=float, default=1.0)
+    parser.add_argument("--temperature", type=float, default=1.1)
     parser.add_argument("--seed", type=int, default=75)
-    parser.add_argument("--max-retries", type=int, default=5)
+    parser.add_argument("--max-retries", type=int, default=15)
     parser.add_argument("--resume", action="store_true")
     return generate_dataset(settings, **vars(parser.parse_args()))
 

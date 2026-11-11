@@ -37,7 +37,7 @@ Default definitions are handwritten in `settings.py` and exported in `Data/<data
 
 Optional model-inferred definitions use up to 32 seeded real TRAIN examples per class. They are a separate experimental condition: explicitly pass `--definitions` to use them. The real examples appear only in definition inference, not in text-generation prompts. Definition inference saves prompts/responses in a JSON sidecar.
 
-Default model: `qwen2.5:3b`, matching original CLINC150 initial-data generation. `--model qwen3:8b` is also supported, with thinking disabled. Keep model, seed, temperature, batch size, and definition method consistent across comparison conditions.
+Current default model: `qwen3.5:9b`. Qwen3 and Qwen3.5 tags (including namespaced tags) are called with `think=False` for both example generation and definition inference. Other model families keep their default thinking policy. The original CLINC150 initial-data generator used `qwen2.5:3b`; specify that model explicitly when reproducing that configuration. Keep model, seed, temperature, batch size, and definition method consistent across comparison conditions.
 
 ## Commands
 
@@ -100,6 +100,10 @@ Each output contains:
 
 Blank/oversized text, normalized duplicates across generated classes, and normalized exact real-training overlaps are rejected. Only missing examples are retried, with bounded retries. These checks do not establish semantic label correctness or detect every paraphrase. Heldout text is not used as an adaptive generation filter.
 
+Each attempt now reports separate counts for empty responses, invalid JSON, incorrect structure, invalid examples, training overlaps, and generated duplicates. JSONL logs also include the effective thinking option, thinking-character count, Ollama output/prompt token counts, completion reason, and durations (when supplied by Ollama). Output-token counts include all model output; they are not a separate thinking-token measurement. An empty response is no longer described simply as a failure to find unique examples. If empty content coincides with a length stop and substantial thinking output, inspect the thinking policy/token budget before increasing duplicate retries.
+
+Existing failed runs can still be resumed with the same original options. Their old log entries are preserved; newly appended requests record the patched policy and diagnostics. A four-example live Qwen3.5 smoke test succeeded in `Data/SST-2/thinking_fix_smoke/` with thinking disabled. The full failed SST-2 run was not restarted.
+
 ### Resume
 
 Repeat the same command and options with `--resume`, for example:
@@ -129,8 +133,8 @@ Keep the same real validation partition across real/raw/definition-guided experi
 ## Validation
 
 - Both real training schemas/mappings inspected; source files preserved.
-- Audits and plan-only entry points checked; no model generation or experiment training started.
-- Fourteen focused unit tests cover grouping, leakage boundaries, class mappings, output schema/counts, conditions, bounded retries, overlap rejection, definition inference, and resume.
+- Audits and plan-only entry points checked; a separate four-example Qwen3.5 smoke run also succeeded. No full-generation run was restarted and no classifier training was started.
+- Nineteen focused unit tests cover grouping, leakage boundaries, class mappings, output schema/counts, conditions, bounded retries, overlap rejection, definition inference, resume, Qwen3.5 thinking control, and distinct empty/malformed response diagnostics.
 
 ```bash
 python -m unittest Tests.test_text_classification_generation -q
